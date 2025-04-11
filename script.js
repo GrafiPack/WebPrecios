@@ -2,55 +2,44 @@ const sheetID = "1p3Q-DpF8JcdGIWwOns7rirsgoVJ6LES2LzaBgGE42XI";
 const sheetName = "Hoja 1";
 const url = `https://opensheet.elk.sh/${sheetID}/${sheetName}`;
 
-// Mapas de nombres personalizados para columnas por categoría
+// Diccionario de reemplazos personalizados por categoría
 const encabezadosPorCategoria = {
   "Folletos": {
-    Precio1: "Tamaño A6",
-    Precio2: "Tamaño A5",
-    Precio3: "Tamaño A4"
+    Precio1: "1000 u.",
+    Precio2: "3000 u.",
+    Precio3: "5000 u."
   },
-  "Tarjetas Personales": {
-    Precio1: "Frente",
-    Precio2: "Doble faz",
-    Precio3: "Con laminado"
-  },
-  // Agregá más categorías acá según tus necesidades
+  "Tarjetas": {
+    Precio1: "1000 tarjetas",
+    Precio2: "2000 tarjetas",
+    Precio3: "5000 tarjetas"
+  }
+  // Podés seguir agregando más categorías
 };
 
 fetch(url)
   .then((res) => res.json())
   .then((data) => {
     const container = document.getElementById("precios-container");
-
-    // Filtramos encabezado
     const dataFiltrada = data.filter(row => row.Categoría !== "Categoría");
 
-    // Agrupar por Categoría > Subcategoría
     const grouped = {};
-
     dataFiltrada.forEach(row => {
       const categoria = row['Categoría'] || "Sin categoría";
       const subcategoria = row['Subcategoría'] || "Sin subcategoría";
 
-      if (!grouped[categoria]) {
-        grouped[categoria] = {};
-      }
-
-      if (!grouped[categoria][subcategoria]) {
-        grouped[categoria][subcategoria] = [];
-      }
+      if (!grouped[categoria]) grouped[categoria] = {};
+      if (!grouped[categoria][subcategoria]) grouped[categoria][subcategoria] = [];
 
       grouped[categoria][subcategoria].push(row);
     });
 
-    // Recorremos Categorías
     for (const categoria in grouped) {
       const catEl = document.createElement("div");
       catEl.className = "category-title";
       catEl.textContent = categoria;
       container.appendChild(catEl);
 
-      // Recorremos Subcategorías
       for (const subcategoria in grouped[categoria]) {
         const subcatEl = document.createElement("div");
         subcatEl.className = "subcategory-title";
@@ -59,15 +48,11 @@ fetch(url)
 
         const productos = grouped[categoria][subcategoria];
 
-        // Detectar columnas PrecioX con al menos un valor
         const columnasPrecio = Object.keys(productos[0])
           .filter(key => key.startsWith("Precio"))
           .filter(key => productos.some(p => p[key] && p[key].trim() !== ""));
 
-        // Crear tabla
         const table = document.createElement("table");
-
-        // Encabezado
         const thead = document.createElement("thead");
         const headerRow = document.createElement("tr");
 
@@ -77,13 +62,44 @@ fetch(url)
 
         columnasPrecio.forEach(col => {
           const th = document.createElement("th");
-
-          // Usar encabezado personalizado si existe
-          const encabezadoPersonalizado = encabezadosPorCategoria[categoria]?.[col] || col;
-          th.textContent = encabezadoPersonalizado;
-
+          // Verifica si hay texto personalizado para la categoría
+          const encabezadoPersonalizado = encabezadosPorCategoria[categoria]?.[col];
+          th.textContent = encabezadoPersonalizado || col;
           headerRow.appendChild(th);
         });
 
         thead.appendChild(headerRow);
         table.appendChild(thead);
+
+        const tbody = document.createElement("tbody");
+
+        productos.forEach(prod => {
+          const tr = document.createElement("tr");
+
+          const tdDetalle = document.createElement("td");
+          tdDetalle.textContent = prod.Detalle || "";
+          tr.appendChild(tdDetalle);
+
+          columnasPrecio.forEach(col => {
+            const td = document.createElement("td");
+            td.textContent = prod[col] || "";
+            tr.appendChild(td);
+          });
+
+          tbody.appendChild(tr);
+        });
+
+        table.appendChild(tbody);
+        const wrapper = document.createElement("div");
+        wrapper.className = "table-container";
+        wrapper.appendChild(table);
+        container.appendChild(wrapper);
+      }
+    }
+  })
+  .catch((error) => {
+    console.error("Error al cargar los datos:", error);
+    document.getElementById("precios-container").innerHTML = `
+      <p style="color:red;">No se pudieron cargar los datos. Verificá el enlace de la hoja de cálculo.</p>
+    `;
+  });
