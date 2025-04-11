@@ -10,8 +10,9 @@ const columnasPorCategoria = {
 Papa.parse(sheetURL, {
   download: true,
   header: true,
+  skipEmptyLines: true,
   complete: function(results) {
-    const data = results.data;
+    const data = results.data.filter(row => row["Categoría"] && row["Subcategoría"]);
     renderData(data);
   }
 });
@@ -21,8 +22,8 @@ function renderData(data) {
   const agrupado = {};
 
   data.forEach(item => {
-    const cat = item["Categoría"] || "Sin categoría";
-    const sub = item["Subcategoría"] || "Sin subcategoría";
+    const cat = item["Categoría"].trim() || "Sin categoría";
+    const sub = item["Subcategoría"].trim() || "Sin subcategoría";
     if (!agrupado[cat]) agrupado[cat] = {};
     if (!agrupado[cat][sub]) agrupado[cat][sub] = [];
     agrupado[cat][sub].push(item);
@@ -34,7 +35,7 @@ function renderData(data) {
     catDiv.textContent = categoria;
     container.appendChild(catDiv);
 
-    const columnas = columnasPorCategoria[categoria] || ["Precio 1", "Precio 2"];
+    const columnas = columnasPorCategoria[categoria] || [];
 
     for (const subcategoria in agrupado[categoria]) {
       const subDiv = document.createElement("div");
@@ -42,19 +43,38 @@ function renderData(data) {
       subDiv.textContent = subcategoria;
       container.appendChild(subDiv);
 
+      // Fila de encabezado
+      const headerRow = document.createElement("div");
+      headerRow.className = "item-row encabezado";
+
+      const colDetalle = document.createElement("div");
+      colDetalle.className = "item-cell";
+      colDetalle.textContent = "Cantidad";
+      headerRow.appendChild(colDetalle);
+
+      columnas.forEach(col => {
+        const celdaHeader = document.createElement("div");
+        celdaHeader.className = "item-cell";
+        celdaHeader.textContent = col;
+        headerRow.appendChild(celdaHeader);
+      });
+
+      container.appendChild(headerRow);
+
+      // Fila de datos
       agrupado[categoria][subcategoria].forEach(item => {
         const row = document.createElement("div");
         row.className = "item-row";
 
         const detalle = document.createElement("div");
         detalle.className = "item-cell";
-        detalle.textContent = item["Cantidad"] || "-";
+        detalle.textContent = item["Cantidad"]?.trim() || "-";
         row.appendChild(detalle);
 
         columnas.forEach(col => {
           const celda = document.createElement("div");
           celda.className = "item-cell";
-          celda.textContent = item[col] || "-";
+          celda.textContent = item[col]?.trim() || "-";
           row.appendChild(celda);
         });
 
