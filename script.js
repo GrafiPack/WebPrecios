@@ -51,7 +51,7 @@ fetch(url)
         catEl.textContent = categoria;
         wrapper.appendChild(catEl);
 
-        // Título de subcategoría (va como título de tabla)
+        // Título de subcategoría como título de tabla
         const subcatEl = document.createElement("div");
         subcatEl.className = "subcategory-title";
         subcatEl.textContent = subcategoria;
@@ -64,4 +64,46 @@ fetch(url)
 
         const thDetalle = document.createElement("th");
         thDetalle.textContent = "Detalle";
-        headerRow.appendChild(thDetalle
+        headerRow.appendChild(thDetalle);
+
+        columnasPrecio.forEach(col => {
+          const th = document.createElement("th");
+          const encabezadoPersonalizado = encabezadosPorCategoria[categoria]?.[col];
+          th.textContent = encabezadoPersonalizado || col;
+          headerRow.appendChild(th);
+        });
+
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+
+        // Cuerpo
+        const tbody = document.createElement("tbody");
+
+        productos.forEach(prod => {
+          const tr = document.createElement("tr");
+
+          const tdDetalle = document.createElement("td");
+          tdDetalle.textContent = prod.Detalle || "";
+          tr.appendChild(tdDetalle);
+
+          columnasPrecio.forEach(col => {
+            const td = document.createElement("td");
+            td.textContent = prod[col] || "";
+            tr.appendChild(td);
+          });
+
+          tbody.appendChild(tr);
+        });
+
+        table.appendChild(tbody);
+        wrapper.appendChild(table);
+        container.appendChild(wrapper);
+      }
+    }
+  })
+  .catch((error) => {
+    console.error("Error al cargar los datos:", error);
+    document.getElementById("precios-container").innerHTML = `
+      <p style="color:red;">No se pudieron cargar los datos. Verificá el enlace de la hoja de cálculo.</p>
+    `;
+  });
