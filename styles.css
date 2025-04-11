@@ -13,7 +13,7 @@ header {
   background-image: url('bg.png');
   background-repeat: repeat-x;
   background-position: center top;
-  padding: 20px 0; /* le damos espacio arriba y abajo */
+  padding: 10px 0; /* le damos espacio arriba y abajo */
   top: 0px;
   left: 0px;
   right: 0px;
