@@ -1,17 +1,43 @@
-body {
-  font-family: 'Roboto', sans-serif;
-  margin: 0;
-  background: #fff;
-  color: #333;
+.producto-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
 }
 
-header {
-  background-color: #ff2d5d;
-  color: white;
-  text-align: center;
-  padding: 2rem 1rem;
+.producto-table thead {
+  background-color: #f8f8f8;
 }
 
-header h1 {
-  margin: 0;
-  font-size:
+.producto-table th,
+.producto-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.producto-table th {
+  font-weight: bold;
+  color: #ff2b61;
+  background-color: #fff;
+}
+
+.producto-table td {
+  background-color: #fefefe;
+}
+
+.categoria {
+  font-size: 1.5rem;
+  color: #ff2b61;
+  margin-top: 2rem;
+  border-bottom: 2px solid #ff2b61;
+  padding-bottom: 0.3rem;
+}
+
+.subcategoria {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #222;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
