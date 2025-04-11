@@ -21,15 +21,15 @@ header h2 {
 }
 
 .logo {
-  height: 60px;
+  height: 50px;
   max-width: 100%;
   object-fit: contain;
   display: block;
   margin: 0 auto 10px;
 }
 
-/* Títulos de categoría y subcategoría */
-.categoria {
+/* Categoría */
+.category-title {
   font-size: 1.5rem;
   color: #ff2b61;
   margin-top: 2rem;
@@ -38,7 +38,8 @@ header h2 {
   margin-left: 1rem;
 }
 
-.subcategoria {
+/* Subcategoría */
+.subcategory-title {
   font-size: 1.2rem;
   font-weight: bold;
   color: #222;
@@ -47,22 +48,28 @@ header h2 {
   margin-left: 1rem;
 }
 
-/* Tabla de productos */
-.producto-table {
+/* Contenedor de tabla */
+.table-container {
   width: 95%;
   max-width: 1000px;
-  border-collapse: collapse;
   margin: 0 auto 2rem;
+  overflow-x: auto;
+}
+
+/* Tabla de productos */
+table {
+  width: 100%;
+  border-collapse: collapse;
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0,0,0,0.05);
 }
 
-.producto-table thead {
+thead {
   background-color: #ffe5ed;
 }
 
-.producto-table th,
-.producto-table td {
+th,
+td {
   border: 1px solid #ddd;
   padding: 10px 12px;
   text-align: left;
@@ -70,31 +77,31 @@ header h2 {
   font-size: 0.95rem;
 }
 
-.producto-table th {
+th {
   font-weight: bold;
   color: #d6003b;
   background-color: #ffe5ed;
 }
 
-.producto-table td {
+td {
   background-color: #fefefe;
   color: #333;
 }
 
-.producto-table tr:nth-child(even) td {
+tr:nth-child(even) td {
   background-color: #f9f9f9;
 }
 
 /* Responsive */
 @media (max-width: 600px) {
-  .producto-table th,
-  .producto-table td {
+  th,
+  td {
     font-size: 0.85rem;
     padding: 8px;
   }
 
-  .categoria,
-  .subcategoria {
+  .category-title,
+  .subcategory-title {
     margin-left: 0.5rem;
     margin-right: 0.5rem;
   }
