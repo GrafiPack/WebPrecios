@@ -10,8 +10,8 @@ fetch(url)
     const grouped = {};
 
     data.forEach(row => {
-      const categoria = row['Categoría']  || "Sin categoría";
-      const subcategoria = row['Subcategoría'] || "Sin subcategoría";
+      const categoria = row["Categoría"]?.trim() || "Sin categoría";
+      const subcategoria = row["Subcategoría"]?.trim() || "Sin subcategoría";
 
       if (!grouped[categoria]) {
         grouped[categoria] = {};
@@ -21,31 +21,49 @@ fetch(url)
       }
 
       grouped[categoria][subcategoria].push({
-        producto: row.Producto,
-        precio: row.Precio
+        detalle: row["Detalle"] || "-",
+        precio1: row["Precio1"] || "-",
+        precio2: row["Precio2"] || "-",
+        precio3: row["Precio3"] || "-"
       });
     });
 
     for (const categoria in grouped) {
       const catEl = document.createElement("div");
-      catEl.className = "categoria";
+      catEl.className = "categoria category-title";
       catEl.textContent = categoria;
       container.appendChild(catEl);
 
       for (const subcategoria in grouped[categoria]) {
         const subcatEl = document.createElement("div");
-        subcatEl.className = "subcategoria";
+        subcatEl.className = "subcategoria subcategory-title";
         subcatEl.textContent = subcategoria;
         container.appendChild(subcatEl);
 
+        // Encabezado
+        const header = document.createElement("div");
+        header.className = "item-row encabezado";
+        ["Detalle", "Precio1", "Precio2", "Precio3"].forEach(title => {
+          const cell = document.createElement("div");
+          cell.className = "item-cell";
+          cell.textContent = title;
+          header.appendChild(cell);
+        });
+        container.appendChild(header);
+
+        // Datos
         grouped[categoria][subcategoria].forEach(item => {
-          const prod = document.createElement("div");
-          prod.className = "producto";
-          prod.innerHTML = `
-            <div>${item.producto}</div>
-            <div>$${item.precio}</div>
-          `;
-          container.appendChild(prod);
+          const row = document.createElement("div");
+          row.className = "item-row";
+
+          [item.detalle, item.precio1, item.precio2, item.precio3].forEach(value => {
+            const cell = document.createElement("div");
+            cell.className = "item-cell";
+            cell.textContent = value;
+            row.appendChild(cell);
+          });
+
+          container.appendChild(row);
         });
       }
     }
