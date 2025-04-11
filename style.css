@@ -1,50 +1,65 @@
 body {
-  font-family: 'Arial', sans-serif;
-  background: #f5f5f5;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #eee;
   margin: 0;
-  padding: 2rem;
+  padding: 0;
   color: #333;
 }
 
-h1 {
+header {
+  background-color: #2c2c2c;
+  color: white;
   text-align: center;
-  color: #ff007f;
-  margin-bottom: 3rem;
+  padding: 1rem 0;
 }
 
-.category-title {
-  color: #ff007f;
+h1 {
+  font-size: 3rem;
+  margin: 0;
+}
+
+h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+main {
+  padding: 1rem;
+}
+
+.categoria {
+  color: #f5299c;
   font-size: 2rem;
   margin-top: 2rem;
-  margin-bottom: 1rem;
 }
 
-.subcategory-title {
+.subcategoria {
+  color: #111;
   font-weight: bold;
-  font-size: 1.2rem;
-  margin-top: 1rem;
-  color: #000;
+  font-size: 1.5rem;
+  margin: 1rem 0 0.5rem 0;
 }
 
-.table {
-  width: 100%;
-  max-width: 600px;
+.tabla-precios {
   background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  padding: 1rem;
   margin-bottom: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  overflow: hidden;
 }
 
-.table-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 0.7rem 1rem;
-  border-top: 1px solid #ddd;
+.tabla-precios table {
+  width: 100%;
+  border-collapse: collapse;
 }
 
-.table-row:first-of-type {
-  border-top: none;
+.tabla-precios th,
+.tabla-precios td {
+  padding: 0.5rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.tabla-precios th {
   font-weight: bold;
-  background: #f0f0f0;
 }
