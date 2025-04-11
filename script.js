@@ -1,58 +1,65 @@
-const sheetID = "1p3Q-DpF8JcdGIWwOns7rirsgoVJ6LES2LzaBgGE42XI";
-const sheetName = "Hoja 1";
-const url = `https://opensheet.elk.sh/${sheetID}/${sheetName}`;
+const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS89yGJk3Shd1vBqHZepjaHqddT1ONqH7eH7oAiS_fZk6UScTgRUgoMOljDjHufZuNT8B0qx9XeFdJ5/pub?output=csv";
 
-fetch(url)
-  .then((res) => res.json())
-  .then((data) => {
-    const container = document.getElementById("precios-container");
+const columnasPorCategoria = {
+  "Folletos": ["Una cara", "Ambas caras"],
+  "Stickers": ["Una cara", "Ambas caras"],
+  "Imanes": ["Una cara", "Ambas caras"],
+  "Volantes Blanco y Negro": ["Una cara", "Ambas caras"]
+};
 
-    const grouped = {};
+Papa.parse(sheetURL, {
+  download: true,
+  header: true,
+  complete: function(results) {
+    const data = results.data;
+    renderData(data);
+  }
+});
 
-    data.forEach(row => {
-      const categoria = row['Categoría'] || "Sin categoría";
-      const subcategoria =row['Subcategoría'] || "Sin subcategoría";
+function renderData(data) {
+  const container = document.getElementById("precios-container");
+  const agrupado = {};
 
-      if (!grouped[categoria]) {
-        grouped[categoria] = {};
-      }
-      if (!grouped[categoria][subcategoria]) {
-        grouped[categoria][subcategoria] = [];
-      }
-
-      grouped[categoria][subcategoria].push({
-        producto: row.Producto,
-        precio: row.Precio
-      });
-    });
-
-    for (const categoria in grouped) {
-      const catEl = document.createElement("div");
-      catEl.className = "categoria";
-      catEl.textContent = categoria;
-      container.appendChild(catEl);
-
-      for (const subcategoria in grouped[categoria]) {
-        const subcatEl = document.createElement("div");
-        subcatEl.className = "subcategoria";
-        subcatEl.textContent = subcategoria;
-        container.appendChild(subcatEl);
-
-        grouped[categoria][subcategoria].forEach(item => {
-          const prod = document.createElement("div");
-          prod.className = "producto";
-          prod.innerHTML = `
-            <div>${item.producto}</div>
-            <div>$${item.precio}</div>
-          `;
-          container.appendChild(prod);
-        });
-      }
-    }
-  })
-  .catch((error) => {
-    console.error("Error al cargar los datos:", error);
-    document.getElementById("precios-container").innerHTML = `
-      <p style="color:red;">No se pudieron cargar los datos. Verificá el enlace de la hoja de cálculo.</p>
-    `;
+  data.forEach(item => {
+    const cat = item["Categoría"] || "Sin categoría";
+    const sub = item["Subcategoría"] || "Sin subcategoría";
+    if (!agrupado[cat]) agrupado[cat] = {};
+    if (!agrupado[cat][sub]) agrupado[cat][sub] = [];
+    agrupado[cat][sub].push(item);
   });
+
+  for (const categoria in agrupado) {
+    const catDiv = document.createElement("div");
+    catDiv.className = "categoria";
+    catDiv.textContent = categoria;
+    container.appendChild(catDiv);
+
+    const columnas = columnasPorCategoria[categoria] || ["Precio 1", "Precio 2"];
+
+    for (const subcategoria in agrupado[categoria]) {
+      const subDiv = document.createElement("div");
+      subDiv.className = "subcategoria";
+      subDiv.textContent = subcategoria;
+      container.appendChild(subDiv);
+
+      agrupado[categoria][subcategoria].forEach(item => {
+        const row = document.createElement("div");
+        row.className = "item-row";
+
+        const detalle = document.createElement("div");
+        detalle.className = "item-cell";
+        detalle.textContent = item["Cantidad"] || "-";
+        row.appendChild(detalle);
+
+        columnas.forEach(col => {
+          const celda = document.createElement("div");
+          celda.className = "item-cell";
+          celda.textContent = item[col] || "-";
+          row.appendChild(celda);
+        });
+
+        container.appendChild(row);
+      });
+    }
+  }
+}
