@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Precios Folletos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      color: #333;
+      padding: 20px;
+    }
+    h1 {
+      color: #2c3e50;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+    }
+    th {
+      background-color: #2c3e50;
+      color: white;
+    }
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+  <h1>Lista de Precios</h1>
+  <div id="tabla-precios"></div>
+
+  <script>
+    async function cargarDatos() {
+      const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTRaTGWURVvHB6W-AJWfPdxTAWKXCg4LndurNPRGPa5PdqNZVLmU98gbm-wAhublefWQgACV21XpTmx/pub?gid=0&single=true&output=csv'; // Reemplazá con el enlace CSV de tu Google Sheets
+      const response = await fetch(url);
+      const data = await response.text();
+      const filas = data.split('\n').slice(1); // Omitimos la primera fila si es encabezado
+      const rubros = {};
+
+      filas.forEach(fila => {
+        const [rubro, cantidad, unaCara, ambasCaras] = fila.split(',');
+
+        if (!rubros[rubro]) {
+          rubros[rubro] = [];
+        }
+
+        rubros[rubro].push({ cantidad, unaCara, ambasCaras });
+      });
+
+      const contenedor = document.getElementById('tabla-precios');
+      for (const rubro in rubros) {
+        const titulo = document.createElement('h2');
+        titulo.textContent = rubro;
+        contenedor.appendChild(titulo);
+
+        const tabla = document.createElement('table');
+        const thead = document.createElement('thead');
+        thead.innerHTML = '<tr><th>Cantidad</th><th>Una cara</th><th>Ambas caras</th></tr>';
+        tabla.appendChild(thead);
+
+        const tbody = document.createElement('tbody');
+        rubros[rubro].forEach(item => {
+          const fila = document.createElement('tr');
+          fila.innerHTML = `<td>${item.cantidad}</td><td>${item.unaCara}</td><td>${item.ambasCaras}</td>`;
+          tbody.appendChild(fila);
+        });
+
+        tabla.appendChild(tbody);
+        contenedor.appendChild(tabla);
+      }
+    }
+
+    cargarDatos();
+  </script>
+</body>
+</html>
