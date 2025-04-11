@@ -8,14 +8,14 @@
 </head>
 <body>
   <header>
-    <img src="logo.png" alt="Logo GrafiPack" class="logo">
-    <h1>Lista de Precios</h1>
+    <img src="logo.png" alt="Logo" class="logo" />
+    <h1>GrafiPack</h1>
+    <h2>Lista de Precios</h2>
   </header>
-  
   <main id="precios-container"></main>
-  
-  <div id="error-message" class="error" style="display:none;">No se pudieron cargar los datos. Verificá el formato de la hoja.</div>
-
+  <div class="error" id="error-message" style="display: none;">
+    No se pudieron cargar los datos. Por favor, verificá la conexión o el formato de la hoja.
+  </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
   <script src="script.js"></script>
 </body>
