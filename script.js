@@ -14,7 +14,7 @@ const encabezadosPorCategoria = {
     Precio2: "2000 tarjetas",
     Precio3: "5000 tarjetas"
   }
-  // Podés seguir agregando más categorías
+  // Agregá más categorías según necesites
 };
 
 fetch(url)
@@ -41,13 +41,9 @@ fetch(url)
       container.appendChild(catEl);
 
       for (const subcategoria in grouped[categoria]) {
-        const subcatEl = document.createElement("div");
-        subcatEl.className = "subcategory-title";
-        subcatEl.textContent = subcategoria;
-        container.appendChild(subcatEl);
-
         const productos = grouped[categoria][subcategoria];
 
+        // Detectar columnas PrecioX con al menos un valor
         const columnasPrecio = Object.keys(productos[0])
           .filter(key => key.startsWith("Precio"))
           .filter(key => productos.some(p => p[key] && p[key].trim() !== ""));
@@ -56,13 +52,13 @@ fetch(url)
         const thead = document.createElement("thead");
         const headerRow = document.createElement("tr");
 
-        const thDetalle = document.createElement("th");
-        thDetalle.textContent = "Detalle";
-        headerRow.appendChild(thDetalle);
+        // El primer encabezado ahora es el nombre de la subcategoría
+        const thSubcat = document.createElement("th");
+        thSubcat.textContent = subcategoria;
+        headerRow.appendChild(thSubcat);
 
         columnasPrecio.forEach(col => {
           const th = document.createElement("th");
-          // Verifica si hay texto personalizado para la categoría
           const encabezadoPersonalizado = encabezadosPorCategoria[categoria]?.[col];
           th.textContent = encabezadoPersonalizado || col;
           headerRow.appendChild(th);
@@ -90,6 +86,7 @@ fetch(url)
         });
 
         table.appendChild(tbody);
+
         const wrapper = document.createElement("div");
         wrapper.className = "table-container";
         wrapper.appendChild(table);
