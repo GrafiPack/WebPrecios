@@ -1,72 +1,52 @@
-const sheetID = "1p3Q-DpF8JcdGIWwOns7rirsgoVJ6LES2LzaBgGE42XI";
-const sheetName = "Hoja 1";
-const url = `https://opensheet.elk.sh/${sheetID}/${sheetName}`;
+const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQt3fGrTZBgJeBD7_m5szRM2ojBqjL8UVOVlmwn0tt1EZBjkbXYDbdKjOUg3NsD4xOsTPjlR9d3-5uD/pub?output=csv";
 
 fetch(url)
-  .then(res => res.json())
+  .then(response => response.text())
+  .then(csv => Papa.parse(csv, { header: true }).data)
   .then(data => {
     const container = document.getElementById("precios-container");
+    const agrupado = {};
 
-    // Agrupar por categoría y subcategoría
-    const grouped = {};
     data.forEach(row => {
-      const categoria = row.Categoría || "Sin Categoría";
-      const subcategoria = row.Subcategoría || "General";
-
-      if (!grouped[categoria]) grouped[categoria] = {};
-      if (!grouped[categoria][subcategoria]) grouped[categoria][subcategoria] = [];
-      grouped[categoria][subcategoria].push(row);
+      const cat = row["Categoría"]?.trim() || "Sin Categoría";
+      const subcat = row["Subcategoría"]?.trim() || "General";
+      if (!agrupado[cat]) agrupado[cat] = {};
+      if (!agrupado[cat][subcat]) agrupado[cat][subcat] = [];
+      agrupado[cat][subcat].push(row);
     });
 
-    // Renderizar
-    for (const categoria in grouped) {
-      const catTitle = document.createElement("div");
-      catTitle.className = "category-title";
-      catTitle.textContent = categoria;
-      container.appendChild(catTitle);
+    for (const categoria in agrupado) {
+      const catElem = document.createElement("div");
+      catElem.className = "categoria";
+      catElem.textContent = categoria;
+      container.appendChild(catElem);
 
-      for (const subcategoria in grouped[categoria]) {
-        const subTitle = document.createElement("div");
-        subTitle.className = "subcategory-title";
-        subTitle.textContent = subcategoria;
-        container.appendChild(subTitle);
+      for (const subcat in agrupado[categoria]) {
+        const subElem = document.createElement("div");
+        subElem.className = "subcategoria";
+        subElem.textContent = subcat;
+        container.appendChild(subElem);
 
-        const table = document.createElement("div");
-        table.className = "table";
+        const tabla = document.createElement("div");
+        tabla.className = "tabla-precios";
 
-        // Agregar encabezado
-        const header = document.createElement("div");
-        header.className = "table-row";
-        const sample = grouped[categoria][subcategoria][0];
-        for (const key in sample) {
-          if (key !== "Categoría" && key !== "Subcategoría") {
-            const cell = document.createElement("div");
-            cell.textContent = key;
-            header.appendChild(cell);
-          }
-        }
-        table.appendChild(header);
+        const rows = agrupado[categoria][subcat];
+        if (rows.length === 0) continue;
 
-        // Agregar filas
-        grouped[categoria][subcategoria].forEach(row => {
-          const rowDiv = document.createElement("div");
-          rowDiv.className = "table-row";
-          for (const key in row) {
-            if (key !== "Categoría" && key !== "Subcategoría") {
-              const cell = document.createElement("div");
-              cell.textContent = row[key];
-              rowDiv.appendChild(cell);
-            }
-          }
-          table.appendChild(rowDiv);
+        const columnas = Object.keys(rows[0]).filter(k => k !== "Categoría" && k !== "Subcategoría");
+
+        let html = "<table><thead><tr>";
+        columnas.forEach(col => html += `<th>${col}</th>`);
+        html += "</tr></thead><tbody>";
+        rows.forEach(row => {
+          html += "<tr>";
+          columnas.forEach(col => html += `<td>${row[col]}</td>`);
+          html += "</tr>";
         });
+        html += "</tbody></table>";
 
-        container.appendChild(table);
+        tabla.innerHTML = html;
+        container.appendChild(tabla);
       }
     }
-  })
-  .catch(err => {
-    console.error("Error al cargar los datos:", err);
-    document.getElementById("precios-container").innerHTML =
-      "<p style='color:red'>No se pudieron cargar los datos.</p>";
   });
