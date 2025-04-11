@@ -10,9 +10,8 @@ const columnasPorCategoria = {
 Papa.parse(sheetURL, {
   download: true,
   header: true,
-  skipEmptyLines: true,
   complete: function(results) {
-    const data = results.data.filter(row => row["Categoría"] && row["Subcategoría"]);
+    const data = results.data;
     renderData(data);
   }
 });
@@ -22,8 +21,8 @@ function renderData(data) {
   const agrupado = {};
 
   data.forEach(item => {
-    const cat = item["Categoría"].trim() || "Sin categoría";
-    const sub = item["Subcategoría"].trim() || "Sin subcategoría";
+    const cat = item["Categoría"] || "Sin categoría";
+    const sub = item["Subcategoría"] || "Sin subcategoría";
     if (!agrupado[cat]) agrupado[cat] = {};
     if (!agrupado[cat][sub]) agrupado[cat][sub] = [];
     agrupado[cat][sub].push(item);
@@ -35,7 +34,7 @@ function renderData(data) {
     catDiv.textContent = categoria;
     container.appendChild(catDiv);
 
-    const columnas = columnasPorCategoria[categoria] || [];
+    const columnas = columnasPorCategoria[categoria] || ["Precio 1", "Precio 2"];
 
     for (const subcategoria in agrupado[categoria]) {
       const subDiv = document.createElement("div");
@@ -49,13 +48,13 @@ function renderData(data) {
 
         const detalle = document.createElement("div");
         detalle.className = "item-cell";
-        detalle.textContent = item["Cantidad"]?.trim() || "-";
+        detalle.textContent = item["Cantidad"] || "-";
         row.appendChild(detalle);
 
         columnas.forEach(col => {
           const celda = document.createElement("div");
           celda.className = "item-cell";
-          celda.textContent = item[col]?.trim() || "-";
+          celda.textContent = item[col] || "-";
           row.appendChild(celda);
         });
 
