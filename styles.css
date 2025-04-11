@@ -10,7 +10,7 @@ body {
 /* Encabezado */
 header {
     background-color: #D9D9D9;
-    background-image: ("bg.png");
+    background-image: ('bg.png');
     background-repeat: repeat-x;
     background-position: center top;
     padding: 0px;
