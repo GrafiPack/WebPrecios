@@ -54,16 +54,19 @@ header h2 {
   width: 95%;
   max-width: 1000px;
   margin: 0 auto 2rem;
-  margin-top: 1.5rem; /* Espacio arriba de la tabla */
+  margin-top: 1.5rem;
   overflow-x: auto;
 }
 
 /* Tabla de productos */
 table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate; /* permite bordes redondeados */
+  border-spacing: 0;
   background-color: #fff;
-  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  overflow: hidden;
 }
 
 thead {
@@ -92,6 +95,23 @@ td {
 
 tr:nth-child(even) td {
   background-color: #f9f9f9;
+}
+
+/* Bordes redondeados en esquinas de tabla */
+thead th:first-child {
+  border-top-left-radius: 12px;
+}
+
+thead th:last-child {
+  border-top-right-radius: 12px;
+}
+
+tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 12px;
+}
+
+tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 12px;
 }
 
 /* Responsive */
