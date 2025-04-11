@@ -1,65 +1,82 @@
-const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS89yGJk3Shd1vBqHZepjaHqddT1ONqH7eH7oAiS_fZk6UScTgRUgoMOljDjHufZuNT8B0qx9XeFdJ5/pub?output=csv";
+const sheetID = "1p3Q-DpF8JcdGIWwOns7rirsgoVJ6LES2LzaBgGE42XI";
+const sheetName = "Hoja 1";
+const url = `https://opensheet.elk.sh/${sheetID}/${sheetName}`;
 
-const columnasPorCategoria = {
-  "Folletos": ["Una cara", "Ambas caras"],
-  "Stickers": ["Una cara", "Ambas caras"],
-  "Imanes": ["Una cara", "Ambas caras"],
-  "Volantes Blanco y Negro": ["Una cara", "Ambas caras"]
-};
+fetch(url)
+  .then(res => {
+    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+    return res.json();
+  })
+  .then(data => {
+    const container = document.getElementById('precios-container');
+    if (!Array.isArray(data) || data.length === 0) {
+      throw new Error("Formato inesperado de datos");
+    }
 
-Papa.parse(sheetURL, {
-  download: true,
-  header: true,
-  complete: function(results) {
-    const data = results.data;
-    renderData(data);
-  }
-});
+    const groupedData = {};
 
-function renderData(data) {
-  const container = document.getElementById("precios-container");
-  const agrupado = {};
+    data.forEach(row => {
+      const categoria = row.Categoría || "Sin categoría";
+      const subcategoria = row.Subcategoría || "Sin subcategoría";
 
-  data.forEach(item => {
-    const cat = item["Categoría"] || "Sin categoría";
-    const sub = item["Subcategoría"] || "Sin subcategoría";
-    if (!agrupado[cat]) agrupado[cat] = {};
-    if (!agrupado[cat][sub]) agrupado[cat][sub] = [];
-    agrupado[cat][sub].push(item);
-  });
+      if (!groupedData[categoria]) groupedData[categoria] = {};
+      if (!groupedData[categoria][subcategoria]) groupedData[categoria][subcategoria] = [];
 
-  for (const categoria in agrupado) {
-    const catDiv = document.createElement("div");
-    catDiv.className = "categoria";
-    catDiv.textContent = categoria;
-    container.appendChild(catDiv);
+      groupedData[categoria][subcategoria].push(row);
+    });
 
-    const columnas = columnasPorCategoria[categoria] || ["Precio 1", "Precio 2"];
+    for (const categoria in groupedData) {
+      const catTitle = document.createElement('h2');
+      catTitle.textContent = categoria;
+      catTitle.className = 'category-title';
+      container.appendChild(catTitle);
 
-    for (const subcategoria in agrupado[categoria]) {
-      const subDiv = document.createElement("div");
-      subDiv.className = "subcategoria";
-      subDiv.textContent = subcategoria;
-      container.appendChild(subDiv);
+      const subcategorias = groupedData[categoria];
+      for (const sub in subcategorias) {
+        const subTitle = document.createElement('h3');
+        subTitle.textContent = sub;
+        subTitle.className = 'subcategory-title';
+        container.appendChild(subTitle);
 
-      agrupado[categoria][subcategoria].forEach(item => {
-        const row = document.createElement("div");
-        row.className = "item-row";
+        const items = subcategorias[sub];
+        if (items.length === 0) continue;
 
-        const detalle = document.createElement("div");
-        detalle.className = "item-cell";
-        detalle.textContent = item["Cantidad"] || "-";
-        row.appendChild(detalle);
+        const columnas = Object.keys(items[0]).filter(k => !["Categoría", "Subcategoría"].includes(k));
+
+        const tableContainer = document.createElement('div');
+        tableContainer.className = 'table-container';
+
+        const table = document.createElement('table');
+        const thead = document.createElement('thead');
+        const trHead = document.createElement('tr');
 
         columnas.forEach(col => {
-          const celda = document.createElement("div");
-          celda.className = "item-cell";
-          celda.textContent = item[col] || "-";
-          row.appendChild(celda);
+          const th = document.createElement('th');
+          th.textContent = col;
+          trHead.appendChild(th);
         });
 
-        container.appendChild(row);
-      });
+        thead.appendChild(trHead);
+        table.appendChild(thead);
+
+        const tbody = document.createElement('tbody');
+        items.forEach(item => {
+          const tr = document.createElement('tr');
+          columnas.forEach(col => {
+            const td = document.createElement('td');
+            td.textContent = item[col] || "";
+            tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        });
+
+        table.appendChild(tbody);
+        tableContainer.appendChild(table);
+        container.appendChild(tableContainer);
+      }
     }
-  }
-}
+  })
+  .catch(err => {
+    console.error("Error al cargar los datos:", err);
+    document.getElementById('error-message').style.display = 'block';
+  });
