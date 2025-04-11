@@ -2,8 +2,8 @@ const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS89yGJk3Shd1v
 
 const columnasPorCategoria = {
   "Folletos": ["Una cara", "Ambas caras"],
-  "Stickers": ["Una cara", "Ambas caras"],
-  "Imanes": ["Una cara", "Ambas caras"],
+  "Stickers": ["Autoadhesivo", "Vinilo"],
+  "Imanes": ["Clasicos", "Laminados"],
   "Volantes Blanco y Negro": ["Una cara", "Ambas caras"]
 };
 
