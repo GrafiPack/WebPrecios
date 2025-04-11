@@ -1,42 +1,45 @@
-Si integremoslo en este codigo
 const sheetID = "1p3Q-DpF8JcdGIWwOns7rirsgoVJ6LES2LzaBgGE42XI";
 const sheetName = "Hoja 1";
 const url = `https://opensheet.elk.sh/${sheetID}/${sheetName}`;
+
+// Diccionario de reemplazos personalizados por categoría
+const encabezadosPorCategoria = {
+  "Folletos": {
+    Precio1: "1000 u.",
+    Precio2: "3000 u.",
+    Precio3: "5000 u."
+  },
+  "Tarjetas": {
+    Precio1: "1000 tarjetas",
+    Precio2: "2000 tarjetas",
+    Precio3: "5000 tarjetas"
+  }
+  // Podés seguir agregando más categorías
+};
 
 fetch(url)
   .then((res) => res.json())
   .then((data) => {
     const container = document.getElementById("precios-container");
-
-    // Filtramos encabezado
     const dataFiltrada = data.filter(row => row.Categoría !== "Categoría");
 
-    // Agrupar por Categoría > Subcategoría
     const grouped = {};
-
     dataFiltrada.forEach(row => {
       const categoria = row['Categoría'] || "Sin categoría";
       const subcategoria = row['Subcategoría'] || "Sin subcategoría";
 
-      if (!grouped[categoria]) {
-        grouped[categoria] = {};
-      }
-
-      if (!grouped[categoria][subcategoria]) {
-        grouped[categoria][subcategoria] = [];
-      }
+      if (!grouped[categoria]) grouped[categoria] = {};
+      if (!grouped[categoria][subcategoria]) grouped[categoria][subcategoria] = [];
 
       grouped[categoria][subcategoria].push(row);
     });
 
-    // Recorremos Categorías
     for (const categoria in grouped) {
       const catEl = document.createElement("div");
       catEl.className = "category-title";
       catEl.textContent = categoria;
       container.appendChild(catEl);
 
-      // Recorremos Subcategorías
       for (const subcategoria in grouped[categoria]) {
         const subcatEl = document.createElement("div");
         subcatEl.className = "subcategory-title";
@@ -45,15 +48,11 @@ fetch(url)
 
         const productos = grouped[categoria][subcategoria];
 
-        // Detectar columnas PrecioX con al menos un valor
         const columnasPrecio = Object.keys(productos[0])
           .filter(key => key.startsWith("Precio"))
           .filter(key => productos.some(p => p[key] && p[key].trim() !== ""));
 
-        // Crear tabla
         const table = document.createElement("table");
-
-        // Encabezado
         const thead = document.createElement("thead");
         const headerRow = document.createElement("tr");
 
@@ -63,14 +62,15 @@ fetch(url)
 
         columnasPrecio.forEach(col => {
           const th = document.createElement("th");
-          th.textContent = col;
+          // Verifica si hay texto personalizado para la categoría
+          const encabezadoPersonalizado = encabezadosPorCategoria[categoria]?.[col];
+          th.textContent = encabezadoPersonalizado || col;
           headerRow.appendChild(th);
         });
 
         thead.appendChild(headerRow);
         table.appendChild(thead);
 
-        // Cuerpo
         const tbody = document.createElement("tbody");
 
         productos.forEach(prod => {
