@@ -1,5 +1,5 @@
 const sheetID = "1p3Q-DpF8JcdGIWwOns7rirsgoVJ6LES2LzaBgGE42XI";
-const sheetName = "Hoja 1"; // ← exacto como lo ves en la pestaña
+const sheetName = "Hoja 1";
 const url = `https://opensheet.elk.sh/${sheetID}/${sheetName}`;
 
 fetch(url)
@@ -9,16 +9,22 @@ fetch(url)
   })
   .then(data => {
     const container = document.getElementById('precios-container');
-    if (!Array.isArray(data) || data.length === 0 || !data[0].Producto || !data[0].Precio) {
-      throw new Error("Formato inesperado de datos");
+
+    if (!Array.isArray(data) || data.length === 0) {
+      throw new Error("No hay datos");
     }
+
     data.forEach(row => {
       const card = document.createElement('div');
       card.className = 'card';
+
       card.innerHTML = `
-        <div class="product-name">${row.Producto}</div>
-        <div class="price">$${row.Precio}</div>
+        <div class="product-name"><strong>${row.Rubro}</strong></div>
+        <div class="details">Cantidad: ${row.Cantidad}</div>
+        <div class="details">Una cara: ${row["Una cara"]}</div>
+        <div class="details">Ambas caras: ${row["Ambas caras"]}</div>
       `;
+
       container.appendChild(card);
     });
   })
