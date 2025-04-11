@@ -1,66 +1,17 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Roboto', sans-serif;
   margin: 0;
-  background-color: #f7f7f7;
+  background: #fff;
   color: #333;
 }
 
 header {
-  background-color: #ff2e63;
+  background-color: #ff2d5d;
   color: white;
-  padding: 1rem;
   text-align: center;
+  padding: 2rem 1rem;
 }
 
-h1 {
-  margin: 0.2rem 0;
-}
-
-#precios-container {
-  width: 95%;
-  max-width: 1000px;
-  margin: 2rem auto;
-}
-
-.category-title {
-  color: #ff2e63;
-  font-size: 1.6rem;
-  font-weight: bold;
-  text-align: left;
-  margin-top: 2rem;
-  margin-bottom: 0.5rem;
-  border-bottom: 2px solid #ff2e63;
-  padding-bottom: 0.25rem;
-}
-
-.subcategory-title {
-  font-weight: bold;
-  font-size: 1.2rem;
-  color: #000;
-  text-align: left;
-  margin: 1.5rem 0 0.5rem;
-}
-
-.item-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  background-color: white;
-  border: 1px solid #ddd;
-  margin-bottom: 0.5rem;
-}
-
-.item-cell {
-  padding: 0.75rem;
-  border-right: 1px solid #ddd;
-}
-
-.item-cell:last-child {
-  border-right: none;
-}
-
-.encabezado {
-  background-color: #08d9d6;
-  color: white;
-  font-weight: bold;
-  border: none;
-  margin-top: 0.5
+header h1 {
+  margin: 0;
+  font-size:
