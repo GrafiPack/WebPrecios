@@ -1,5 +1,5 @@
 const sheetID = "2PACX-1vTRaTGWURVvHB6W-AJWfPdxTAWKXCg4LndurNPRGPa5PdqNZVLmU98gbm-wAhublefWQgACV21XpTmx";
-const sheetName = "Hoja1";
+const sheetName = "Hoja 1";
 const url = `https://opensheet.elk.sh/${sheetID}/${sheetName}`;
 
 fetch(url)
