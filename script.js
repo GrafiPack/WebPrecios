@@ -8,7 +8,7 @@ const columnasPorCategoria = {
   "Volantes Blanco y Negro": ["Una cara", "Ambas caras"]
 };
 
-Papa.parse(sheetURL, {
+Papa.parse(URL, {
   download: true,
   header: true,
   skipEmptyLines: true,
