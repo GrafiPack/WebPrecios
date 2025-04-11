@@ -32,6 +32,15 @@ h1 {
   padding-bottom: 0.25rem;
 }
 
+.category-title::after {
+  content: "";
+  display: block;
+  width: 60%;
+  height: 2px;
+  background: #ff2e63;
+  margin: 0.5rem auto 1rem auto;
+}
+
 .subcategory-title {
   font-weight: bold;
   font-size: 1.2rem;
