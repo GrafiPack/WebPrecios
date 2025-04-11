@@ -11,7 +11,7 @@ fetch(url)
 
     data.forEach(row => {
       const categoria = row['Categoría']  || "Sin categoría";
-      const subcategoria = row['Subcategoría' || "Sin subcategoría";
+      const subcategoria = row['Subcategoría'] || "Sin subcategoría";
 
       if (!grouped[categoria]) {
         grouped[categoria] = {};
