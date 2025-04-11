@@ -6,88 +6,93 @@ fetch(url)
   .then((res) => res.json())
   .then((data) => {
     const container = document.getElementById("precios-container");
-    
-    const dataFiltrada = data.filter(row => row.Categoría !== "Categoría"); // Filtra la fila de encabezados
 
+    // Filtramos encabezado
+    const dataFiltrada = data.filter(row => row.Categoría !== "Categoría");
+
+    // Agrupar por Categoría > Subcategoría
     const grouped = {};
 
     dataFiltrada.forEach(row => {
-      const categoria = row["Categoría"]?.trim() || "Sin categoría";
-      const subcategoria = row["Subcategoría"]?.trim() || "Sin subcategoría";
+      const categoria = row['Categoría'] || "Sin categoría";
+      const subcategoria = row['Subcategoría'] || "Sin subcategoría";
 
       if (!grouped[categoria]) {
         grouped[categoria] = {};
       }
+
       if (!grouped[categoria][subcategoria]) {
         grouped[categoria][subcategoria] = [];
       }
 
-      grouped[categoria][subcategoria].push({
-        detalle: row["Detalle"] || "-",
-        precio1: row["Precio1"] || "",
-        precio2: row["Precio2"] || "",
-        precio3: row["Precio3"] || ""
-      });
+      grouped[categoria][subcategoria].push(row);
     });
 
+    // Recorremos Categorías
     for (const categoria in grouped) {
       const catEl = document.createElement("div");
-      catEl.className = "categoria category-title";
+      catEl.className = "category-title";
       catEl.textContent = categoria;
       container.appendChild(catEl);
 
+      // Recorremos Subcategorías
       for (const subcategoria in grouped[categoria]) {
         const subcatEl = document.createElement("div");
-        subcatEl.className = "subcategoria subcategory-title";
+        subcatEl.className = "subcategory-title";
         subcatEl.textContent = subcategoria;
         container.appendChild(subcatEl);
 
-        const items = grouped[categoria][subcategoria];
+        const productos = grouped[categoria][subcategoria];
 
-        // Verificar qué columnas mostrar
-        const mostrarPrecio1 = items.some(item => item.precio1.trim() !== "");
-        const mostrarPrecio2 = items.some(item => item.precio2.trim() !== "");
-        const mostrarPrecio3 = items.some(item => item.precio3.trim() !== "");
+        // Detectar columnas PrecioX con al menos un valor
+        const columnasPrecio = Object.keys(productos[0])
+          .filter(key => key.startsWith("Precio"))
+          .filter(key => productos.some(p => p[key] && p[key].trim() !== ""));
 
-        // Armamos encabezado dinámico
-        const header = document.createElement("div");
-        header.className = "item-row encabezado";
+        // Crear tabla
+        const table = document.createElement("table");
 
-        const columnasAMostrar = ["Detalle"];
-        if (mostrarPrecio1) columnasAMostrar.push("Precio1");
-        if (mostrarPrecio2) columnasAMostrar.push("Precio2");
-        if (mostrarPrecio3) columnasAMostrar.push("Precio3");
+        // Encabezado
+        const thead = document.createElement("thead");
+        const headerRow = document.createElement("tr");
 
-        columnasAMostrar.forEach(title => {
-          const cell = document.createElement("div");
-          cell.className = "item-cell";
-          cell.textContent = title;
-          header.appendChild(cell);
+        const thDetalle = document.createElement("th");
+        thDetalle.textContent = "Detalle";
+        headerRow.appendChild(thDetalle);
+
+        columnasPrecio.forEach(col => {
+          const th = document.createElement("th");
+          th.textContent = col;
+          headerRow.appendChild(th);
         });
 
-        container.appendChild(header);
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
 
-        // Filas de datos
-        items.forEach(item => {
-          const row = document.createElement("div");
-          row.className = "item-row";
+        // Cuerpo
+        const tbody = document.createElement("tbody");
 
-          columnasAMostrar.forEach(col => {
-            const cell = document.createElement("div");
-            cell.className = "item-cell";
-            let value = "-";
+        productos.forEach(prod => {
+          const tr = document.createElement("tr");
 
-            if (col === "Detalle") value = item.detalle;
-            if (col === "Precio1") value = item.precio1 || "-";
-            if (col === "Precio2") value = item.precio2 || "-";
-            if (col === "Precio3") value = item.precio3 || "-";
+          const tdDetalle = document.createElement("td");
+          tdDetalle.textContent = prod.Detalle || "";
+          tr.appendChild(tdDetalle);
 
-            cell.textContent = value;
-            row.appendChild(cell);
+          columnasPrecio.forEach(col => {
+            const td = document.createElement("td");
+            td.textContent = prod[col] ? `$${prod[col]}` : "";
+            tr.appendChild(td);
           });
 
-          container.appendChild(row);
+          tbody.appendChild(tr);
         });
+
+        table.appendChild(tbody);
+        const wrapper = document.createElement("div");
+        wrapper.className = "table-container";
+        wrapper.appendChild(table);
+        container.appendChild(wrapper);
       }
     }
   })
