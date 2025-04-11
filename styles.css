@@ -12,25 +12,6 @@ header {
   text-align: center;
 }
 
-.categoria {
-  color: #ff2e63;
-  font-size: 1.8rem;
-  font-weight: bold;
-  text-align: left;
-  margin-top: 2rem;
-  margin-bottom: 0.5rem;
-  border-bottom: 2px solid #ff2e63;
-  padding-bottom: 0.25rem;
-}
-
-.subcategoria {
-  font-weight: bold;
-  font-size: 1.2rem;
-  color: #000;
-  text-align: left;
-  margin: 1rem 0 0.5rem;
-}
-
 .logo {
   height: 60px;
   margin-bottom: 10px;
@@ -41,16 +22,22 @@ h1 {
 }
 
 .category-title {
-  font-size: 1.8rem;
   color: #ff2e63;
-  margin: 2rem 1rem 0.5rem;
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-align: left;
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 2px solid #ff2e63;
+  padding-bottom: 0.25rem;
 }
 
 .subcategory-title {
-  font-size: 1.4rem;
-  color: black;
   font-weight: bold;
-  margin: 1.5rem 1rem 0.5rem;
+  font-size: 1.2rem;
+  color: #000;
+  text-align: left;
+  margin: 1rem 0 0.5rem;
 }
 
 .table-container {
