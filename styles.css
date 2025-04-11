@@ -26,28 +26,21 @@ h1 {
   font-size: 1.8rem;
   font-weight: bold;
   text-align: left;
-  margin-top: 2rem;
-  margin-bottom: 0.5rem;
+  margin: 2rem auto 0.5rem;
+  width: 95%;
+  max-width: 1000px;
   border-bottom: 2px solid #ff2e63;
   padding-bottom: 0.25rem;
 }
-
-.category-title::after {
-  content: "";
-  display: block;
-  width: 60%;
-  height: 2px;
-  background: #ff2e63;
-  margin: 0.5rem auto 1rem auto;
-}
-
 
 .subcategory-title {
   font-weight: bold;
   font-size: 1.2rem;
   color: #000;
   text-align: left;
-  margin: 1rem 0 0.5rem;
+  margin: 1rem auto 0.5rem;
+  width: 95%;
+  max-width: 1000px;
 }
 
 .table-container {
