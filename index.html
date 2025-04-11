@@ -1,25 +1,21 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Precios - GrafiPack</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lista de Precios - GrafiPack</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <header>
     <img src="logo.png" alt="GrafiPack Logo" class="logo">
     <h1>Lista de Precios</h1>
   </header>
-
-  <main class="container" id="precios-container">
-    <!-- Tarjetas cargadas desde Google Sheets -->
-  </main>
-
-  <div class="error-message" id="error-message" style="display:none;">
-    No se pudieron cargar los datos. Por favor, verificá la conexión o el formato de la hoja.
-  </div>
-
+  <main id="precios-container"></main>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
+
+
+
