@@ -1,58 +1,49 @@
 body {
   font-family: "Segoe UI", sans-serif;
-  margin: 20px;
-  background-color: #fefefe;
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
   color: #333;
 }
 
 #precios-container {
-  max-width: 1000px;
-  margin: 0 auto;
+  max-width: 960px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.category-title {
+  font-size: 26px;
+  color: #ff2b61;
+  font-weight: bold;
+  margin-top: 40px;
+  margin-bottom: 10px;
+}
+
+.subcategory-title {
+  font-size: 20px;
+  color: #000;
+  font-weight: 600;
+  margin-top: 25px;
+  margin-bottom: 10px;
 }
 
 .table-container {
-  margin-bottom: 50px;
-  padding: 0 10px;
+  overflow-x: auto;
+  margin-bottom: 40px;
 }
 
-/* Título de categoría */
-.category-title {
-  color: #ff2b61;
-  font-size: 28px;
-  font-weight: bold;
-  margin: 40px 0 10px;
-  text-align: center;
-}
-
-/* Título de subcategoría (encabezado de la tabla) */
-.subcategory-title {
-  color: #000;
-  font-size: 22px;
-  font-weight: bold;
-  margin: 20px 0 10px;
-  text-align: center;
-}
-
-/* Tablas */
 table {
   width: 100%;
   border-collapse: collapse;
-  margin: 0 auto;
-  background-color: white;
+  margin-top: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-  border-radius: 8px;
-  overflow: hidden;
 }
 
-/* Encabezado de tabla */
 thead {
   background-color: #ffe5ed;
 }
 
-th {
+th, td {
+  padding: 12px 15px;
   text-align: left;
-  padding: 10px 15px;
-  font-weight: bold;
-}
-
-/* Filas del*
