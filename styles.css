@@ -1,37 +1,41 @@
-.producto-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 2rem;
-}
-
-.producto-table thead {
-  background-color: #f8f8f8;
-}
-
-.producto-table th,
-.producto-table td {
-  border: 1px solid #ddd;
-  padding: 10px;
-  text-align: left;
-  white-space: nowrap;
-}
-
-.producto-table th {
-  font-weight: bold;
-  color: #ff2b61;
+/* Reset básico */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #fff;
+  color: #111;
+  margin: 0;
+  padding: 0;
 }
 
-.producto-table td {
-  background-color: #fefefe;
+/* Encabezado */
+header {
+  background-color: #ff2b61;
+  color: white;
+  padding: 20px 0;
+  text-align: center;
 }
 
+header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.logo {
+  height: 60px;
+  max-width: 100%;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 10px;
+}
+
+/* Títulos de categoría y subcategoría */
 .categoria {
   font-size: 1.5rem;
   color: #ff2b61;
   margin-top: 2rem;
   border-bottom: 2px solid #ff2b61;
   padding-bottom: 0.3rem;
+  margin-left: 1rem;
 }
 
 .subcategoria {
@@ -40,4 +44,58 @@
   color: #222;
   margin-top: 1.5rem;
   margin-bottom: 0.5rem;
+  margin-left: 1rem;
+}
+
+/* Tabla de productos */
+.producto-table {
+  width: 95%;
+  max-width: 1000px;
+  border-collapse: collapse;
+  margin: 0 auto 2rem;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.producto-table thead {
+  background-color: #ffe5ed;
+}
+
+.producto-table th,
+.producto-table td {
+  border: 1px solid #ddd;
+  padding: 10px 12px;
+  text-align: left;
+  white-space: nowrap;
+  font-size: 0.95rem;
+}
+
+.producto-table th {
+  font-weight: bold;
+  color: #d6003b;
+  background-color: #ffe5ed;
+}
+
+.producto-table td {
+  background-color: #fefefe;
+  color: #333;
+}
+
+.producto-table tr:nth-child(even) td {
+  background-color: #f9f9f9;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .producto-table th,
+  .producto-table td {
+    font-size: 0.85rem;
+    padding: 8px;
+  }
+
+  .categoria,
+  .subcategoria {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
 }
