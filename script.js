@@ -2,6 +2,21 @@ const sheetID = "1p3Q-DpF8JcdGIWwOns7rirsgoVJ6LES2LzaBgGE42XI";
 const sheetName = "Hoja 1";
 const url = `https://opensheet.elk.sh/${sheetID}/${sheetName}`;
 
+// Mapas de nombres personalizados para columnas por categoría
+const encabezadosPorCategoria = {
+  "Folletos": {
+    Precio1: "Tamaño A6",
+    Precio2: "Tamaño A5",
+    Precio3: "Tamaño A4"
+  },
+  "Tarjetas Personales": {
+    Precio1: "Frente",
+    Precio2: "Doble faz",
+    Precio3: "Con laminado"
+  },
+  // Agregá más categorías acá según tus necesidades
+};
+
 fetch(url)
   .then((res) => res.json())
   .then((data) => {
@@ -62,43 +77,13 @@ fetch(url)
 
         columnasPrecio.forEach(col => {
           const th = document.createElement("th");
-          th.textContent = col;
+
+          // Usar encabezado personalizado si existe
+          const encabezadoPersonalizado = encabezadosPorCategoria[categoria]?.[col] || col;
+          th.textContent = encabezadoPersonalizado;
+
           headerRow.appendChild(th);
         });
 
         thead.appendChild(headerRow);
         table.appendChild(thead);
-
-        // Cuerpo
-        const tbody = document.createElement("tbody");
-
-        productos.forEach(prod => {
-          const tr = document.createElement("tr");
-
-          const tdDetalle = document.createElement("td");
-          tdDetalle.textContent = prod.Detalle || "";
-          tr.appendChild(tdDetalle);
-
-          columnasPrecio.forEach(col => {
-            const td = document.createElement("td");
-            td.textContent = prod[col] || "";
-            tr.appendChild(td);
-          });
-
-          tbody.appendChild(tr);
-        });
-
-        table.appendChild(tbody);
-        const wrapper = document.createElement("div");
-        wrapper.className = "table-container";
-        wrapper.appendChild(table);
-        container.appendChild(wrapper);
-      }
-    }
-  })
-  .catch((error) => {
-    console.error("Error al cargar los datos:", error);
-    document.getElementById("precios-container").innerHTML = `
-      <p style="color:red;">No se pudieron cargar los datos. Verificá el enlace de la hoja de cálculo.</p>
-    `;
-  });
