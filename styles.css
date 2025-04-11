@@ -9,10 +9,16 @@ body {
 
 /* Encabezado */
 header {
-  background-color: #ff2b61;
-  color: white;
-  padding: 20px 0;
-  text-align: center;
+ 
+background-color: #D9D9D9;
+    background-image: ("bg.png");
+    background-repeat: repeat-x;
+    background-position: center top;
+    padding: 0px;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    margin: auto;
 }
 
 header h2 {
