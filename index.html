@@ -24,4 +24,110 @@
 
     main {
       padding: 20px;
-      max-width
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    h2 {
+      margin-top: 50px;
+      color: #c00;
+      border-bottom: 2px solid #c00;
+      padding-bottom: 5px;
+      font-size: 1.5em;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      margin-bottom: 30px;
+      background-color: #fff;
+      box-shadow: 0 0 5px rgba(0,0,0,0.05);
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #c00;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    footer {
+      background-color: #f1f1f1;
+      color: #555;
+      font-size: 0.9em;
+      padding: 20px;
+      text-align: center;
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    GrafiPack
+  </header>
+
+  <main>
+    <h1 style="text-align:center; color:#c00;">Lista de Precios</h1>
+    <div id="tabla-precios"></div>
+  </main>
+
+  <footer>
+    Actualizado automáticamente desde Google Sheets<br>
+    299 4224621 - Neuquén
+  </footer>
+
+  <script>
+    async function cargarDatos() {
+      const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTRaTGWURVvHB6W-AJWfPdxTAWKXCg4LndurNPRGPa5PdqNZVLmU98gbm-wAhublefWQgACV21XpTmx/pub?gid=0&single=true&output=csv';
+      const response = await fetch(url);
+      const data = await response.text();
+      const filas = data.trim().split('\n').slice(1);
+      const rubros = {};
+
+      filas.forEach(fila => {
+        const [rubro, cantidad, unaCara, ambasCaras] = fila.split(',');
+
+        if (!rubros[rubro]) {
+          rubros[rubro] = [];
+        }
+
+        rubros[rubro].push({ cantidad, unaCara, ambasCaras });
+      });
+
+      const contenedor = document.getElementById('tabla-precios');
+      for (const rubro in rubros) {
+        const titulo = document.createElement('h2');
+        titulo.textContent = rubro;
+        contenedor.appendChild(titulo);
+
+        const tabla = document.createElement('table');
+        const thead = document.createElement('thead');
+        thead.innerHTML = '<tr><th>Cantidad</th><th>Una cara</th><th>Ambas caras</th></tr>';
+        tabla.appendChild(thead);
+
+        const tbody = document.createElement('tbody');
+        rubros[rubro].forEach(item => {
+          const fila = document.createElement('tr');
+          fila.innerHTML = `<td>${item.cantidad}</td><td>${item.unaCara}</td><td>${item.ambasCaras}</td>`;
+          tbody.appendChild(fila);
+        });
+
+        tabla.appendChild(tbody);
+        contenedor.appendChild(tabla);
+      }
+    }
+
+    cargarDatos();
+  </script>
+</body>
+</html>
