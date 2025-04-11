@@ -49,10 +49,11 @@ header h2 {
   font-size: 1.5rem;
   font-weight: bold;
   color: #ff2b61;
-  margin-top: 2rem;
-  margin-bottom: 1.5rem;
   border-bottom: 2px solid #ff2b61;
   padding-bottom: 0.3rem;
+  margin: 2rem auto 1.5rem;
+  max-width: 1000px;
+  width: 95%;
 }
 
 /* Subcategoría */
