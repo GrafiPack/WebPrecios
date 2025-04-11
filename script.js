@@ -1,102 +1,96 @@
-const sheetID = "1p3Q-DpF8JcdGIWwOns7rirsgoVJ6LES2LzaBgGE42XI";
-const sheetName = "Hoja 1";
-const url = `https://opensheet.elk.sh/${sheetID}/${sheetName}`;
+/* --- ENCABEZADO DE LA PÁGINA --- */
+header {
+  background-color: #ff2b61;
+  color: white;
+  padding: 20px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
 
-// Diccionario de reemplazos personalizados por categoría
-const encabezadosPorCategoria = {
-  "Folletos": {
-    Precio1: "1000 u.",
-    Precio2: "3000 u.",
-    Precio3: "5000 u."
-  },
-  "Tarjetas": {
-    Precio1: "1000 tarjetas",
-    Precio2: "2000 tarjetas",
-    Precio3: "5000 tarjetas"
+header img {
+  height: 50px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 24px;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* --- CUERPO GENERAL --- */
+body {
+  font-family: "Segoe UI", sans-serif;
+  background-color: #fefefe;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+#precios-container {
+  max-width: 1000px;
+  margin: 30px auto;
+  padding: 0 20px;
+}
+
+/* --- TÍTULOS DE CATEGORÍA Y SUBCATEGORÍA --- */
+.category-title {
+  font-size: 22px;
+  font-weight: bold;
+  color: #ff2b61;
+  margin-top: 40px;
+  margin-bottom: 10px;
+}
+
+.subcategory-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #000;
+  margin-top: 30px;
+  margin-bottom: 5px;
+}
+
+/* --- TABLAS --- */
+.table-container {
+  overflow-x: auto;
+  margin-bottom: 40px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 5px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+thead {
+  background-color: #ffe5ed;
+}
+
+th, td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* --- RESPONSIVO --- */
+@media (max-width: 600px) {
+  header {
+    flex-direction: column;
+    text-align: center;
   }
-  // Agregá más categorías según necesites
-};
 
-fetch(url)
-  .then((res) => res.json())
-  .then((data) => {
-    const container = document.getElementById("precios-container");
-    const dataFiltrada = data.filter(row => row.Categoría !== "Categoría");
+  header img {
+    margin-bottom: 10px;
+  }
 
-    const grouped = {};
-    dataFiltrada.forEach(row => {
-      const categoria = row['Categoría'] || "Sin categoría";
-      const subcategoria = row['Subcategoría'] || "Sin subcategoría";
-
-      if (!grouped[categoria]) grouped[categoria] = {};
-      if (!grouped[categoria][subcategoria]) grouped[categoria][subcategoria] = [];
-
-      grouped[categoria][subcategoria].push(row);
-    });
-
-    for (const categoria in grouped) {
-      const catEl = document.createElement("div");
-      catEl.className = "category-title";
-      catEl.textContent = categoria;
-      container.appendChild(catEl);
-
-      for (const subcategoria in grouped[categoria]) {
-        const productos = grouped[categoria][subcategoria];
-
-        // Detectar columnas PrecioX con al menos un valor
-        const columnasPrecio = Object.keys(productos[0])
-          .filter(key => key.startsWith("Precio"))
-          .filter(key => productos.some(p => p[key] && p[key].trim() !== ""));
-
-        const table = document.createElement("table");
-        const thead = document.createElement("thead");
-        const headerRow = document.createElement("tr");
-
-        // El primer encabezado ahora es el nombre de la subcategoría
-        const thSubcat = document.createElement("th");
-        thSubcat.textContent = subcategoria;
-        headerRow.appendChild(thSubcat);
-
-        columnasPrecio.forEach(col => {
-          const th = document.createElement("th");
-          const encabezadoPersonalizado = encabezadosPorCategoria[categoria]?.[col];
-          th.textContent = encabezadoPersonalizado || col;
-          headerRow.appendChild(th);
-        });
-
-        thead.appendChild(headerRow);
-        table.appendChild(thead);
-
-        const tbody = document.createElement("tbody");
-
-        productos.forEach(prod => {
-          const tr = document.createElement("tr");
-
-          const tdDetalle = document.createElement("td");
-          tdDetalle.textContent = prod.Detalle || "";
-          tr.appendChild(tdDetalle);
-
-          columnasPrecio.forEach(col => {
-            const td = document.createElement("td");
-            td.textContent = prod[col] || "";
-            tr.appendChild(td);
-          });
-
-          tbody.appendChild(tr);
-        });
-
-        table.appendChild(tbody);
-
-        const wrapper = document.createElement("div");
-        wrapper.className = "table-container";
-        wrapper.appendChild(table);
-        container.appendChild(wrapper);
-      }
-    }
-  })
-  .catch((error) => {
-    console.error("Error al cargar los datos:", error);
-    document.getElementById("precios-container").innerHTML = `
-      <p style="color:red;">No se pudieron cargar los datos. Verificá el enlace de la hoja de cálculo.</p>
-    `;
-  });
+  .category-title, .subcategory-title {
+    text-align: center;
+  }
+}
