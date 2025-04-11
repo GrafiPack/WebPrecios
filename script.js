@@ -9,22 +9,18 @@ fetch(url)
   })
   .then(data => {
     const container = document.getElementById('precios-container');
-
     if (!Array.isArray(data) || data.length === 0) {
-      throw new Error("No hay datos");
+      throw new Error("Formato inesperado de datos");
     }
 
     data.forEach(row => {
       const card = document.createElement('div');
       card.className = 'card';
-
       card.innerHTML = `
-        <div class="product-name"><strong>${row.Rubro}</strong></div>
-        <div class="details">Cantidad: ${row.Cantidad}</div>
-        <div class="details">Una cara: ${row["Una cara"]}</div>
-        <div class="details">Ambas caras: ${row["Ambas caras"]}</div>
+        <div class="product-name">${row.Rubro} - ${row.Cantidad}</div>
+        <div class="price">Una cara: ${row['Una cara']}</div>
+        <div class="price">Ambas caras: ${row['Ambas caras']}</div>
       `;
-
       container.appendChild(card);
     });
   })
