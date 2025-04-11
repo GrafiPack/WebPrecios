@@ -1,109 +1,72 @@
-/* Reset básico */
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #ffffff;
+  color: #333;
+  margin: 0;
+  padding: 2rem;
+}
+
+#precios-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.table-container {
+  width: 95%;
+  max-width: 1000px;
+  margin-bottom: 3rem;
+  padding: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  border-radius: 16px;
   background-color: #fff;
-  color: #111;
-  margin: 0;
-  padding: 0;
 }
 
-/* Encabezado */
-header {
-  background-color: #ff2b61;
-  color: white;
-  padding: 20px 0;
-  text-align: center;
-}
-
-header h2 {
-  margin: 0;
-  font-size: 1.5rem;
-}
-
-.logo {
-  height: 50px;
-  max-width: 100%;
-  object-fit: contain;
-  display: block;
-  margin: 0 auto 10px;
-}
-
-/* Categoría */
 .category-title {
   font-size: 1.5rem;
   color: #ff2b61;
-  margin-top: 2rem;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
   border-bottom: 2px solid #ff2b61;
   padding-bottom: 0.3rem;
-  margin-left: 1rem;
+  text-align: left;
 }
 
-/* Subcategoría */
 .subcategory-title {
   font-size: 1.2rem;
   font-weight: bold;
   color: #222;
-  margin-top: 1.5rem;
-  margin-bottom: 0.5rem;
-  margin-left: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 0.8rem;
+  text-align: left;
 }
 
-/* Contenedor de tabla */
-.table-container {
-  width: 95%;
-  max-width: 1000px;
-  margin: 0 auto 2rem;
-  margin-top: 1.5rem; /* Espacio arriba de la tabla */
-  overflow-x: auto;
-}
-
-/* Tabla de productos */
 table {
   width: 100%;
   border-collapse: collapse;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  margin-top: 0.5rem;
 }
 
 thead {
   background-color: #ffe5ed;
 }
 
-th,
-td {
-  border: 1px solid #ddd;
-  padding: 10px 12px;
+thead th {
+  padding: 0.6rem;
   text-align: left;
-  white-space: nowrap;
+  font-weight: 600;
   font-size: 0.95rem;
 }
 
-th {
-  font-weight: bold;
-  color: #d6003b;
-  background-color: #ffe5ed;
-}
-
-td {
-  background-color: #fefefe;
-  color: #333;
-}
-
-tr:nth-child(even) td {
+tbody tr:nth-child(even) {
   background-color: #f9f9f9;
 }
 
-/* Responsive */
-@media (max-width: 600px) {
-  th,
-  td {
-    font-size: 0.85rem;
-    padding: 8px;
-  }
+tbody tr:nth-child(odd) {
+  background-color: #fefefe;
+}
 
-  .category-title,
-  .subcategory-title {
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
-  }
+td {
+  padding: 0.6rem;
+  font-size: 0.95rem;
 }
