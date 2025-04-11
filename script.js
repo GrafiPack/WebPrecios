@@ -6,10 +6,12 @@ fetch(url)
   .then((res) => res.json())
   .then((data) => {
     const container = document.getElementById("precios-container");
+    
+    const dataFiltrada = data.filter(row => row.Categoría !== "Categoría"); // Filtra la fila de encabezados
 
     const grouped = {};
 
-    data.forEach(row => {
+    dataFiltrada.forEach(row => {
       const categoria = row["Categoría"]?.trim() || "Sin categoría";
       const subcategoria = row["Subcategoría"]?.trim() || "Sin subcategoría";
 
