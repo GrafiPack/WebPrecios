@@ -49,11 +49,6 @@ fetch(url)
         catEl.textContent = categoria;
         wrapper.appendChild(catEl);
 
-        const subcatEl = document.createElement("div");
-        subcatEl.className = "subcategory-title";
-        subcatEl.textContent = subcategoria;
-        wrapper.appendChild(subcatEl);
-
         const table = document.createElement("table");
         const thead = document.createElement("thead");
         const headerRow = document.createElement("tr");
