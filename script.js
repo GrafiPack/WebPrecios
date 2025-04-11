@@ -22,9 +22,9 @@ fetch(url)
 
       grouped[categoria][subcategoria].push({
         detalle: row["Detalle"] || "-",
-        precio1: row["Precio1"] || "-",
-        precio2: row["Precio2"] || "-",
-        precio3: row["Precio3"] || "-"
+        precio1: row["Precio1"] || "",
+        precio2: row["Precio2"] || "",
+        precio3: row["Precio3"] || ""
       });
     });
 
@@ -40,25 +40,46 @@ fetch(url)
         subcatEl.textContent = subcategoria;
         container.appendChild(subcatEl);
 
-        // Encabezado
+        const items = grouped[categoria][subcategoria];
+
+        // Verificar qué columnas mostrar
+        const mostrarPrecio1 = items.some(item => item.precio1.trim() !== "");
+        const mostrarPrecio2 = items.some(item => item.precio2.trim() !== "");
+        const mostrarPrecio3 = items.some(item => item.precio3.trim() !== "");
+
+        // Armamos encabezado dinámico
         const header = document.createElement("div");
         header.className = "item-row encabezado";
-        ["Detalle", "Precio1", "Precio2", "Precio3"].forEach(title => {
+
+        const columnasAMostrar = ["Detalle"];
+        if (mostrarPrecio1) columnasAMostrar.push("Precio1");
+        if (mostrarPrecio2) columnasAMostrar.push("Precio2");
+        if (mostrarPrecio3) columnasAMostrar.push("Precio3");
+
+        columnasAMostrar.forEach(title => {
           const cell = document.createElement("div");
           cell.className = "item-cell";
           cell.textContent = title;
           header.appendChild(cell);
         });
+
         container.appendChild(header);
 
-        // Datos
-        grouped[categoria][subcategoria].forEach(item => {
+        // Filas de datos
+        items.forEach(item => {
           const row = document.createElement("div");
           row.className = "item-row";
 
-          [item.detalle, item.precio1, item.precio2, item.precio3].forEach(value => {
+          columnasAMostrar.forEach(col => {
             const cell = document.createElement("div");
             cell.className = "item-cell";
+            let value = "-";
+
+            if (col === "Detalle") value = item.detalle;
+            if (col === "Precio1") value = item.precio1 || "-";
+            if (col === "Precio2") value = item.precio2 || "-";
+            if (col === "Precio3") value = item.precio3 || "-";
+
             cell.textContent = value;
             row.appendChild(cell);
           });
