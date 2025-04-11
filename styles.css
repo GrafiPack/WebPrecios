@@ -1,0 +1,107 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+header {
+  background-color: #f26522;
+  color: white;
+  text-align: center;
+  padding: 1.5rem 1rem;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.destacados {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem 1rem 1rem;
+}
+
+.card {
+  background-color: white;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  padding: 1rem;
+  text-align: center;
+  width: 220px;
+  border-top: 8px solid #2196f3;
+}
+
+.card.pink { border-top-color: #f06292; }
+.card.orange { border-top-color: #f26522; }
+
+.card .precio {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.card .detalle {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+#precios {
+  padding: 1rem;
+}
+
+.rubro {
+  margin-top: 2rem;
+}
+
+.rubro h2 {
+  color: #f26522;
+  border-bottom: 2px solid #f26522;
+  display: inline-block;
+  padding-bottom: 0.25rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.5rem;
+}
+
+th, td {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+th {
+  background-color: #f26522;
+  color: white;
+}
+
+footer {
+  text-align: center;
+  padding: 2rem 1rem 1rem;
+  font-size: 0.9rem;
+  background-color: #eee;
+  color: #333;
+}
+
+footer .auto {
+  font-size: 0.75rem;
+  color: #888;
+}
+
+@media (max-width: 600px) {
+  .destacados {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card {
+    width: 90%;
+  }
+
+  table, thead, tbody, th, td, tr {
+    font-size: 0.85rem;
+  }
+}
