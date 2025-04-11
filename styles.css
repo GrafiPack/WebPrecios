@@ -1,47 +1,146 @@
-const sheetID = "1p3Q-DpF8JcdGIWwOns7rirsgoVJ6LES2LzaBgGE42XI";
-const sheetName = "Hoja 1";
-const url = `https://opensheet.elk.sh/${sheetID}/${sheetName}`;
+/* Reset básico */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #D9D9D9;
+  color: #111;
+  margin: 0;
+  padding: 0;
+}
 
-const encabezadosPorCategoria = {
-  "Folletos": {
-    Precio1: "1000 u.",
-    Precio2: "3000 u.",
-    Precio3: "5000 u."
-  },
-  "Tarjetas": {
-    Precio1: "1000 tarjetas",
-    Precio2: "2000 tarjetas",
-    Precio3: "5000 tarjetas"
+/* Encabezado */
+header {
+  background-color: #D9D9D9;
+  background-image: url('bg.png');
+  background-repeat: repeat-x;
+  background-position: center top;
+  padding: 10px 0; /* le damos espacio arriba y abajo */
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  margin: auto;
+}
+
+.logo {
+  height: 50px;
+  max-width: 100%;
+  object-fit: contain;
+  display: block;
+  margin: 20px auto 10px; /* espacio arriba del logo */
+}
+
+header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: white; /* texto en blanco */
+  text-align: center; /* centrado */
+}
+}
+
+.logo {
+  height: 50px;
+  max-width: 100%;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 10px;
+}
+
+/* Categoría */
+.category-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ff2b61;
+  margin-top: 2rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #ff2b61;
+  padding-bottom: 0.3rem;
+}
+
+/* Subcategoría */
+.subcategory-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #222;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  margin-left: 1rem;
+}
+
+/* Contenedor de tabla */
+.table-container {
+  width: 95%;
+  max-width: 1000px;
+  margin: 0 auto 2rem;
+  margin-top: 1.5rem;
+  overflow-x: auto;
+}
+
+/* Tabla de productos */
+table {
+  width: 100%;
+  border-collapse: separate; /* permite bordes redondeados */
+  border-spacing: 0;
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+thead {
+  background-color: #ffe5ed;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 10px 12px;
+  text-align: left;
+  white-space: nowrap;
+  font-size: 0.95rem;
+}
+
+th {
+  font-weight: bold;
+  color: #d6003b;
+  background-color: #ffe5ed;
+}
+
+td {
+  background-color: #fefefe;
+  color: #333;
+}
+
+tr:nth-child(even) td {
+  background-color: #f9f9f9;
+}
+
+/* Bordes redondeados en esquinas de tabla */
+thead th:first-child {
+  border-top-left-radius: 12px;
+}
+
+thead th:last-child {
+  border-top-right-radius: 12px;
+}
+
+tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 12px;
+}
+
+tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 12px;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  th,
+  td {
+    font-size: 0.85rem;
+    padding: 8px;
   }
-};
 
-fetch(url)
-  .then((res) => res.json())
-  .then((data) => {
-    const container = document.getElementById("precios-container");
-    const dataFiltrada = data.filter(row => row.Categoría !== "Categoría");
-
-    const grouped = {};
-    dataFiltrada.forEach(row => {
-      const categoria = row['Categoría'] || "Sin categoría";
-      const subcategoria = row['Subcategoría'] || "Sin subcategoría";
-
-      if (!grouped[categoria]) grouped[categoria] = {};
-      if (!grouped[categoria][subcategoria]) grouped[categoria][subcategoria] = [];
-
-      grouped[categoria][subcategoria].push(row);
-    });
-
-    for (const categoria in grouped) {
-      // ✅ Crear el título de categoría UNA VEZ antes de recorrer subcategorías
-      const catEl = document.createElement("div");
-      catEl.className = "category-title";
-      catEl.textContent = categoria;
-      container.appendChild(catEl);
-
-      for (const subcategoria in grouped[categoria]) {
-        const productos = grouped[categoria][subcategoria];
-
-        const columnasPrecio = Object.keys(productos[0])
-          .filter(key => key.startsWith("Precio"))
-          .filter(key => productos.some(p => p[key] &&
+  .category-title,
+  .subcategory-title {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+}
