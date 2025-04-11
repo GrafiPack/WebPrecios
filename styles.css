@@ -1,49 +1,109 @@
+/* Reset básico */
 body {
-  font-family: "Segoe UI", sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #fff;
+  color: #111;
   margin: 0;
   padding: 0;
-  background-color: #fff;
-  color: #333;
 }
 
-#precios-container {
-  max-width: 960px;
-  margin: 40px auto;
-  padding: 20px;
+/* Encabezado */
+header {
+  background-color: #ff2b61;
+  color: white;
+  padding: 20px 0;
+  text-align: center;
 }
 
+header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.logo {
+  height: 50px;
+  max-width: 100%;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 10px;
+}
+
+/* Categoría */
 .category-title {
-  font-size: 26px;
+  font-size: 1.5rem;
   color: #ff2b61;
-  font-weight: bold;
-  margin-top: 40px;
-  margin-bottom: 10px;
+  margin-top: 2rem;
+  border-bottom: 2px solid #ff2b61;
+  padding-bottom: 0.3rem;
+  margin-left: 1rem;
 }
 
+/* Subcategoría */
 .subcategory-title {
-  font-size: 20px;
-  color: #000;
-  font-weight: 600;
-  margin-top: 25px;
-  margin-bottom: 10px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #222;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  margin-left: 1rem;
 }
 
+/* Contenedor de tabla */
 .table-container {
+  width: 95%;
+  max-width: 1000px;
+  margin: 0 auto 2rem;
+  margin-top: 1.5rem; /* Espacio arriba de la tabla */
   overflow-x: auto;
-  margin-bottom: 40px;
 }
 
+/* Tabla de productos */
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
 }
 
 thead {
   background-color: #ffe5ed;
 }
 
-th, td {
-  padding: 12px 15px;
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 10px 12px;
   text-align: left;
+  white-space: nowrap;
+  font-size: 0.95rem;
+}
+
+th {
+  font-weight: bold;
+  color: #d6003b;
+  background-color: #ffe5ed;
+}
+
+td {
+  background-color: #fefefe;
+  color: #333;
+}
+
+tr:nth-child(even) td {
+  background-color: #f9f9f9;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  th,
+  td {
+    font-size: 0.85rem;
+    padding: 8px;
+  }
+
+  .category-title,
+  .subcategory-title {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+}
