@@ -33,6 +33,12 @@ fetch(url)
     });
 
     for (const categoria in grouped) {
+      // ✅ Crear el título de categoría UNA VEZ antes de recorrer subcategorías
+      const catEl = document.createElement("div");
+      catEl.className = "category-title";
+      catEl.textContent = categoria;
+      container.appendChild(catEl);
+
       for (const subcategoria in grouped[categoria]) {
         const productos = grouped[categoria][subcategoria];
 
@@ -42,12 +48,6 @@ fetch(url)
 
         const wrapper = document.createElement("div");
         wrapper.className = "table-container";
-
-        // 👇 Todo esto se mete DENTRO del wrapper para alinear con la tabla
-        const catEl = document.createElement("div");
-        catEl.className = "category-title";
-        catEl.textContent = categoria;
-        wrapper.appendChild(catEl);
 
         const table = document.createElement("table");
         const thead = document.createElement("thead");
@@ -97,3 +97,4 @@ fetch(url)
       <p style="color:red;">No se pudieron cargar los datos. Verificá el enlace de la hoja de cálculo.</p>
     `;
   });
+
