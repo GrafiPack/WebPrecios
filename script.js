@@ -81,7 +81,7 @@ fetch(url)
 
           columnasPrecio.forEach(col => {
             const td = document.createElement("td");
-            td.textContent = prod[col] ? `$${prod[col]}` : "";
+            td.textContent = prod[col] || "";
             tr.appendChild(td);
           });
 
