@@ -30,9 +30,9 @@ header h2 {
 
 /* Categoría */
 .category-title {
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: bold;
-  color: #ff2b61;
+  color: #111;
   margin-top: 2rem;
   border-bottom: 2px solid #ff2b61;
   padding-bottom: 0.3rem;
