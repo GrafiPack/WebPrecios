@@ -1,5 +1,6 @@
-const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS89yGJk3Shd1vBqHZepjaHqddT1ONqH7eH7oAiS_fZk6UScTgRUgoMOljDjHufZuNT8B0qx9XeFdJ5/pub?output=csv";
-
+const sheetID = "1p3Q-DpF8JcdGIWwOns7rirsgoVJ6LES2LzaBgGE42XI";
+const sheetName = "Hoja 1";
+const url = `https://opensheet.elk.sh/${sheetID}/${sheetName}`;
 const columnasPorCategoria = {
   "Folletos": ["Una cara", "Ambas caras"],
   "Stickers": ["Redondos", "Cuadrados"],
