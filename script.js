@@ -130,6 +130,17 @@ fetch(url)
       }
     }
   })
+
+  // Alinea a la izquierda las celdas "Nota"
+document.querySelectorAll("td:first-child").forEach(td => {
+  const texto = td.textContent.trim().toLowerCase();
+  if (texto.startsWith("nota")) {
+    td.style.textAlign = "left";
+    td.style.fontStyle = "italic";
+    td.style.color = "#333";
+  }
+});
+
   .catch((error) => {
     console.error("Error al cargar los datos:", error);
     document.getElementById("precios-container").innerHTML = `
