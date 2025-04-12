@@ -193,6 +193,13 @@ td {
   color: #333; /* Texto oscuro */
 }
 
+
+/* Alineación centrada de las celdas de precios */
+td:nth-child(n+2):nth-child(-n+5), th:nth-child(n+2):nth-child(-n+5) {
+  text-align: center;
+}
+
+
 /* =======================
    Primer celda en negritas (Título de la tabla)
    ======================= */
