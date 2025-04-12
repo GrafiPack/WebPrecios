@@ -35,10 +35,11 @@ fetch(url)
     for (const categoria in grouped) {
       // Crear el título de categoría UNA VEZ antes de recorrer subcategorías
       const catEl = document.createElement("div");
-      catEl.className = "category-title";
-      
+      catEl.className = "category-title-container"; // Nuevo contenedor
+
       // Título de la categoría
       const categoryTitle = document.createElement("span");
+      categoryTitle.className = "category-title"; // Clase para título
       categoryTitle.textContent = categoria;
       catEl.appendChild(categoryTitle);
 
@@ -46,8 +47,8 @@ fetch(url)
       const obs = grouped[categoria]["Sin subcategoría"]?.[0]?.Obs || ""; // Si no hay observación, asigna una cadena vacía
       if (obs) {
         const obsEl = document.createElement("span");
-        obsEl.className = "category-obs";
-        obsEl.textContent = obs;
+        obsEl.className = "category-obs"; // Clase para la observación
+        obsEl.textContent = `(${obs})`; // Colocar la observación en un formato distinto
         catEl.appendChild(obsEl);
       }
 
