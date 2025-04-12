@@ -101,4 +101,70 @@ fetch(url)
           const encabezadoPersonalizado = encabezadosArray[index] || "Nota";
           th.textContent = encabezadoPersonalizado;
 
-          // Si es "
+          // Si es "Nota", alinear a la izquierda
+          if (th.textContent.toLowerCase() === "nota") {
+            th.classList.add("align-left");
+          }
+
+          headerRow.appendChild(th);
+        });
+
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+
+        // Crear cuerpo de tabla
+        const tbody = document.createElement("tbody");
+
+        productos.forEach(prod => {
+          const tr = document.createElement("tr");
+
+          const tdDetalle = document.createElement("td");
+          tdDetalle.textContent = prod.Detalle || "";
+          tr.appendChild(tdDetalle);
+
+          columnasPrecio.forEach((col, index) => {
+            const td = document.createElement("td");
+            td.textContent = prod[col] || "";
+
+            // Si el encabezado es "Nota", aplicar alineación especial
+            const encabezado = encabezadosArray[index] || "Nota";
+            if (encabezado.toLowerCase() === "nota") {
+              td.style.textAlign = "left";
+              td.style.fontStyle = "italic";
+              td.style.color = "#333";
+            }
+
+            tr.appendChild(td);
+          });
+
+          tbody.appendChild(tr);
+        });
+
+        table.appendChild(tbody);
+        wrapper.appendChild(table);
+        container.appendChild(wrapper);
+
+        // Aplicar estilo a las celdas que comienzan con "Nota" en la primera columna
+        alinearNotas(wrapper);
+      }
+    }
+  })
+
+  .catch((error) => {
+    console.error("Error al cargar los datos:", error);
+    document.getElementById("precios-container").innerHTML = `
+      <p style="color:red;">No se pudieron cargar los datos. Verificá el enlace de la hoja de cálculo.</p>
+    `;
+  });
+
+// === FUNCIÓN AUXILIAR: Alinear celdas que dicen "Nota" ===
+function alinearNotas(wrapper) {
+  wrapper.querySelectorAll("td:first-child").forEach(td => {
+    const texto = td.textContent.trim().toLowerCase();
+    if (texto.startsWith("nota")) {
+      td.style.textAlign = "left";
+      td.style.fontStyle = "italic";
+      td.style.color = "#333";
+    }
+  });
+}
