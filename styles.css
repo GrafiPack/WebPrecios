@@ -1,26 +1,42 @@
 /* =======================
-   Título de Categoría (con observaciones)
+   Contenedor de título y observación de categoría
    ======================= */
+.category-title-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 2rem auto 1.5rem;
+  max-width: 1000px;
+  width: 95%;
+}
+
 .category-title {
   font-size: 1.5rem;
   font-weight: bold;
   color: #ff2b61; /* Magenta */
   border-bottom: 2px solid #ff2b61; /* Línea decorativa inferior */
   padding-bottom: 0.3rem;
-  margin: 2rem auto 1.5rem;
-  max-width: 1000px;
-  width: 95%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  margin-right: 10px; /* Espacio entre título y observación */
+}
+
+.category-obs {
+  font-size: 0.8rem; /* Texto más pequeño */
+  color: #777; /* Color gris para la observación */
+  font-style: italic; /* Estilo itálico */
 }
 
 /* =======================
-   Observación de Categoría
+   Estilo para la tabla y otros elementos
    ======================= */
-.category-title .category-obs {
-  font-size: 0.8rem;
-  color: #666; /* Color gris claro para las observaciones */
-  font-weight: normal;
-  margin-left: 10px;
+table {
+  width: 100%; 
+  max-width: 1000px;
+  border-collapse: separate;
+  border-spacing: 0;
+  background-color: #E2E2E2;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  overflow: hidden;
 }
+
+/* Otras reglas CSS que ya tenías */
