@@ -42,8 +42,8 @@ fetch(url)
       categoryTitle.textContent = categoria;
       catEl.appendChild(categoryTitle);
 
-      // Agregar la observación si existe
-      const obs = grouped[categoria]["Sin subcategoría"]?.[0]?.Obs || ""; // Extraemos la observación de la primera fila
+      // Obtener la observación si existe
+      const obs = grouped[categoria]["Sin subcategoría"]?.[0]?.Obs || ""; // Si no hay observación, asigna una cadena vacía
       if (obs) {
         const obsEl = document.createElement("span");
         obsEl.className = "category-obs";
