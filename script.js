@@ -6,6 +6,12 @@ fetch(url)
   .then((res) => res.json())
   .then((data) => {
     const container = document.getElementById("precios-container");
+
+    if (!data || data.length === 0) {
+      container.innerHTML = "<p>No se encontraron datos en la hoja de cálculo.</p>";
+      return;
+    }
+
     const dataFiltrada = data.filter(row => row.Categoría !== "Categoría");
 
     const grouped = {};
@@ -18,6 +24,11 @@ fetch(url)
 
       grouped[categoria][subcategoria].push(row);
     });
+
+    if (Object.keys(grouped).length === 0) {
+      container.innerHTML = "<p>No se encontraron categorías en los datos.</p>";
+      return;
+    }
 
     for (const categoria in grouped) {
       // Crear contenedor para el título de categoría y su observación
@@ -90,4 +101,28 @@ fetch(url)
           const tr = document.createElement("tr");
 
           const tdDetalle = document.createElement("td");
-          tdDetalle.textContent = prod.Det
+          tdDetalle.textContent = prod.Detalle || "";
+          tr.appendChild(tdDetalle);
+
+          // Crear las celdas de precio según los encabezados
+          columnasPrecio.forEach(col => {
+            const td = document.createElement("td");
+            td.textContent = prod[col] || "Nota";
+            tr.appendChild(td);
+          });
+
+          tbody.appendChild(tr);
+        });
+
+        table.appendChild(tbody);
+        wrapper.appendChild(table);
+        container.appendChild(wrapper);
+      }
+    }
+  })
+  .catch((error) => {
+    console.error("Error al cargar los datos:", error);
+    document.getElementById("precios-container").innerHTML = `
+      <p style="color:red;">No se pudieron cargar los datos. Verificá el enlace de la hoja de cálculo.</p>
+    `;
+  });
