@@ -239,18 +239,23 @@ tbody tr:last-child td:last-child {
   td {
     font-size: 0.85rem;
     padding: 6px 10px;
-    white-space: normal !important; /* Asegura que el texto no se corte en celdas pequeñas */
+    white-space: nowrap !important; /* Previene el salto de línea en las celdas */
   }
 
+  /* Ajustes de la categoría y subcategoría */
   .category-title,
   .subcategory-title {
     margin-left: 0.5rem;
     margin-right: 0.5rem;
   }
 
-  /* Ajuste para el título de las categorías en móviles */
   .category-title > span:first-child {
-    font-size: 1.2rem; /* Título más pequeño en móviles */
+    font-size: 1.2rem;
+  }
+
+  /* Asegura que las celdas de precios se mantengan en una sola línea */
+  td {
+    white-space: nowrap; /* Evita que el contenido de las celdas se divida en varias líneas */
   }
 }
 
