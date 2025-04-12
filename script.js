@@ -90,4 +90,49 @@ fetch(url)
           const encabezadoPersonalizado = encabezadosArray[index] || "Nota";
           th.textContent = encabezadoPersonalizado;
 
-          // Si el encabezado
+          // Si el encabezado es "Nota", agregar clase para alineación a la izquierda
+          if (th.textContent === "Nota") {
+            th.classList.add("align-left");
+          }
+          
+          headerRow.appendChild(th);
+        });
+
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+
+        const tbody = document.createElement("tbody");
+
+        productos.forEach(prod => {
+          const tr = document.createElement("tr");
+
+          const tdDetalle = document.createElement("td");
+          tdDetalle.textContent = prod.Detalle || "";
+          tr.appendChild(tdDetalle);
+
+          // Crear las celdas de precio según los encabezados
+          columnasPrecio.forEach(col => {
+            const td = document.createElement("td");
+            td.textContent = prod[col] || ""; // Dejar vacío si no hay valor
+            // Si la celda está vacía y su encabezado es "Nota", aplicar alineación a la izquierda
+            if (td.textContent === "" && encabezadosArray.includes("Nota")) {
+              td.classList.add("align-left");
+            }
+            tr.appendChild(td);
+          });
+
+          tbody.appendChild(tr);
+        });
+
+        table.appendChild(tbody);
+        wrapper.appendChild(table);
+        container.appendChild(wrapper);
+      }
+    }
+  })
+  .catch((error) => {
+    console.error("Error al cargar los datos:", error);
+    document.getElementById("precios-container").innerHTML = `
+      <p style="color:red;">No se pudieron cargar los datos. Verificá el enlace de la hoja de cálculo.</p>
+    `;
+  });
