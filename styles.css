@@ -59,7 +59,7 @@ header {
    Fecha a la derecha
    ======================= */
 .header-right {
-  text-align: right;
+  text-align: center;
   font-size: 0.75rem;
   color: white;
   line-height: 1.2;
