@@ -100,7 +100,7 @@ header h2 {
    ======================= */
 .category-title {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: flex-start;
   margin: 2rem auto 1.5rem;
   max-width: 1000px;
