@@ -54,31 +54,35 @@ header h2 {
   justify-content: flex-start;
   margin: 2rem auto 1.5rem;
   max-width: 1000px;
-  width: 100%;
+  width: 100%; /* Asegura que ocupe todo el ancho disponible de la tabla */
+  position: relative;
 }
 
+/* Estilo del título de la categoría */
 .category-title > span:first-child {
   font-size: 1.5rem;
   font-weight: bold;
   color: #ff2b61; /* Magenta */
-  padding-bottom: 0.3rem;
   margin-right: 10px;
 }
 
-/* La línea debajo del título de la categoría */
+/* Estilo de la observación */
+.category-obs {
+  font-size: 0.8rem;
+  color: #777; /* Gris para la observación */
+  font-style: italic;
+}
+
+/* La línea debajo de todo el contenido de la categoría (título + observación) */
 .category-title::after {
   content: ''; 
   display: block;
   height: 2px; 
   background-color: #ff2b61; /* Magenta */
-  width: 100%; /* Ancho completo */
-  margin-top: 10px; /* Ajuste de espacio entre título y línea */
-}
-
-.category-obs {
-  font-size: 0.8rem;
-  color: #333; /* Negro más oscuro */
-  font-style: italic; /* Estilo itálico */
+  width: 100%; /* Ancho completo de la tabla */
+  position: absolute;
+  bottom: 0; /* Asegura que esté justo al final del contenedor */
+  left: 0;
 }
 
 /* =======================
