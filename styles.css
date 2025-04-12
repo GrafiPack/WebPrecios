@@ -108,6 +108,7 @@ td {
 
 th {
   border-bottom: 1px solid #ccc; /* Gris claro, más visible */
+  background-color: #E2E2E2; 
   font-weight: normal; /* ✅ SIN negrita */
   color: #000;
 }
