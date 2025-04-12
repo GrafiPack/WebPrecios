@@ -115,10 +115,10 @@ th {
 
 /* =======================
    Primera celda de la tabla en negrita
-   ======================= */
+   ======================= 
 table th:first-child {
   font-weight: bold; /* Asegura que el primer encabezado sea en negrita */
-}
+}*/
 
 td {
   color: #333; /* Texto oscuro */
