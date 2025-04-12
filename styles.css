@@ -206,7 +206,7 @@ td:nth-child(n+2):nth-child(-n+5), th:nth-child(n+2):nth-child(-n+5) {
    ======================= */
 td:nth-child(1):contains('Nota'),
 td:empty {
-  text-align: left; /* Alinea a la izquierda las celdas que contienen "Nota" o están vacías */
+  text-align: left !important; /* Alinea a la izquierda las celdas que contienen "Nota" o están vacías */
 }
 
 
