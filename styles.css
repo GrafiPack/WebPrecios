@@ -200,6 +200,12 @@ td:nth-child(n+2):nth-child(-n+5), th:nth-child(n+2):nth-child(-n+5) {
   text-align: center;
 }
 
+/* Alineación de las celdas con "Nota" a la izquierda */
+td.align-left,
+th.align-left {
+  text-align: left;
+}
+
 
 /* =======================
    Primer celda en negritas (Título de la tabla)
