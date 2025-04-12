@@ -178,6 +178,7 @@ td {
   border: none;
   padding: 10px 12px;
   text-align: left;
+  padding: 6px 12px;
   white-space: nowrap; /* Evita que el texto se corte o salte de línea */
   font-size: 0.95rem;
 }
@@ -241,7 +242,7 @@ tbody tr:last-child td:last-child {
   th,
   td {
     font-size: 0.85rem;
-    padding: 8px; /* Celdas más pequeñas en móviles */
+    padding: 6px 10px; /* Celdas más pequeñas en móviles */
   }
 
   .category-title,
