@@ -62,7 +62,7 @@ header h2 {
 
 /* =======================
    Título de Subcategoría
-   ======================= */
+   ======================= 
 .subcategory-title {
   font-size: 1.2rem;
   font-weight: bold !important;
@@ -71,6 +71,7 @@ header h2 {
   margin-bottom: 0.5rem;
   margin-left: 1rem;
 }
+*/
 
 /* =======================
    Contenedor de la tabla
