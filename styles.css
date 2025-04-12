@@ -25,6 +25,9 @@ header {
   z-index: 999;
 }
 
+/* =======================
+   Contenedor interno del header
+   ======================= */
 .header-inner {
   max-width: 1000px;
   margin: 0 auto;
@@ -34,12 +37,18 @@ header {
   padding: 10px 15px;
 }
 
+/* =======================
+   Logo a la izquierda
+   ======================= */
 .header-left .logo {
   height: 40px;
   max-width: 100%;
   object-fit: contain;
 }
 
+/* =======================
+   Título centrado
+   ======================= */
 .header-center h2 {
   margin: 0;
   font-size: 1.5rem;
@@ -47,6 +56,9 @@ header {
   text-align: center;
 }
 
+/* =======================
+   Fecha a la derecha
+   ======================= */
 .header-right {
   text-align: center;
   font-size: 0.75rem;
@@ -64,7 +76,7 @@ header {
 }
 
 /* =======================
-   Logo y título header
+   Logo general
    ======================= */
 .logo {
   height: 50px;
@@ -74,15 +86,8 @@ header {
   margin: 20px auto 10px;
 }
 
-header h2 {
-  margin: 0;
-  font-size: 1.5rem;
-  color: white;
-  text-align: center;
-}
-
 /* =======================
-   Título de Categoría y Observación
+   Contenedor título y observación de categoría
    ======================= */
 .category-title {
   display: flex;
@@ -90,10 +95,9 @@ header h2 {
   justify-content: flex-start;
   margin: 2rem auto 1.5rem;
   max-width: 1000px;
-  width: 95%;
+  width: 100%;
   position: relative;
   padding-bottom: 0.5rem;
-  flex-wrap: wrap;
 }
 
 .category-title > span:first-child {
@@ -121,34 +125,130 @@ header h2 {
 }
 
 /* =======================
-   Subcategoría
+   Título de Subcategoría
    ======================= */
 .subcategory-title {
   font-size: 1.2rem;
-  font-weight: bold;
+  font-weight: bold !important;
   color: #222;
-  margin: 1.5rem 1rem 0.5rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  margin-left: 1rem;
 }
 
 /* =======================
-   Contenedor de la tabla
+   Contenedor de tabla
    ======================= */
 .table-container {
   width: 95%;
   max-width: 1000px;
   margin: 0 auto 2rem;
   margin-top: 1.5rem;
-  overflow-x: auto;
 }
 
 /* =======================
-   Tabla
+   Tabla de productos
    ======================= */
 table {
   width: 100%;
+  max-width: 100%;
   border-collapse: separate;
   border-spacing: 0;
   background-color: #E2E2E2;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   border-radius: 12px;
-  overflow: hidden
+  overflow: hidden;
+  table-layout: fixed;
+}
+
+th,
+td {
+  border: none;
+  padding: 6px 12px;
+  text-align: left;
+  font-size: 0.95rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
+th {
+  border-bottom: 1px solid #fff;
+  background-color: #E2E2E2;
+  font-weight: normal;
+  color: #000;
+}
+
+td {
+  color: #333;
+}
+
+/* =======================
+   Alineación centrada de precios
+   ======================= */
+td:nth-child(n+2):nth-child(-n+5),
+th:nth-child(n+2):nth-child(-n+5) {
+  text-align: center;
+}
+
+/* =======================
+   Alineación izquierda para Nota
+   ======================= */
+.align-left {
+  text-align: left !important;
+  font-style: italic;
+  color: #444;
+}
+
+table th:first-child {
+  font-weight: bold;
+}
+
+/* =======================
+   Hover en filas
+   ======================= */
+tbody tr:hover td {
+  background-color: #f5F5F5 !important;
+  transition: background-color 0.2s ease-in-out;
+}
+
+/* =======================
+   Bordes redondeados
+   ======================= */
+thead th:first-child {
+  border-top-left-radius: 12px;
+}
+
+thead th:last-child {
+  border-top-right-radius: 12px;
+}
+
+tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 12px;
+}
+
+tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 12px;
+}
+
+/* =======================
+   RESPONSIVE PARA CELULARES
+   ======================= */
+@media (max-width: 600px) {
+  th,
+  td {
+    font-size: 0.85rem;
+    padding: 6px 10px;
+    white-space: normal !important;
+  }
+
+  .category-title,
+  .subcategory-title {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+
+  table {
+    table-layout: auto;
+  }
+}
