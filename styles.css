@@ -2,26 +2,28 @@
    Reset básico y cuerpo
    ======================= */
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Tipografía moderna y legible */
-  background-color: #CFCFCF; /* Fondo gris claro general */
-  color: #111; /* Texto gris oscuro */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #CFCFCF;
+  color: #111;
   margin: 0;
   padding: 0;
+  padding-top: 80px; /* 🚨 Ajustá según el alto total del header */
 }
-
 /* =======================
    Encabezado
    ======================= */
 header {
-  background-color: #D9D9D9; /* Color base igual al fondo del body */
-  background-image: url('bg.png'); /* Imagen de fondo decorativa */
-  background-repeat: repeat-x; /* Se repite horizontalmente */
-  background-position: center top; /* Centrada arriba */
-  padding: 10px 0; /* Espaciado arriba y abajo */
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  margin: auto; /* Centrado horizontal (aunque no tiene efecto sin position) */
+  background-color: #D9D9D9;
+  background-image: url('bg.png');
+  background-repeat: repeat-x;
+  background-position: center top;
+  padding: 10px 0;
+  position: fixed; /* 🔥 Fijamos el header */
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1000; /* Asegura que quede por encima del contenido */
 }
 
 /* =======================
