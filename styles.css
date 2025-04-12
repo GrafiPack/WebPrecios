@@ -245,6 +245,15 @@ tbody tr:last-child td:last-child {
 }
 
 /* =======================
+   Utilidades de alineación
+   ======================= */
+.align-left {
+  text-align: left !important;
+  font-style: italic;
+  color: #444;
+}
+
+/* =======================
    Responsive: mejora en móviles
    ======================= */
 @media (max-width: 600px) {
