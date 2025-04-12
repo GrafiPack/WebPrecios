@@ -91,14 +91,10 @@ table {
   width: 100%;
   border-collapse: separate; /* Necesario para redondear esquinas */
   border-spacing: 0;
-  background-color: #fff; /* Fondo blanco */
+  background-color: #E2E2E2; /* Fondo GRIS */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Sombra suave */
   border-radius: 12px; /* Bordes redondeados */
   overflow: hidden;
-}
-
-thead {
-  background-color: #E2E2E2; /* #ffe5ed--> Fondo rosa pastel para encabezado */
 }
 
 th,
@@ -113,11 +109,9 @@ td {
 th {
   font-weight: bold;
   color: #d6003b; /* Magenta fuerte */
-  background-color: #ffe5ed; /* Mismo fondo que thead */
 }
 
 td {
-  background-color: #f5f5f5; /* Gris claro uniforme */
   color: #333; /* Texto oscuro */
 }
 
