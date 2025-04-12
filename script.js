@@ -58,7 +58,7 @@ fetch(url)
       if (obs) {
         const obsEl = document.createElement("span");
         obsEl.className = "category-obs";
-        obsEl.textContent = ` (${obs})`;
+        obsEl.textContent = obs;
         catEl.appendChild(obsEl);
       }
 
