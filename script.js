@@ -14,10 +14,8 @@ fetch(url)
       return;
     }
 
-    // Filtrar títulos duplicados
     const dataFiltrada = data.filter(row => row.Categoría !== "Categoría");
 
-    // Agrupar por categoría y subcategoría
     const grouped = {};
     dataFiltrada.forEach(row => {
       const categoria = row['Categoría'] || "Sin categoría";
@@ -34,9 +32,7 @@ fetch(url)
       return;
     }
 
-    // === RECORRER CATEGORÍAS ===
     for (const categoria in grouped) {
-      // Crear contenedor del título de categoría + observación
       const catEl = document.createElement("div");
       catEl.className = "category-title";
 
@@ -44,7 +40,6 @@ fetch(url)
       catText.textContent = categoria;
       catEl.appendChild(catText);
 
-      // Buscar primera observación disponible
       let obs = "";
       for (const subcat in grouped[categoria]) {
         for (const prod of grouped[categoria][subcat]) {
@@ -56,7 +51,6 @@ fetch(url)
         if (obs) break;
       }
 
-      // Agregar observación si existe
       if (obs) {
         const obsEl = document.createElement("span");
         obsEl.className = "category-obs";
@@ -66,42 +60,34 @@ fetch(url)
 
       container.appendChild(catEl);
 
-      // === RECORRER SUBCATEGORÍAS ===
       for (const subcategoria in grouped[categoria]) {
         const productos = grouped[categoria][subcategoria];
-
-        // Obtener encabezados personalizados desde columna "Encabezados"
         const encabezados = productos[0]["Encabezados"];
         const encabezadosArray = encabezados
           ? encabezados.split(",").map(header => header.trim())
           : [];
 
-        // Crear contenedor de la tabla
         const wrapper = document.createElement("div");
         wrapper.className = "table-container";
 
-        // Crear tabla
         const table = document.createElement("table");
         const thead = document.createElement("thead");
         const headerRow = document.createElement("tr");
 
-        // Celda de subcategoría (primer encabezado)
         const thSubcat = document.createElement("th");
         thSubcat.textContent = subcategoria;
         headerRow.appendChild(thSubcat);
 
-        // Detectar columnas de precios con datos
         const columnasPrecio = Object.keys(productos[0])
           .filter(key => key.startsWith("Precio"))
           .filter(key => productos.some(p => p[key] && p[key].trim() !== ""));
 
-        // Crear encabezados
         columnasPrecio.forEach((col, index) => {
           const th = document.createElement("th");
           const encabezadoPersonalizado = encabezadosArray[index] || "Nota";
           th.textContent = encabezadoPersonalizado;
 
-          // Si es "Nota", alinear a la izquierda
+          // Alinea el th si es "Nota"
           if (th.textContent.toLowerCase() === "nota") {
             th.classList.add("align-left");
           }
@@ -112,7 +98,6 @@ fetch(url)
         thead.appendChild(headerRow);
         table.appendChild(thead);
 
-        // Crear cuerpo de tabla
         const tbody = document.createElement("tbody");
 
         productos.forEach(prod => {
@@ -126,7 +111,6 @@ fetch(url)
             const td = document.createElement("td");
             td.textContent = prod[col] || "";
 
-            // Si el encabezado es "Nota", aplicar alineación especial
             const encabezado = encabezadosArray[index] || "Nota";
             if (encabezado.toLowerCase() === "nota") {
               td.style.textAlign = "left";
@@ -144,12 +128,10 @@ fetch(url)
         wrapper.appendChild(table);
         container.appendChild(wrapper);
 
-        // Aplicar estilo a las celdas que comienzan con "Nota" en la primera columna
         alinearNotas(wrapper);
       }
     }
   })
-
   .catch((error) => {
     console.error("Error al cargar los datos:", error);
     document.getElementById("precios-container").innerHTML = `
@@ -157,7 +139,7 @@ fetch(url)
     `;
   });
 
-// === FUNCIÓN AUXILIAR: Alinear celdas que dicen "Nota" ===
+// Alinea celdas que dicen "Nota" en la primera columna
 function alinearNotas(wrapper) {
   wrapper.querySelectorAll("td:first-child").forEach(td => {
     const texto = td.textContent.trim().toLowerCase();
@@ -168,3 +150,4 @@ function alinearNotas(wrapper) {
     }
   });
 }
+
