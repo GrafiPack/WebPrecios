@@ -107,7 +107,7 @@ fetch(url)
           // Crear las celdas de precio según los encabezados
           columnasPrecio.forEach(col => {
             const td = document.createElement("td");
-            td.textContent = prod[col] || "Nota";
+            td.textContent = prod[col] || "-";
             tr.appendChild(td);
           });
 
