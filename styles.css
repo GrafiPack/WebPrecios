@@ -2,9 +2,9 @@
    Reset básico y cuerpo
    ======================= */
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #CFCFCF;
-  color: #111;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Tipografía moderna y legible */
+  background-color: #CFCFCF; /* Fondo gris claro general */
+  color: #111; /* Texto gris oscuro */
   margin: 0;
   padding: 0;
 }
@@ -13,26 +13,26 @@ body {
    Encabezado
    ======================= */
 header {
-  background-color: #D9D9D9;
-  background-image: url('bg.png');
-  background-repeat: repeat-x;
-  background-position: center top;
-  padding: 10px 0;
+  background-color: #D9D9D9; /* Color base igual al fondo del body */
+  background-image: url('bg.png'); /* Imagen de fondo decorativa */
+  background-repeat: repeat-x; /* Se repite horizontalmente */
+  background-position: center top; /* Centrada arriba */
+  padding: 10px 0; /* Espaciado arriba y abajo */
   top: 0px;
   left: 0px;
   right: 0px;
-  margin: auto;
+  margin: auto; /* Centrado horizontal (aunque no tiene efecto sin position) */
 }
 
 /* =======================
    Logo
    ======================= */
 .logo {
-  height: 50px;
-  max-width: 100%;
-  object-fit: contain;
+  height: 50px; /* Altura fija */
+  max-width: 100%; /* Ancho flexible */
+  object-fit: contain; /* Escala manteniendo proporción */
   display: block;
-  margin: 20px auto 10px;
+  margin: 20px auto 10px; /* Espacio superior e inferior centrado */
 }
 
 /* =======================
@@ -41,8 +41,8 @@ header {
 header h2 {
   margin: 0;
   font-size: 1.5rem;
-  color: white;
-  text-align: center;
+  color: white; /* Texto en blanco sobre fondo */
+  text-align: center; /* Centrado horizontal */
 }
 
 /* =======================
@@ -61,10 +61,121 @@ header h2 {
   font-size: 1.5rem;
   font-weight: bold;
   color: #ff2b61;
-  border-bottom: 2px solid #ff2b61;
+  border-bottom: 2px dotted #ff2b61; /* Línea de 2 puntos */
   padding-bottom: 0.3rem;
   margin-right: 10px;
 }
 
 .category-obs {
-  font-size: 0.8
+  font-size: 0.8rem;
+  color: #333; /* Negro más oscuro */
+  font-style: italic; /* Estilo itálico */
+}
+
+/* =======================
+   Título de Subcategoría
+   ======================= */
+.subcategory-title {
+  font-size: 1.2rem;
+  font-weight: bold !important;
+  color: #222;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  margin-left: 1rem;
+}
+
+/* =======================
+   Contenedor de la tabla
+   ======================= */
+.table-container {
+  width: 95%; /* Asegura que el contenedor no ocupe todo el ancho */
+  max-width: 1000px; /* Limita el ancho máximo */
+  margin: 0 auto 2rem;
+  margin-top: 1.5rem;
+  overflow-x: auto; /* Permite scroll horizontal en móviles */
+}
+
+/* =======================
+   Tabla de productos
+   ======================= */
+table {
+  width: 100%; /* Asegura que la tabla ocupe todo el ancho disponible dentro de su contenedor */
+  max-width: 1000px; /* Limita el ancho máximo de la tabla */
+  border-collapse: separate; /* Necesario para redondear esquinas */
+  border-spacing: 0;
+  background-color: #E2E2E2; /* Fondo GRIS */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Sombra suave */
+  border-radius: 12px; /* Bordes redondeados */
+  overflow: hidden;
+}
+
+th,
+td {
+  border: none;
+  padding: 10px 12px;
+  text-align: left;
+  white-space: nowrap; /* Evita que el texto se corte o salte de línea */
+  font-size: 0.95rem;
+}
+
+th {
+  border-bottom: 1px solid #fff;
+  background-color: #E2E2E2; 
+  font-weight: normal; /* ✅ SIN negrita */
+  color: #000;
+}
+
+td {
+  color: #333; /* Texto oscuro */
+}
+
+/* =======================
+   Primer celda en negritas (Título de la tabla)
+   ======================= */
+table th:first-child {
+  font-weight: bold; /* Negritas en la primera celda de la tabla */
+}
+
+/* =======================
+   Hover sobre filas
+   ======================= */
+tbody tr:hover td {
+  background-color: #f5F5F5 !important; /* Más claro al pasar el mouse */
+  transition: background-color 0.2s ease-in-out;
+}
+
+/* =======================
+   Bordes redondeados en esquinas de la tabla
+   ======================= */
+thead th:first-child {
+  border-top-left-radius: 12px;
+}
+
+thead th:last-child {
+  border-top-right-radius: 12px;
+}
+
+tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 12px;
+}
+
+tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 12px;
+}
+
+/* =======================
+   Responsive: mejora en móviles
+   ======================= */
+@media (max-width: 600px) {
+  th,
+  td {
+    font-size: 0.85rem;
+    padding: 8px; /* Celdas más pequeñas en móviles */
+  }
+
+  .category-title,
+  .subcategory-title {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+}
