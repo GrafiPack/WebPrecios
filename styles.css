@@ -54,16 +54,25 @@ header h2 {
   justify-content: flex-start;
   margin: 2rem auto 1.5rem;
   max-width: 1000px;
-  width: 95%;
+  width: 100%;
 }
 
 .category-title > span:first-child {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #ff2b61;
-  border-bottom: 2px dotted #ff2b61; /* Línea de 2 puntos */
+  color: #ff2b61; /* Magenta */
   padding-bottom: 0.3rem;
   margin-right: 10px;
+}
+
+/* La línea debajo del título de la categoría */
+.category-title::after {
+  content: ''; 
+  display: block;
+  height: 2px; 
+  background-color: #ff2b61; /* Magenta */
+  width: 100%; /* Ancho completo */
+  margin-top: 10px; /* Ajuste de espacio entre título y línea */
 }
 
 .category-obs {
