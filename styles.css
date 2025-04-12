@@ -107,7 +107,7 @@ td {
 }
 
 th {
-  border-bottom: 2px solid #ccc; /* Línea gris clarita bajo el encabezado */
+  border-bottom: 1px solid #FFF; /* Línea gris clarita bajo el encabezado */
   font-weight: bold;
   color: #000; /* Magenta fuerte */
 }
