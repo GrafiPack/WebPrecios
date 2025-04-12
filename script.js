@@ -33,22 +33,32 @@ fetch(url)
     });
 
     for (const categoria in grouped) {
-      // Crear el título de categoría UNA VEZ antes de recorrer subcategorías
+      // Crear contenedor para el título de categoría y su observación
       const catEl = document.createElement("div");
-      catEl.className = "category-title-container"; // Nuevo contenedor
+      catEl.className = "category-title";
 
-      // Título de la categoría
-      const categoryTitle = document.createElement("span");
-      categoryTitle.className = "category-title"; // Clase para título
-      categoryTitle.textContent = categoria;
-      catEl.appendChild(categoryTitle);
+      // Crear texto de la categoría
+      const catText = document.createElement("span");
+      catText.textContent = categoria;
+      catEl.appendChild(catText);
 
-      // Obtener la observación si existe
-      const obs = grouped[categoria]["Sin subcategoría"]?.[0]?.Obs || ""; // Si no hay observación, asigna una cadena vacía
+      // Buscar la primera observación disponible en la categoría
+      let obs = "";
+      for (const subcat in grouped[categoria]) {
+        for (const prod of grouped[categoria][subcat]) {
+          if (prod.Obs && prod.Obs.trim() !== "") {
+            obs = prod.Obs.trim();
+            break;
+          }
+        }
+        if (obs) break;
+      }
+
+      // Si hay observación, agregarla
       if (obs) {
         const obsEl = document.createElement("span");
-        obsEl.className = "category-obs"; // Clase para la observación
-        obsEl.textContent = `(${obs})`; // Colocar la observación en un formato distinto
+        obsEl.className = "category-obs";
+        obsEl.textContent = ` (${obs})`;
         catEl.appendChild(obsEl);
       }
 
@@ -112,3 +122,4 @@ fetch(url)
       <p style="color:red;">No se pudieron cargar los datos. Verificá el enlace de la hoja de cálculo.</p>
     `;
   });
+
