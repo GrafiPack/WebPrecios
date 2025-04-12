@@ -56,6 +56,7 @@ header h2 {
   max-width: 1000px;
   width: 100%; /* Asegura que ocupe todo el ancho disponible de la tabla */
   position: relative;
+  padding-bottom: 0.5rem;
 }
 
 /* Estilo del título de la categoría */
@@ -69,7 +70,7 @@ header h2 {
 /* Estilo de la observación */
 .category-obs {
   font-size: 0.8rem;
-  color: #777; /* Gris para la observación */
+  color: #000;
   font-style: italic;
 }
 
