@@ -33,10 +33,24 @@ fetch(url)
     });
 
     for (const categoria in grouped) {
-      // ✅ Crear el título de categoría UNA VEZ antes de recorrer subcategorías
+      // Crear el título de categoría UNA VEZ antes de recorrer subcategorías
       const catEl = document.createElement("div");
       catEl.className = "category-title";
-      catEl.textContent = categoria;
+      
+      // Título de la categoría
+      const categoryTitle = document.createElement("span");
+      categoryTitle.textContent = categoria;
+      catEl.appendChild(categoryTitle);
+
+      // Agregar la observación si existe
+      const obs = grouped[categoria]["Sin subcategoría"]?.[0]?.Obs || ""; // Extraemos la observación de la primera fila
+      if (obs) {
+        const obsEl = document.createElement("span");
+        obsEl.className = "category-obs";
+        obsEl.textContent = obs;
+        catEl.appendChild(obsEl);
+      }
+
       container.appendChild(catEl);
 
       for (const subcategoria in grouped[categoria]) {
@@ -97,4 +111,3 @@ fetch(url)
       <p style="color:red;">No se pudieron cargar los datos. Verificá el enlace de la hoja de cálculo.</p>
     `;
   });
-
