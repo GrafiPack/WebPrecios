@@ -47,7 +47,7 @@ header h2 {
 
 /* =======================
    Título de Categoría
-   ======================= 
+   ======================= */
 .category-title {
   font-size: 1.5rem;
   font-weight: bold;
@@ -58,27 +58,25 @@ header h2 {
   max-width: 1000px;
   width: 95%;
 }
-*/
 
 /* =======================
    Título de Subcategoría
-   ======================= 
+   ======================= */
 .subcategory-title {
   font-size: 1.2rem;
   font-weight: bold !important;
-  color: #ff2b61;
+  color: #222;
   margin-top: 1.5rem;
   margin-bottom: 0.5rem;
   margin-left: 1rem;
 }
-*/
 
 /* =======================
    Contenedor de la tabla
    ======================= */
 .table-container {
-  width: 95%;
-  max-width: 1000px;
+  width: 95%; /* Asegura que el contenedor no ocupe todo el ancho */
+  max-width: 1000px; /* Limita el ancho máximo */
   margin: 0 auto 2rem;
   margin-top: 1.5rem;
   overflow-x: auto; /* Permite scroll horizontal en móviles */
@@ -88,7 +86,8 @@ header h2 {
    Tabla de productos
    ======================= */
 table {
-  width: 100%;
+  width: 100%; /* Asegura que la tabla ocupe todo el ancho disponible dentro de su contenedor */
+  max-width: 1000px; /* Limita el ancho máximo de la tabla */
   border-collapse: separate; /* Necesario para redondear esquinas */
   border-spacing: 0;
   background-color: #E2E2E2; /* Fondo GRIS */
@@ -113,15 +112,15 @@ th {
   color: #000;
 }
 
-/* =======================
-   Primera celda de la tabla en negrita
-   ======================= 
-table th:first-child {
-  font-weight: bold; /* Asegura que el primer encabezado sea en negrita */
-}*/
-
 td {
   color: #333; /* Texto oscuro */
+}
+
+/* =======================
+   Primer celda en negritas (Título de la tabla)
+   ======================= */
+table th:first-child {
+  font-weight: bold; /* Negritas en la primera celda de la tabla */
 }
 
 /* =======================
