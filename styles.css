@@ -99,7 +99,7 @@ table {
 
 th,
 td {
-  border: 1px solid #ddd; /* Borde gris claro */
+  border: none;
   padding: 10px 12px;
   text-align: left;
   white-space: nowrap; /* Evita que el texto se corte o salte de línea */
