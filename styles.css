@@ -7,8 +7,9 @@ body {
   color: #111;
   margin: 0;
   padding: 0;
-  padding-top: 80px; /* 🚨 Ajustá según el alto total del header */
+  padding-top: 80px;
 }
+
 /* =======================
    Encabezado
    ======================= */
@@ -24,9 +25,6 @@ header {
   z-index: 999;
 }
 
-/* =======================
-   Contenedor interno del header
-   ======================= */
 .header-inner {
   max-width: 1000px;
   margin: 0 auto;
@@ -36,18 +34,12 @@ header {
   padding: 10px 15px;
 }
 
-/* =======================
-   Logo a la izquierda
-   ======================= */
 .header-left .logo {
   height: 40px;
   max-width: 100%;
   object-fit: contain;
 }
 
-/* =======================
-   Título centrado
-   ======================= */
 .header-center h2 {
   margin: 0;
   font-size: 1.5rem;
@@ -55,9 +47,6 @@ header {
   text-align: center;
 }
 
-/* =======================
-   Fecha a la derecha
-   ======================= */
 .header-right {
   text-align: center;
   font-size: 0.75rem;
@@ -75,28 +64,25 @@ header {
 }
 
 /* =======================
-   Logo
+   Logo y título header
    ======================= */
 .logo {
-  height: 50px; /* Altura fija */
-  max-width: 100%; /* Ancho flexible */
-  object-fit: contain; /* Escala manteniendo proporción */
+  height: 50px;
+  max-width: 100%;
+  object-fit: contain;
   display: block;
-  margin: 20px auto 10px; /* Espacio superior e inferior centrado */
+  margin: 20px auto 10px;
 }
 
-/* =======================
-   Título dentro del header
-   ======================= */
 header h2 {
   margin: 0;
   font-size: 1.5rem;
-  color: white; /* Texto en blanco sobre fondo */
-  text-align: center; /* Centrado horizontal */
+  color: white;
+  text-align: center;
 }
 
 /* =======================
-   Contenedor de título y observación de categoría
+   Título de Categoría y Observación
    ======================= */
 .category-title {
   display: flex;
@@ -104,168 +90,65 @@ header h2 {
   justify-content: flex-start;
   margin: 2rem auto 1.5rem;
   max-width: 1000px;
-  width: 100%; /* Asegura que ocupe todo el ancho disponible de la tabla */
+  width: 95%;
   position: relative;
   padding-bottom: 0.5rem;
+  flex-wrap: wrap;
 }
 
-/* Estilo del título de la categoría */
 .category-title > span:first-child {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #ff2b61; /* Magenta */
+  color: #ff2b61;
   margin-right: 10px;
 }
 
-/* Estilo de la observación */
 .category-obs {
   font-size: 0.8rem;
   color: #000;
   font-style: italic;
 }
 
-/* La línea debajo de todo el contenido de la categoría (título + observación) */
 .category-title::after {
   content: ''; 
   display: block;
   height: 2px; 
-  background-color: #ff2b61; /* Magenta */
-  width: 100%; /* Ancho completo de la tabla */
+  background-color: #ff2b61;
+  width: 100%;
   position: absolute;
-  bottom: 0; /* Asegura que esté justo al final del contenedor */
+  bottom: 0;
   left: 0;
 }
 
 /* =======================
-   Título de Subcategoría
+   Subcategoría
    ======================= */
 .subcategory-title {
   font-size: 1.2rem;
-  font-weight: bold !important;
+  font-weight: bold;
   color: #222;
-  margin-top: 1.5rem;
-  margin-bottom: 0.5rem;
-  margin-left: 1rem;
+  margin: 1.5rem 1rem 0.5rem;
 }
 
 /* =======================
    Contenedor de la tabla
    ======================= */
 .table-container {
-  width: 95%; /* Asegura que el contenedor no ocupe todo el ancho */
-  max-width: 1000px; /* Limita el ancho máximo */
+  width: 95%;
+  max-width: 1000px;
   margin: 0 auto 2rem;
   margin-top: 1.5rem;
-  overflow-x: auto; /* Permite scroll horizontal en móviles */
+  overflow-x: auto;
 }
 
 /* =======================
-   Tabla de productos
+   Tabla
    ======================= */
 table {
-  width: 100%; /* Asegura que la tabla ocupe todo el ancho disponible dentro de su contenedor */
-  max-width: 1000px; /* Limita el ancho máximo de la tabla */
-  border-collapse: separate; /* Necesario para redondear esquinas */
+  width: 100%;
+  border-collapse: separate;
   border-spacing: 0;
-  background-color: #E2E2E2; /* Fondo GRIS */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Sombra suave */
-  border-radius: 12px; /* Bordes redondeados */
-  overflow: hidden;
-}
-
-th,
-td {
-  border: none;
-  padding: 10px 12px;
-  text-align: left;
-  padding: 6px 12px;
-  white-space: nowrap; /* Evita que el texto se corte o salte de línea */
-  font-size: 0.95rem;
-}
-
-th {
-  border-bottom: 1px solid #fff;
-  background-color: #E2E2E2; 
-  font-weight: normal; /* ✅ SIN negrita */
-  color: #000;
-}
-
-td {
-  color: #333; /* Texto oscuro */
-}
-
-/* =======================
-   Alineación centrada de las celdas de precios
-   ======================= */
-td:nth-child(n+2):nth-child(-n+5), th:nth-child(n+2):nth-child(-n+5) {
-  text-align: center;
-}
-
-/* =======================
-   Alineación de las celdas con "Nota" a la izquierda
-   ======================= */
-td:nth-child(1):contains('Nota'),
-td:empty {
-  text-align: left !important; /* Alinea a la izquierda las celdas que contienen "Nota" o están vacías */
-}
-
-
-/* =======================
-   Primer celda en negritas (Título de la tabla)
-   ======================= */
-table th:first-child {
-  font-weight: bold; /* Negritas en la primera celda de la tabla */
-}
-
-/* =======================
-   Hover sobre filas
-   ======================= */
-tbody tr:hover td {
-  background-color: #f5F5F5 !important; /* Más claro al pasar el mouse */
-  transition: background-color 0.2s ease-in-out;
-}
-
-/* =======================
-   Bordes redondeados en esquinas de la tabla
-   ======================= */
-thead th:first-child {
-  border-top-left-radius: 12px;
-}
-
-thead th:last-child {
-  border-top-right-radius: 12px;
-}
-
-tbody tr:last-child td:first-child {
-  border-bottom-left-radius: 12px;
-}
-
-tbody tr:last-child td:last-child {
-  border-bottom-right-radius: 12px;
-}
-
-/* =======================
-   Utilidades de alineación
-   ======================= */
-.align-left {
-  text-align: left !important;
-  font-style: italic;
-  color: #444;
-}
-
-/* =======================
-   Responsive: mejora en móviles
-   ======================= */
-@media (max-width: 600px) {
-  th,
-  td {
-    font-size: 0.85rem;
-    padding: 6px 10px; /* Celdas más pequeñas en móviles */
-  }
-
-  .category-title,
-  .subcategory-title {
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
-  }
-}
+  background-color: #E2E2E2;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  overflow: hidden
