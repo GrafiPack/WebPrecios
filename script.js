@@ -2,19 +2,6 @@ const sheetID = "1p3Q-DpF8JcdGIWwOns7rirsgoVJ6LES2LzaBgGE42XI";
 const sheetName = "Hoja 1";
 const url = `https://opensheet.elk.sh/${sheetID}/${sheetName}`;
 
-const encabezadosPorCategoria = {
-  "Folletos": {
-    Precio1: "1000 u.",
-    Precio2: "3000 u.",
-    Precio3: "5000 u."
-  },
-  "Tarjetas": {
-    Precio1: "1000 tarjetas",
-    Precio2: "2000 tarjetas",
-    Precio3: "5000 tarjetas"
-  }
-};
-
 fetch(url)
   .then((res) => res.json())
   .then((data) => {
@@ -67,10 +54,10 @@ fetch(url)
       for (const subcategoria in grouped[categoria]) {
         const productos = grouped[categoria][subcategoria];
 
-        const columnasPrecio = Object.keys(productos[0])
-          .filter(key => key.startsWith("Precio"))
-          .filter(key => productos.some(p => p[key] && p[key].trim() !== ""));
-
+        // Obtener la columna "Encabezados" para reemplazar los encabezados de precios
+        const encabezados = productos[0]["Encabezados"];
+        const encabezadosArray = encabezados ? encabezados.split(",").map(header => header.trim()) : [];
+        
         const wrapper = document.createElement("div");
         wrapper.className = "table-container";
 
@@ -82,10 +69,15 @@ fetch(url)
         thSubcat.textContent = subcategoria;
         headerRow.appendChild(thSubcat);
 
-        columnasPrecio.forEach(col => {
+        // Crear encabezados de precio, usando "Nota" si no hay encabezado disponible
+        const columnasPrecio = Object.keys(productos[0])
+          .filter(key => key.startsWith("Precio"))
+          .filter(key => productos.some(p => p[key] && p[key].trim() !== ""));
+
+        columnasPrecio.forEach((col, index) => {
           const th = document.createElement("th");
-          const encabezadoPersonalizado = encabezadosPorCategoria[categoria]?.[col];
-          th.textContent = encabezadoPersonalizado || col;
+          const encabezadoPersonalizado = encabezadosArray[index] || "Nota";
+          th.textContent = encabezadoPersonalizado;
           headerRow.appendChild(th);
         });
 
@@ -98,28 +90,4 @@ fetch(url)
           const tr = document.createElement("tr");
 
           const tdDetalle = document.createElement("td");
-          tdDetalle.textContent = prod.Detalle || "";
-          tr.appendChild(tdDetalle);
-
-          columnasPrecio.forEach(col => {
-            const td = document.createElement("td");
-            td.textContent = prod[col] || "";
-            tr.appendChild(td);
-          });
-
-          tbody.appendChild(tr);
-        });
-
-        table.appendChild(tbody);
-        wrapper.appendChild(table);
-        container.appendChild(wrapper);
-      }
-    }
-  })
-  .catch((error) => {
-    console.error("Error al cargar los datos:", error);
-    document.getElementById("precios-container").innerHTML = `
-      <p style="color:red;">No se pudieron cargar los datos. Verificá el enlace de la hoja de cálculo.</p>
-    `;
-  });
-
+          tdDetalle.textContent = prod.Det
