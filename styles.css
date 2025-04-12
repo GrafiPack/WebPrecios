@@ -107,9 +107,9 @@ td {
 }
 
 th {
-  border-bottom: 1px solid #FFF; /* Línea gris clarita bajo el encabezado */
-  font-weight: bold;
-  color: #000; /* Magenta fuerte */
+  border-bottom: 1px solid #ccc; /* Gris claro, más visible */
+  font-weight: normal; /* ✅ SIN negrita */
+  color: #000;
 }
 
 td {
