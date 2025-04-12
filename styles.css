@@ -17,13 +17,61 @@ header {
   background-image: url('bg.png');
   background-repeat: repeat-x;
   background-position: center top;
-  padding: 10px 0;
-  position: fixed; /* 🔥 Fijamos el header */
+  width: 100%;
+  position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  width: 100%;
-  z-index: 1000; /* Asegura que quede por encima del contenido */
+  z-index: 999;
+}
+
+/* =======================
+   Contenedor interno del header
+   ======================= */
+.header-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 15px;
+}
+
+/* =======================
+   Logo a la izquierda
+   ======================= */
+.header-left .logo {
+  height: 40px;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+/* =======================
+   Título centrado
+   ======================= */
+.header-center h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: white;
+  text-align: center;
+}
+
+/* =======================
+   Fecha a la derecha
+   ======================= */
+.header-right {
+  text-align: right;
+  font-size: 0.75rem;
+  color: white;
+  line-height: 1.2;
+}
+
+.update-label {
+  display: block;
+  font-weight: bold;
+}
+
+.update-date {
+  display: block;
 }
 
 /* =======================
