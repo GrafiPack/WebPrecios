@@ -194,16 +194,19 @@ td {
   color: #333; /* Texto oscuro */
 }
 
-
-/* Alineación centrada de las celdas de precios */
+/* =======================
+   Alineación centrada de las celdas de precios
+   ======================= */
 td:nth-child(n+2):nth-child(-n+5), th:nth-child(n+2):nth-child(-n+5) {
   text-align: center;
 }
 
-/* Alineación de las celdas con "Nota" a la izquierda */
-td.align-left,
-th.align-left {
-  text-align: left;
+/* =======================
+   Alineación de las celdas con "Nota" a la izquierda
+   ======================= */
+td:nth-child(1):contains('Nota'),
+td:empty {
+  text-align: left; /* Alinea a la izquierda las celdas que contienen "Nota" o están vacías */
 }
 
 
