@@ -8,34 +8,48 @@
 </head>
 <body>
   <header>
-  <div class="header-inner">
-    <div class="header-left">
-      <img src="logo.png" alt="GrafiPack Logo" class="logo" />
+    <div class="header-inner">
+      <div class="header-left">
+        <img src="logo.png" alt="GrafiPack Logo" class="logo" />
+      </div>
+      <div class="header-center">
+        <h2>Lista de Precios</h2>
+      </div>
+      <div class="header-right">
+        <span class="update-label">Fecha de actualización</span>
+        <span class="update-date">10/4/2025</span>
+      </div>
     </div>
-    <div class="header-center">
-      <h2>Lista de Precios</h2>
-    </div>
-    <div class="header-right">
-      <span class="update-label">Fecha de actualización</span>
-      <span class="update-date">10/4/2025</span>
-    </div>
-  </div>
-</header>
+  </header>
 
-
-  <main id="precios-container"></main>
+  <main class="vertical-sections">
+    <div class="horizontal-scroll left-panel">
+      <div id="precios-container"></div>
+    </div>
+    <div class="horizontal-scroll right-panel">
+      <h3>Lista seleccionada</h3>
+      <table id="lista-seleccionada">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Cant.</th>
+            <th>Precio</th>
+            <th>Subtotal</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <div class="totales-container">
+        <strong>Total: $<span id="total-general">0.00</span></strong>
+        <br>
+        <button onclick="vaciarLista()">Vaciar Lista</button>
+      </div>
+  </main>
+  
+  
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
   <script src="script.js"></script>
-
-  <!-- Ajuste automático de espacio superior según altura del header -->
-  <script>
-    window.addEventListener('DOMContentLoaded', () => {
-      const header = document.querySelector('header');
-      const body = document.querySelector('body');
-      const headerHeight = header.offsetHeight;
-      body.style.paddingTop = `${headerHeight}px`;
-    });
-  </script>
 </body>
 </html>
