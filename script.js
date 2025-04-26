@@ -1,71 +1,54 @@
-// === CONFIGURACIÓN ===
 const sheetID = "1p3Q-DpF8JcdGIWwOns7rirsgoVJ6LES2LzaBgGE42XI";
 const sheetName = "Hoja 1";
 const url = `https://opensheet.elk.sh/${sheetID}/${sheetName}`;
 
-// === FUNCIÓN PRINCIPAL ===
+// Carga de datos desde la hoja de cálculo
 fetch(url)
   .then((res) => res.json())
   .then((data) => {
     const container = document.getElementById("precios-container");
-
     if (!data || data.length === 0) {
       container.innerHTML = "<p>No se encontraron datos en la hoja de cálculo.</p>";
       return;
     }
 
+    // Filtrar encabezados de la hoja
     const dataFiltrada = data.filter(row => row.Categoría !== "Categoría");
 
+    // Agrupar por categoría y subcategoría
     const grouped = {};
     dataFiltrada.forEach(row => {
-      const categoria = row['Categoría'] || "Sin categoría";
+      const categoriaRaw = row['Categoría'] || "Sin categoría";
+      const [categoria, observacion] = categoriaRaw.split(";").map(x => x.trim());
       const subcategoria = row['Subcategoría'] || "Sin subcategoría";
+      const key = `${categoria}${observacion ? `;${observacion}` : ""}`;
 
-      if (!grouped[categoria]) grouped[categoria] = {};
-      if (!grouped[categoria][subcategoria]) grouped[categoria][subcategoria] = [];
-
-      grouped[categoria][subcategoria].push(row);
+      if (!grouped[key]) grouped[key] = {};
+      if (!grouped[key][subcategoria]) grouped[key][subcategoria] = [];
+      grouped[key][subcategoria].push(row);
     });
 
-    if (Object.keys(grouped).length === 0) {
-      container.innerHTML = "<p>No se encontraron categorías en los datos.</p>";
-      return;
-    }
+    // Renderizar tablas
+    for (const key in grouped) {
+      const [categoria, observacion] = key.split(";");
 
-    for (const categoria in grouped) {
+      // Título de categoría
       const catEl = document.createElement("div");
       catEl.className = "category-title";
-
-      const catText = document.createElement("span");
-      catText.textContent = categoria;
-      catEl.appendChild(catText);
-
-      let obs = "";
-      for (const subcat in grouped[categoria]) {
-        for (const prod of grouped[categoria][subcat]) {
-          if (prod.Obs && prod.Obs.trim() !== "") {
-            obs = prod.Obs.trim();
-            break;
-          }
-        }
-        if (obs) break;
-      }
-
-      if (obs) {
-        const obsEl = document.createElement("span");
-        obsEl.className = "category-obs";
-        obsEl.textContent = obs;
-        catEl.appendChild(obsEl);
-      }
-
+      catEl.innerHTML = `<span>${categoria}</span>` + 
+        (observacion ? `<span class="category-obs">${observacion}</span>` : "");
       container.appendChild(catEl);
 
-      for (const subcategoria in grouped[categoria]) {
-        const productos = grouped[categoria][subcategoria];
+      // Subcategorías
+      for (const subcategoria in grouped[key]) {
+        const productos = grouped[key][subcategoria];
         const encabezados = productos[0]["Encabezados"];
-        const encabezadosArray = encabezados
-          ? encabezados.split(",").map(header => header.trim())
-          : [];
+        const encabezadosArray = encabezados ? encabezados.split(",").map(h => h.trim()) : [];
+
+        // Columnas activas de precios
+        const columnasPrecio = Object.keys(productos[0])
+          .filter(k => k.startsWith("Precio"))
+          .filter(k => productos.some(p => p[k] && p[k].trim() !== ""));
 
         const wrapper = document.createElement("div");
         wrapper.className = "table-container";
@@ -74,50 +57,42 @@ fetch(url)
         const thead = document.createElement("thead");
         const headerRow = document.createElement("tr");
 
+        // Encabezado de subcategoría
         const thSubcat = document.createElement("th");
         thSubcat.textContent = subcategoria;
         headerRow.appendChild(thSubcat);
 
-        const columnasPrecio = Object.keys(productos[0])
-          .filter(key => key.startsWith("Precio"))
-          .filter(key => productos.some(p => p[key] && p[key].trim() !== ""));
-
+        // Encabezados personalizados
         columnasPrecio.forEach((col, index) => {
           const th = document.createElement("th");
-          const encabezadoPersonalizado = encabezadosArray[index] || "Nota";
-          th.textContent = encabezadoPersonalizado;
-
-          // Alinea el th si es "Nota"
-          if (th.textContent.toLowerCase() === "nota") {
-            th.classList.add("align-left");
-          }
-
+          const encabezado = encabezadosArray[index] || "Nota";
+          th.textContent = encabezado;
+          if (encabezado === "Nota") th.classList.add("align-left");
           headerRow.appendChild(th);
         });
 
         thead.appendChild(headerRow);
         table.appendChild(thead);
 
+        // Cuerpo de tabla
         const tbody = document.createElement("tbody");
-
         productos.forEach(prod => {
           const tr = document.createElement("tr");
 
+          // Detalle
           const tdDetalle = document.createElement("td");
           tdDetalle.textContent = prod.Detalle || "";
           tr.appendChild(tdDetalle);
 
-          columnasPrecio.forEach((col, index) => {
+          // Precios
+          columnasPrecio.forEach((col, i) => {
             const td = document.createElement("td");
             td.textContent = prod[col] || "";
-
-            const encabezado = encabezadosArray[index] || "Nota";
-            if (encabezado.toLowerCase() === "nota") {
-              td.style.textAlign = "left";
-              td.style.fontStyle = "italic";
-              td.style.color = "#333";
+            if ((encabezadosArray[i] || "Nota") === "Nota") {
+              td.classList.add("align-left");
             }
-
+            // Doble clic para agregar
+            td.addEventListener('dblclick', () => agregarAFavoritos(tr, td));
             tr.appendChild(td);
           });
 
@@ -127,8 +102,6 @@ fetch(url)
         table.appendChild(tbody);
         wrapper.appendChild(table);
         container.appendChild(wrapper);
-
-        alinearNotas(wrapper);
       }
     }
   })
@@ -139,15 +112,119 @@ fetch(url)
     `;
   });
 
-// Alinea celdas que dicen "Nota" en la primera columna
-function alinearNotas(wrapper) {
-  wrapper.querySelectorAll("td:first-child").forEach(td => {
-    const texto = td.textContent.trim().toLowerCase();
-    if (texto.startsWith("nota")) {
-      td.style.textAlign = "left";
-      td.style.fontStyle = "italic";
-      td.style.color = "#333";
-    }
-  });
+// ========================
+// Agregar producto a lista
+// ========================
+function agregarAFavoritos(fila, celdaClickeada) {
+  const tabla = document.querySelector("#lista-seleccionada tbody");
+  const celdasFila = fila.querySelectorAll("td");
+  const tr = document.createElement("tr");
+
+  // Producto
+  const tdProducto = document.createElement("td");
+  tdProducto.textContent = celdasFila[0].textContent; // Nombre del producto (primera columna)
+  tr.appendChild(tdProducto);
+
+  // Cantidad (Ahora en la segunda columna)
+  const tdCantidad = document.createElement("td");
+  const input = document.createElement("input");
+  input.type = "number";
+  input.min = "1";
+  input.value = "1";
+  input.className = "cantidad-input";
+  input.addEventListener("input", actualizarSubtotal);
+  setTimeout(() => input.dispatchEvent(new Event("input")), 0); // Fuerza el cálculo inicial
+  tdCantidad.appendChild(input);
+  tr.appendChild(tdCantidad);
+
+  // Precio (desplazado a la tercera columna)
+  const tdPrecio = document.createElement("td");
+  tdPrecio.textContent = celdaClickeada.textContent; // Utiliza el valor de la celda clickeada
+  tr.appendChild(tdPrecio);
+
+  // Subtotal
+  const tdSubtotal = document.createElement("td");
+  tdSubtotal.textContent = `$ ${parseFloat(celdaClickeada.textContent.replace(/[^0-9.-]+/g, '')).toFixed(2)}`; // Calcula inicial con el precio
+  tr.appendChild(tdSubtotal);
+
+  // Eliminar
+  const tdEliminar = document.createElement("td");
+  const btnEliminar = document.createElement("button");
+  btnEliminar.textContent = "🗑️";
+  btnEliminar.onclick = () => {
+    tr.remove();
+    actualizarTotal();
+  };
+  tdEliminar.appendChild(btnEliminar);
+  tr.appendChild(tdEliminar);
+
+// Verificar si ya existe el producto con el mismo precio
+const filaExistente = Array.from(tabla.children).find(row =>
+  row.children[0].textContent === tdProducto.textContent &&
+  row.children[2].textContent === tdPrecio.textContent
+);
+
+if (filaExistente) {
+  const inputCantidad = filaExistente.querySelector("input");
+  inputCantidad.value = parseInt(inputCantidad.value) + 1;
+  inputCantidad.dispatchEvent(new Event('input')); // Recalcula subtotal
+  return;
 }
 
+  tabla.appendChild(tr);
+  actualizarTotal();
+}
+
+
+
+// ========================
+// Actualizar subtotal
+// ========================
+function actualizarSubtotal() {
+  const fila = this.closest('tr');
+  const precioTexto = fila.children[2].textContent.replace(/\./g, '').replace(/[^0-9,-]+/g, '');
+  const precio = parseFloat(precioTexto.replace(',', '.')) || 0;
+  const cantidad = parseFloat(this.value) || 0;
+  const subtotal = precio * cantidad;
+
+  // Mostrar subtotal sin decimales y con separador de miles
+  fila.children[3].textContent = `$ ${Math.round(subtotal)
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
+
+  actualizarTotal();
+}
+
+// ========================
+// Calcular total
+// ========================
+function actualizarTotal() {
+  let total = 0;
+  document.querySelectorAll("#lista-seleccionada tbody tr").forEach(fila => {
+    let textoSubtotal = fila.children[3].textContent;
+
+    // Limpiar texto: eliminar $ y puntos de miles, reemplazar coma si hubiera
+    textoSubtotal = textoSubtotal
+      .replace(/\$/g, '')   // quitar símbolo $
+      .replace(/\./g, '')   // quitar puntos (miles)
+      .replace(',', '.');   // cambiar coma por punto decimal (por si acaso)
+
+    const subtotal = parseFloat(textoSubtotal) || 0;
+    total += subtotal;
+  });
+
+  const totalDisplay = document.getElementById("total-general");
+  if (totalDisplay) {
+    totalDisplay.textContent = Math.round(total)
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, "."); // separador de miles
+  }
+}
+
+// ========================
+// Vaciar lista
+// ========================
+function vaciarLista() {
+  document.querySelector("#lista-seleccionada tbody").innerHTML = "";
+  actualizarTotal();
+}
