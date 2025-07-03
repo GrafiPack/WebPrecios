@@ -28,26 +28,35 @@ fetch(url)
   .then(res => res.json())
   .then(data => {
     data.forEach(row => {
+      let precio = parseFloat(
+        (row.Precio1 || '').replace(/[^0-9,.-]+/g, '').replace(',', '.')
+      ) || 0;
+
       if (row.Subcategoría === 'Diseño') {
         const opt = new Option(row.Detalle, row.Detalle);
-        opt.dataset.precio = parseFloat(row.Precio1.replace(/[^0-9.,-]+/g, '').replace(',', '.')) || 0;
+        opt.dataset.precio = precio;
         selectDiseno.appendChild(opt);
-        precios.diseno[row.Detalle] = opt.dataset.precio;
+        precios.diseno[row.Detalle] = precio;
       }
+
       if (row.Subcategoría === 'Vinilos') {
         const opt = new Option(row.Detalle, row.Detalle);
-        opt.dataset.precio = parseFloat(row.Precio1.replace(/[^0-9.,-]+/g, '').replace(',', '.')) || 0;
+        opt.dataset.precio = precio;
         selectVinilo.appendChild(opt);
-        precios.vinilo[row.Detalle] = opt.dataset.precio;
+        precios.vinilo[row.Detalle] = precio;
       }
+
       if (row.Subcategoría === 'Rotulado') {
         const opt = new Option(row.Detalle, row.Detalle);
-        opt.dataset.precio = parseFloat(row.Precio1.replace(/[^0-9.,-]+/g, '').replace(',', '.')) || 0;
+        opt.dataset.precio = precio;
         selectTroquel.appendChild(opt);
-        precios.troquel[row.Detalle] = opt.dataset.precio;
+        precios.troquel[row.Detalle] = precio;
       }
     });
-    calcular();
+    calcular(); // calculamos al cargar
+  })
+  .catch(err => {
+    console.error("Error cargando datos de la hoja:", err);
   });
 
 // Escuchar cambios
@@ -63,8 +72,8 @@ function calcular() {
   const alto = parseFloat(inputAlto.value) || 0;
   const pliegos = parseInt(inputPliegos.value) || 0;
 
-  if (ancho <= 0 || alto <= 0 || pliegos <= 0) {
-    // Si faltan datos no calculamos
+  // Verificamos datos mínimos
+  if (ancho <= 0 || alto <= 0 || pliegos <= 0 || vinilo <= 0 || troquel < 0) {
     stickersPorPliego.textContent = totalStickers.textContent = "0";
     precioUnitario.textContent = precioUnitarioIva.textContent = "$ 0";
     precioTotal.textContent = precioTotalIva.textContent = "$ 0";
@@ -76,25 +85,28 @@ function calcular() {
   const cantidad2 = Math.floor(51 / (alto + 1)) * Math.floor(98 / (ancho + 1));
   const stickers = Math.max(cantidad1, cantidad2);
 
+  const total_stickers = stickers * pliegos;
+
   stickersPorPliego.textContent = stickers;
-  totalStickers.textContent = stickers * pliegos;
+  totalStickers.textContent = total_stickers;
 
   // Calcular precios
-  const precioVinilo = pliegos * 0.51 * 0.98 * vinilo;
+  const precioVinilo = pliegos * (0.51 * 0.98) * vinilo;
   const precioTroquel = pliegos * troquel;
   const precioDiseno = diseno;
 
   const total = precioVinilo + precioTroquel + precioDiseno;
-  const unitario = total / (stickers * pliegos || 1);
+  const unitario = total / (total_stickers || 1);
   const iva = 0.21;
 
+  // Mostrar precios
   precioUnitario.textContent = `$ ${formatNumber(unitario)}`;
   precioUnitarioIva.textContent = `$ ${formatNumber(unitario * (1 + iva))}`;
   precioTotal.textContent = `$ ${formatNumber(total)}`;
   precioTotalIva.textContent = `$ ${formatNumber(total * (1 + iva))}`;
 }
 
-// Función para formatear números con separador de miles
+// Función para formatear con miles
 function formatNumber(num) {
   num = parseFloat(num) || 0;
   return Math.round(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
