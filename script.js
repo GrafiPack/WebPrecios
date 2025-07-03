@@ -79,7 +79,7 @@ fetch(url)
         productos.forEach(prod => {
           // FILTRO según columna Mostrar
           const mostrar = prod["Mostrar"];
-          if (!mostrar || mostrar.toString().toLowerCase() === "false") {
+          if (!mostrar || mostrar.toString().toLowerCase() === "true") {
             return; // No mostrar esta fila
           }
 
