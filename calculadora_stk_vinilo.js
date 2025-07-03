@@ -56,9 +56,9 @@ fetch(url)
 
 // Función principal de cálculo
 function calcular() {
-  const diseno = precios.diseno[selectDiseno.value] || 0;
-  const vinilo = precios.vinilo[selectVinilo.value] || 0;
-  const troquel = precios.troquel[selectTroquel.value] || 0;
+  const diseno = parseFloat(selectDiseno.selectedOptions[0]?.dataset.precio || 0);
+  const vinilo = parseFloat(selectVinilo.selectedOptions[0]?.dataset.precio || 0);
+  const troquel = parseFloat(selectTroquel.selectedOptions[0]?.dataset.precio || 0);
   const ancho = parseFloat(inputAncho.value) || 0;
   const alto = parseFloat(inputAlto.value) || 0;
   const pliegos = parseInt(inputPliegos.value) || 0;
