@@ -7,53 +7,66 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-<header>
-  <div class="header-inner">
-    <div class="header-left">
-      <img src="logo.png" alt="GrafiPack Logo" class="logo" />
+  <header>
+    <div class="header-inner">
+      <div class="header-left">
+        <img src="logo.png" alt="GrafiPack Logo" class="logo" />
+      </div>
+      <div class="header-center">
+        <h2>Calculadora Stickers de Vinilo</h2>
+      </div>
+      <div class="header-right">
+        <span class="update-label">Fecha de actualización</span>
+        <span class="update-date">10/4/2025</span>
+      </div>
     </div>
-    <div class="header-center">
-      <h2>Calculadora Stickers Vinilo</h2>
+  </header>
+
+  <main class="vertical-sections">
+    <div class="left-panel">
+      <div class="table-container">
+        <div class="category-title">Vinilo Impreso y Troquelado</div>
+
+        <div class="form-group">
+          <label>¿Tenés el archivo listo para imprimir y troquelar?</label>
+          <select id="select-diseno"></select>
+        </div>
+
+        <div class="form-group">
+          <label>Tipo de vinilo</label>
+          <select id="select-vinilo"></select>
+        </div>
+
+        <div class="form-group">
+          <label>Tipo de troquel</label>
+          <select id="select-troquel"></select>
+        </div>
+
+        <div class="form-group">
+          <label>Ancho en cm</label>
+          <input type="number" id="input-ancho" min="1" value="8.5">
+        </div>
+
+        <div class="form-group">
+          <label>Alto en cm</label>
+          <input type="number" id="input-alto" min="1" value="4.5">
+        </div>
+
+        <div class="form-group">
+          <label>Cantidad de pliegos</label>
+          <input type="number" id="input-pliegos" min="1" value="1">
+        </div>
+
+        <div class="totales-container">
+          <p>Stickers por pliego: <strong id="stickers-por-pliego">0</strong></p>
+          <p>Total de stickers: <strong id="total-stickers">0</strong></p>
+          <p>Unitario: <span id="precio-unitario">$ 0</span> + IVA <span id="precio-unitario-iva">$ 0</span></p>
+          <p>Total: <span id="precio-total">$ 0</span> + IVA <span id="precio-total-iva">$ 0</span></p>
+        </div>
+      </div>
     </div>
-    <div class="header-right">
-      <span class="update-label">Fecha de actualización</span>
-      <span class="update-date">10/4/2025</span>
-    </div>
-  </div>
-</header>
+  </main>
 
-<main class="vertical-sections">
-  <div class="left-panel">
-    <div class="category-title">
-      <span>Stickers de Vinilo en Plancha Troquelados</span>
-    </div>
-
-    <div class="table-container">
-      <form id="calculadora-form">
-        <label for="combo-diseno">Diseño:</label>
-        <select id="combo-diseno">
-          <option value="">Seleccione</option>
-        </select>
-
-        <label for="combo-vinilo">Vinilos:</label>
-        <select id="combo-vinilo">
-          <option value="">Seleccione</option>
-        </select>
-
-        <label for="combo-rotulado">Rotulado:</label>
-        <select id="combo-rotulado">
-          <option value="">Seleccione</option>
-        </select>
-      </form>
-    </div>
-  </div>
-
-  <div class="right-panel">
-    <h3>Resultado</h3>
-    <div id="resultado"></div>
-  </div>
-</main>
-
-<script src="calculadora_stk_vinilo.js"></script>
+  <script src="calculadora_stk_vinilo.js"></script>
 </body>
 </html>
