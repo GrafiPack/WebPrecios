@@ -2,13 +2,13 @@ const sheetID = "1p3Q-DpF8JcdGIWwOns7rirsgoVJ6LES2LzaBgGE42XI";
 const sheetName = "stickers";
 const url = `https://opensheet.elk.sh/${sheetID}/${sheetName}`;
 
-const selectDiseno = document.getElementById('diseno');
-const selectVinilo = document.getElementById('vinilo');
-const selectTroquel = document.getElementById('troquel');
+const selectDiseno = document.getElementById('select-diseno');
+const selectVinilo = document.getElementById('select-vinilo');
+const selectTroquel = document.getElementById('select-troquel');
 
-const inputAncho = document.getElementById('ancho');
-const inputAlto = document.getElementById('alto');
-const inputPliegos = document.getElementById('pliegos');
+const inputAncho = document.getElementById('input-ancho');
+const inputAlto = document.getElementById('input-alto');
+const inputPliegos = document.getElementById('input-pliegos');
 
 const stickersPorPliego = document.getElementById('stickers-por-pliego');
 const totalStickers = document.getElementById('total-stickers');
@@ -28,35 +28,26 @@ fetch(url)
   .then(res => res.json())
   .then(data => {
     data.forEach(row => {
-      let precio = parseFloat(
-        (row.Precio1 || '').replace(/[^0-9,.-]+/g, '').replace(',', '.')
-      ) || 0;
-
       if (row.Subcategoría === 'Diseño') {
         const opt = new Option(row.Detalle, row.Detalle);
-        opt.dataset.precio = precio;
+        opt.dataset.precio = parseFloat(row.Precio1.replace(/[^0-9.-]+/g, '')) || 0;
         selectDiseno.appendChild(opt);
-        precios.diseno[row.Detalle] = precio;
+        precios.diseno[row.Detalle] = opt.dataset.precio;
       }
-
       if (row.Subcategoría === 'Vinilos') {
         const opt = new Option(row.Detalle, row.Detalle);
-        opt.dataset.precio = precio;
+        opt.dataset.precio = parseFloat(row.Precio1.replace(/[^0-9.-]+/g, '')) || 0;
         selectVinilo.appendChild(opt);
-        precios.vinilo[row.Detalle] = precio;
+        precios.vinilo[row.Detalle] = opt.dataset.precio;
       }
-
       if (row.Subcategoría === 'Rotulado') {
         const opt = new Option(row.Detalle, row.Detalle);
-        opt.dataset.precio = precio;
+        opt.dataset.precio = parseFloat(row.Precio1.replace(/[^0-9.-]+/g, '')) || 0;
         selectTroquel.appendChild(opt);
-        precios.troquel[row.Detalle] = precio;
+        precios.troquel[row.Detalle] = opt.dataset.precio;
       }
     });
-    calcular(); // calculamos al cargar
-  })
-  .catch(err => {
-    console.error("Error cargando datos de la hoja:", err);
+    calcular();
   });
 
 // Escuchar cambios
@@ -65,49 +56,38 @@ fetch(url)
 
 // Función principal de cálculo
 function calcular() {
-  const diseno = parseFloat(selectDiseno.selectedOptions[0]?.dataset.precio || 0);
-  const vinilo = parseFloat(selectVinilo.selectedOptions[0]?.dataset.precio || 0);
-  const troquel = parseFloat(selectTroquel.selectedOptions[0]?.dataset.precio || 0);
+  const diseno = precios.diseno[selectDiseno.value] || 0;
+  const vinilo = precios.vinilo[selectVinilo.value] || 0;
+  const troquel = precios.troquel[selectTroquel.value] || 0;
   const ancho = parseFloat(inputAncho.value) || 0;
   const alto = parseFloat(inputAlto.value) || 0;
   const pliegos = parseInt(inputPliegos.value) || 0;
 
-  // Verificamos datos mínimos
-  if (ancho <= 0 || alto <= 0 || pliegos <= 0 || vinilo <= 0 || troquel < 0) {
-    stickersPorPliego.textContent = totalStickers.textContent = "0";
-    precioUnitario.textContent = precioUnitarioIva.textContent = "$ 0";
-    precioTotal.textContent = precioTotalIva.textContent = "$ 0";
-    return;
-  }
-
-  // Calcular cuántos stickers entran en el pliego 51x98 cm
-  const cantidad1 = Math.floor(51 / (ancho + 1)) * Math.floor(98 / (alto + 1));
-  const cantidad2 = Math.floor(51 / (alto + 1)) * Math.floor(98 / (ancho + 1));
+  // Calcular cuántos stickers entran en el pliego 51x98
+  const cantidad1 = Math.floor(51/(ancho+1)) * Math.floor(98/(alto+1));
+  const cantidad2 = Math.floor(51/(alto+1)) * Math.floor(98/(ancho+1));
   const stickers = Math.max(cantidad1, cantidad2);
 
-  const total_stickers = stickers * pliegos;
-
   stickersPorPliego.textContent = stickers;
-  totalStickers.textContent = total_stickers;
+  totalStickers.textContent = stickers * pliegos;
 
   // Calcular precios
-  const precioVinilo = pliegos * (0.51 * 0.98) * vinilo;
+  const precioVinilo = pliegos * 0.51 * 0.98 * vinilo;
   const precioTroquel = pliegos * troquel;
   const precioDiseno = diseno;
 
   const total = precioVinilo + precioTroquel + precioDiseno;
-  const unitario = total / (total_stickers || 1);
+  const unitario = total / (stickers * pliegos || 1);
   const iva = 0.21;
 
-  // Mostrar precios
+  // Formatear con separador de miles
   precioUnitario.textContent = `$ ${formatNumber(unitario)}`;
-  precioUnitarioIva.textContent = `$ ${formatNumber(unitario * (1 + iva))}`;
+  precioUnitarioIva.textContent = `$ ${formatNumber(unitario * (1+iva))}`;
   precioTotal.textContent = `$ ${formatNumber(total)}`;
-  precioTotalIva.textContent = `$ ${formatNumber(total * (1 + iva))}`;
+  precioTotalIva.textContent = `$ ${formatNumber(total * (1+iva))}`;
 }
 
-// Función para formatear con miles
+// Función para formatear número
 function formatNumber(num) {
-  num = parseFloat(num) || 0;
   return Math.round(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
