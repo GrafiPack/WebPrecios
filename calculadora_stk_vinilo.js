@@ -72,7 +72,7 @@ function calcular() {
   totalStickers.textContent = stickers * pliegos;
 
   // Calcular precios
-  const precioVinilo = pliegos * 51 * 0.98 * vinilo;
+  const precioVinilo = pliegos * 0.51 * 0.98 * vinilo;
   const precioTroquel = pliegos * troquel;
   const precioDiseno = diseno;
 
