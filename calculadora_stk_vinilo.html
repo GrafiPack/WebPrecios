@@ -1,25 +1,59 @@
-<div id="calculadora">
-  <h3>Calculadora de Stickers</h3>
-
-  <label>Diseño:</label>
-  <select id="combo-diseno">
-    <option value="">Seleccione una opción</option>
-  </select>
-
-  <label>Vinilos:</label>
-  <select id="combo-vinilos">
-    <option value="">Seleccione una opción</option>
-  </select>
-
-  <label>Rotulado:</label>
-  <select id="combo-rotulado">
-    <option value="">Seleccione una opción</option>
-  </select>
-
-  <div id="resultado">
-    <p>Precio Diseño: <span id="precio-diseno">-</span></p>
-    <p>Precio Vinilo: <span id="precio-vinilo">-</span></p>
-    <p>Precio Rotulado: <span id="precio-rotulado">-</span></p>
-    <p><strong>Total estimado: <span id="total-calculado">-</span></strong></p>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calculadora Stickers Vinilo</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <div class="header-left">
+      <img src="logo.png" alt="GrafiPack Logo" class="logo" />
+    </div>
+    <div class="header-center">
+      <h2>Calculadora Stickers Vinilo</h2>
+    </div>
+    <div class="header-right">
+      <span class="update-label">Fecha de actualización</span>
+      <span class="update-date">10/4/2025</span>
+    </div>
   </div>
-</div>
+</header>
+
+<main class="vertical-sections">
+  <div class="left-panel">
+    <div class="category-title">
+      <span>Stickers de Vinilo en Plancha Troquelados</span>
+    </div>
+
+    <div class="table-container">
+      <form id="calculadora-form">
+        <label for="combo-diseno">Diseño:</label>
+        <select id="combo-diseno">
+          <option value="">Seleccione</option>
+        </select>
+
+        <label for="combo-vinilo">Vinilos:</label>
+        <select id="combo-vinilo">
+          <option value="">Seleccione</option>
+        </select>
+
+        <label for="combo-rotulado">Rotulado:</label>
+        <select id="combo-rotulado">
+          <option value="">Seleccione</option>
+        </select>
+      </form>
+    </div>
+  </div>
+
+  <div class="right-panel">
+    <h3>Resultado</h3>
+    <div id="resultado"></div>
+  </div>
+</main>
+
+<script src="calculadora_stk_vinilo.js"></script>
+</body>
+</html>
