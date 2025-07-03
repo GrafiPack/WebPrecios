@@ -77,6 +77,12 @@ fetch(url)
         // Cuerpo de tabla
         const tbody = document.createElement("tbody");
         productos.forEach(prod => {
+          // FILTRO según columna Mostrar
+          const mostrar = prod["Mostrar"];
+          if (!mostrar || mostrar.toString().toLowerCase() === "false") {
+            return; // No mostrar esta fila
+          }
+
           const tr = document.createElement("tr");
 
           // Detalle
@@ -125,7 +131,7 @@ function agregarAFavoritos(fila, celdaClickeada) {
   tdProducto.textContent = celdasFila[0].textContent; // Nombre del producto (primera columna)
   tr.appendChild(tdProducto);
 
-  // Cantidad (Ahora en la segunda columna)
+  // Cantidad
   const tdCantidad = document.createElement("td");
   const input = document.createElement("input");
   input.type = "number";
@@ -133,18 +139,18 @@ function agregarAFavoritos(fila, celdaClickeada) {
   input.value = "1";
   input.className = "cantidad-input";
   input.addEventListener("input", actualizarSubtotal);
-  setTimeout(() => input.dispatchEvent(new Event("input")), 0); // Fuerza el cálculo inicial
+  setTimeout(() => input.dispatchEvent(new Event("input")), 0);
   tdCantidad.appendChild(input);
   tr.appendChild(tdCantidad);
 
-  // Precio (desplazado a la tercera columna)
+  // Precio
   const tdPrecio = document.createElement("td");
-  tdPrecio.textContent = celdaClickeada.textContent; // Utiliza el valor de la celda clickeada
+  tdPrecio.textContent = celdaClickeada.textContent;
   tr.appendChild(tdPrecio);
 
   // Subtotal
   const tdSubtotal = document.createElement("td");
-  tdSubtotal.textContent = `$ ${parseFloat(celdaClickeada.textContent.replace(/[^0-9.-]+/g, '')).toFixed(2)}`; // Calcula inicial con el precio
+  tdSubtotal.textContent = `$ ${parseFloat(celdaClickeada.textContent.replace(/[^0-9.-]+/g, '')).toFixed(2)}`;
   tr.appendChild(tdSubtotal);
 
   // Eliminar
@@ -158,24 +164,22 @@ function agregarAFavoritos(fila, celdaClickeada) {
   tdEliminar.appendChild(btnEliminar);
   tr.appendChild(tdEliminar);
 
-// Verificar si ya existe el producto con el mismo precio
-const filaExistente = Array.from(tabla.children).find(row =>
-  row.children[0].textContent === tdProducto.textContent &&
-  row.children[2].textContent === tdPrecio.textContent
-);
+  // Verificar si ya existe producto+precio igual, sumar cantidad
+  const filaExistente = Array.from(tabla.children).find(row =>
+    row.children[0].textContent === tdProducto.textContent &&
+    row.children[2].textContent === tdPrecio.textContent
+  );
 
-if (filaExistente) {
-  const inputCantidad = filaExistente.querySelector("input");
-  inputCantidad.value = parseInt(inputCantidad.value) + 1;
-  inputCantidad.dispatchEvent(new Event('input')); // Recalcula subtotal
-  return;
-}
+  if (filaExistente) {
+    const inputCantidad = filaExistente.querySelector("input");
+    inputCantidad.value = parseInt(inputCantidad.value) + 1;
+    inputCantidad.dispatchEvent(new Event('input'));
+    return;
+  }
 
   tabla.appendChild(tr);
   actualizarTotal();
 }
-
-
 
 // ========================
 // Actualizar subtotal
@@ -187,7 +191,6 @@ function actualizarSubtotal() {
   const cantidad = parseFloat(this.value) || 0;
   const subtotal = precio * cantidad;
 
-  // Mostrar subtotal sin decimales y con separador de miles
   fila.children[3].textContent = `$ ${Math.round(subtotal)
     .toString()
     .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
@@ -203,11 +206,10 @@ function actualizarTotal() {
   document.querySelectorAll("#lista-seleccionada tbody tr").forEach(fila => {
     let textoSubtotal = fila.children[3].textContent;
 
-    // Limpiar texto: eliminar $ y puntos de miles, reemplazar coma si hubiera
     textoSubtotal = textoSubtotal
-      .replace(/\$/g, '')   // quitar símbolo $
-      .replace(/\./g, '')   // quitar puntos (miles)
-      .replace(',', '.');   // cambiar coma por punto decimal (por si acaso)
+      .replace(/\$/g, '')
+      .replace(/\./g, '')
+      .replace(',', '.');
 
     const subtotal = parseFloat(textoSubtotal) || 0;
     total += subtotal;
@@ -217,7 +219,7 @@ function actualizarTotal() {
   if (totalDisplay) {
     totalDisplay.textContent = Math.round(total)
       .toString()
-      .replace(/\B(?=(\d{3})+(?!\d))/g, "."); // separador de miles
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   }
 }
 
