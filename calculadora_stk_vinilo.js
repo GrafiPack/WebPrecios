@@ -60,4 +60,53 @@ fetch(url)
   });
 
 // Escuchar cambios
-[selectDiseno, selectVinilo, s]()
+[selectDiseno, selectVinilo, selectTroquel, inputAncho, inputAlto, inputPliegos]
+  .forEach(el => el.addEventListener('input', calcular));
+
+// Función principal de cálculo
+function calcular() {
+  const diseno = parseFloat(selectDiseno.selectedOptions[0]?.dataset.precio || 0);
+  const vinilo = parseFloat(selectVinilo.selectedOptions[0]?.dataset.precio || 0);
+  const troquel = parseFloat(selectTroquel.selectedOptions[0]?.dataset.precio || 0);
+  const ancho = parseFloat(inputAncho.value) || 0;
+  const alto = parseFloat(inputAlto.value) || 0;
+  const pliegos = parseInt(inputPliegos.value) || 0;
+
+  if (ancho <= 0 || alto <= 0 || pliegos <= 0 || vinilo <= 0) {
+    stickersPorPliego.textContent = totalStickers.textContent = "0";
+    precioUnitario.textContent = precioUnitarioIva.textContent = "$ 0";
+    precioTotal.textContent = precioTotalIva.textContent = "$ 0";
+    return;
+  }
+
+  // Calcular cantidad de stickers por pliego (con margen de 1 cm)
+  const cantidad1 = Math.floor(51 / (ancho + 1)) * Math.floor(98 / (alto + 1));
+  const cantidad2 = Math.floor(51 / (alto + 1)) * Math.floor(98 / (ancho + 1));
+  const stickers = Math.max(cantidad1, cantidad2);
+
+  const total_stickers = stickers * pliegos;
+
+  stickersPorPliego.textContent = stickers;
+  totalStickers.textContent = total_stickers;
+
+  // Calcular precios
+  const areaPliego = 0.51 * 0.98; // en m²
+  const precioVinilo = pliegos * areaPliego * vinilo;
+  const precioTroquel = pliegos * troquel;
+  const precioDiseno = diseno;
+
+  const total = precioVinilo + precioTroquel + precioDiseno;
+  const unitario = total / (total_stickers || 1);
+  const iva = 0.21;
+
+  precioUnitario.textContent = `$ ${formatNumber(unitario)}`;
+  precioUnitarioIva.textContent = `$ ${formatNumber(unitario * (1 + iva))}`;
+  precioTotal.textContent = `$ ${formatNumber(total)}`;
+  precioTotalIva.textContent = `$ ${formatNumber(total * (1 + iva))}`;
+}
+
+// Formatear número con separador de miles
+function formatNumber(num) {
+  num = parseFloat(num) || 0;
+  return Math.round(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
