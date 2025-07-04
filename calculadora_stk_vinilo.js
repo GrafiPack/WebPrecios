@@ -91,7 +91,7 @@ function calcular() {
 
   // Calcular precios
   const areaPliego = 0.51 * 0.98; // en m²
-  const precioVinilo = pliegos * areaPliego * vinilo;
+  const precioVinilo = pliegos * areaPliego * vinilo * 10000;
   const precioTroquel = pliegos * troquel;
   const precioDiseno = diseno;
 
