@@ -1,23 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Calculadora Stickers Vinilo</title>
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-  <header>
-    <div class="header-inner">
-      <div class="header-left">
-        <img src="logo.png" alt="GrafiPack Logo" class="logo" />
-      </div>
-      <div class="header-center">
-        <h2>Calculadora Stickers de Vinilo</h2>
-      </div>
-      <div class="header-right">
-        <span class="update-label">Fecha de actualización</span>
-        <span class="update-date">10/4/2025</span>/* =======================
+/* =======================
    Reset básico y cuerpo
    ======================= */
    html, body {
