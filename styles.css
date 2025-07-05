@@ -1,369 +1,80 @@
-/* =======================
-   Reset básico y cuerpo
-   ======================= */
-   html, body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fuente principal */
-    background-color: #CFCFCF; /* Color de fondo gris claro */
-    color: #111; /* Color de texto negro */
-    margin: 0; /* Elimina márgenes */
-    padding: 0; /* Elimina padding */
-    height: 100%; /* Ajusta al 100% de la altura de la ventana */
-    overflow: hidden; /* Evita el scroll global */
-  }
-  
-  /* =======================
-     Encabezado fijo
-     ======================= */
-  header {
-    background-color: #D9D9D9;
-    background-image: url('bg.png');
-    background-repeat: repeat-x;
-    background-position: center top;
-    width: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 999;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Sombra más marcada */
-    height: 40px; /* Define una altura fija para el header */
-    padding: 18px 0; /* Ajusta si es necesario para asegurarse de que el contenido no se tape */
-  }
-  
-  .header-inner {
-    max-width: 1000px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .header-left .logo {
-    height: 40px;
-    max-width: 100%;
-    object-fit: contain;
-  }
-  
-  .header-center h2 {
-    margin: 0;
-    font-size: 1.5rem;
-    color: white;
-    text-align: center;
-  }
-  
-  .header-right {
-    text-align: center;
-    font-size: 0.75rem;
-    color: white;
-    line-height: 1.2;
-  }
-  
-  .update-label {
-    display: block;
-    font-weight: bold;
-  }
-  
-  .update-date {
-    display: block;
-  }
-  
-  /* =======================
-     Diseño de la categoría
-     ======================= */
-  .category-title {
-    display: flex;
-    align-items: baseline;
-    justify-content: flex-start;
-    margin: 2rem auto 1.2rem;
-    max-width: 1000px;
-    width: 95%;
-    position: relative;
-    padding-bottom: .2rem;
-    border-bottom: 2px solid #ff2b61;
-    color: #ff2b61;
-    font-weight: bold;
-    font-size: 1.5rem;
-  }
-  
-  .category-title .category-obs {
-    font-size: 0.85rem;
-    color: #000;
-    font-style: italic;
-    font-weight: normal;
-    margin-left: 10px;
-  }
-  
-  /* =======================
-     Subcategoría
-     ======================= */
-  .subcategory-title {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #222;
-    margin: 1.5rem 0.5rem 0.5rem;
-  }
-  
-  /* =======================
-     Contenedor de tabla
-     ======================= */
-  .table-container {
-    width: 95%;
-    max-width: 1000px;
-    margin: 0 auto 2rem;
-    overflow-x: visible;
-  }
-  
-  /* =======================
-     Tabla de productos
-     ======================= */
-  table {
-    width: 100%;
-    max-width: 1000px;
-    border-collapse: separate;
-    border-spacing: 0;
-    background-color: #E2E2E2;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
-    border-radius: 12px;
-    overflow: hidden;
-  }
-  
-  /* =======================
-     Celdas
-     ======================= */
-  th {
-    padding: 10px 12px;
-    background-color: #E2E2E2;
-    font-weight: normal;
-    color: #000;
-    font-size: 0.95rem;
-    white-space: nowrap;
-    border-bottom: 1px solid #fff;
-    text-align: center;
-  }
-  
-  td {
-    padding: 4px 12px;
-    color: #333;
-    font-size: 0.95rem;
-    white-space: nowrap;
-    text-align: center;
-  }
-  
-  th:first-child,
-  td:first-child {
-    text-align: left !important;
-  }
-  
-  th:first-child {
-    font-weight: bold;
-  }
-  
-  th.align-left,
-  td.align-left {
-    text-align: left !important;
-    font-style: italic;
-    color: #444;
-  }
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calculadora Stickers Vinilo</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="header-left">
+        <img src="logo.png" alt="GrafiPack Logo" class="logo" />
+      </div>
+      <div class="header-center">
+        <h2>Calculadora Stickers de Vinilo</h2>
+      </div>
+      <div class="header-right">
+        <span class="update-label">Fecha de actualización</span>
+        <span class="update-date">10/4/2025</span>
+      </div>
+    </div>
+  </header>
 
-  
-  /* =======================
-     Hover
-     ======================= */
-  tbody tr:hover td {
-    background-color: #f5F5F5 !important;
-    transition: background-color 0.2s ease-in-out;
-  }
-  
-  /* =======================
-     Bordes redondeados
-     ======================= */
-  thead th:first-child {
-    border-top-left-radius: 12px;
-  }
-  thead th:last-child {
-    border-top-right-radius: 12px;
-  }
-  tbody tr:last-child td:first-child {
-    border-bottom-left-radius: 12px;
-  }
-  tbody tr:last-child td:last-child {
-    border-bottom-right-radius: 12px;
-  }
+<main class="vertical-sections-calculadora">
+  <div class="left-panel">
+    <div class="table-container">
+      <div class="category-title">Vinilo Impreso y Troquelado</div>
 
-  .vertical-sections {
-    padding-top: 20px; /* Espaciado para compensar el header fijo */
-    display: flex;
-    flex-direction: column; /* Coloca las secciones una debajo de otra */
-    height: 90vh;
-    margin: 8vh;
-    /*height: calc(100vh - 70px); /* Altura dinámica restando el espacio del header */
-    gap: 10px; /* Espaciado entre las secciones */
-  }
+      <div class="form-grid">
+        <div class="form-group">
+          <label>¿Tenés el archivo listo para imprimir y troquelar?</label>
+          <select id="select-diseno"></select>
+        </div>
 
-  .left-panel {
-    height: 50%; /* Ocupa el 60% del espacio disponible */
-    overflow-x: auto; /* Scroll horizontal activado */
-    white-space: nowrap; /* Mantiene el contenido en línea */
-    width: 95%; /* Anchura consistente con el diseño */
-    max-width: 1000px; /* Limita el ancho máximo */
-    margin: 0 auto; /* Centra el panel horizontalmente */
-  }
-  
-  .right-panel {
-    height: 50%; /* Ocupa el 40% del espacio disponible */
-    overflow-x: auto; /* Scroll horizontal activado */
-    overflow-y: auto; /* Scroll vertical activado */
-    white-space: nowrap; /* Mantiene el contenido en línea */
-    width: 95%; /* Anchura consistente con el diseño */
-    max-width: 1000px; /* Limita el ancho máximo */
-    margin: 0 auto; /* Centra el panel horizontalmente */
-    border-top: 2px solid #000; /* Línea divisoria fina en la parte superior */
-  }
+        <div class="form-group">
+          <label>Tipo de vinilo</label>
+          <select id="select-vinilo"></select>
+        </div>
 
-  .right-panel h3 {
-    background-color: #cfcfcf;
-    position: sticky;
-    top: 0;
-    padding: 8px 0;
-    margin: 0;
-    z-index: 10;
-    font-size: 1.1rem;
-    border-bottom: 1px solid #aaa;
-    margin-bottom: 15px;;
-  }
+        <div class="form-group">
+          <label>Tipo de troquel</label>
+          <select id="select-troquel"></select>
+        </div>
 
-  .right-panel table {
-    width: 80%; /* Reduce la anchura al 80% del contenedor */
-    margin: 0 auto; /* Centra la tabla dentro del contenedor */
-  }
+        <div class="form-group">
+          <label>Ancho en cm</label>
+          <input type="number" id="input-ancho" min="0.1" value="8.5" step="0.1">
+        </div>
 
- .right-panel table th:nth-child(2),
-.right-panel table td:nth-child(2) {
-  width: 60px; /* Reduce el ancho de la columna */
-  max-width: 60px; /* Limita el ancho máximo */
-  text-align: center; /* Centra el contenido */
-  overflow: hidden; /* Evita el desbordamiento */
-}
+        <div class="form-group">
+          <label>Alto en cm</label>
+          <input type="number" id="input-alto" min="0.1" value="4.5" step="0.1">
+        </div>
 
-table td input {
-  width: 100%; /* Ocupa todo el ancho de la celda */
-  box-sizing: border-box;
-  padding: 4px; /* Espaciado interno */
-}
+        <div class="form-group">
+          <label>
+            Cantidad de pliegos
+            <span class="nota-pliego"> (medida del pliego: 51 x 98 cm)</span>
+          </label>
+          <input type="number" id="input-pliegos" min="1" value="1">
+        </div>
 
-.totales-container {
-  width: 80%;  
-  text-align: right;
-  margin: 1rem auto;
-  max-width: 1000px;
-}
+      <div class="totales-container">
+        <p>Stickers por pliego: <strong id="stickers-por-pliego">0</strong></p>
+        <p>Total de stickers: <strong id="total-stickers">0</strong></p>
+        <p>Unitario: <span id="precio-unitario">$ 0</span> + IVA <span id="precio-unitario-iva">$ 0</span></p>
+        <p>Total: <span id="precio-total">$ 0</span> + IVA <span id="precio-total-iva">$ 0</span></p>
+      </div>
 
-/* =======================
-   Contenedor principal
-   ======================= */
-.vertical-sections {
-  padding-top: 80px; /* deja espacio para el header fijo */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
+            </div>
 
-.left-panel {
-  width: 95%;
-  max-width: 1000px;
-  margin: 0 auto;
-}
+     
+    </div>
+  </div>
+</main>
 
-
-.form-grid {
-  /* display: flex;
-  /* flex-direction: column;       /* Apila verticalmente los grupos */
-  /* align-items: center;          /* Centra horizontalmente cada grupo */
-  /* justify-content: center;      /* Opcional: centra verticalmente si hay espacio */
-   margin: 30px;
-}
-
-//* =======================
-   Formulario en columna
-   ======================= */
-.form-group {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  max-width: 500px;
-}
-
-.form-group label {
-  display: block;
-  font-weight: 500;
-  font-size: 1rem;
-  margin-top: 10px;
-  margin-bottom: 5px;;
-}
-
-.form-group input,
-.form-group select {
-  width: 400px;
-  padding: 3px 6px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-/* =======================
-   Totales
-   ======================= */
-/* Hace que solo el valor del total aparezca en negrita */
-#precio-total{ 
-  font-weight: bold;
-}
-
-.totales-container {
-  width: 100%;
-  max-width: 1000px;
-  /* text-align: right; */
-  margin: 1rem auto;
-  font-size: 1.1rem;
-  color: #222;
-}
-
-.nota-pliego {
-  font-size: 0.85rem;
-  font-weight: normal;
-  color: #555;
-  margin-left: 6px;
-}
-
-
-
-
-
-
-
-  /* =======================
-     Responsive (Móviles)
-     ======================= */
-  @media (max-width: 600px) {
-    th, td {
-      font-size: 0.8rem;
-      padding: 6px 8px;
-      white-space: normal;
-    }
-  
-    .category-title,
-    .subcategory-title {
-      margin-left: 0.5rem;
-      margin-right: 0.5rem;
-      font-size: 1.1rem;
-    }
-  
-    table {
-      table-layout: auto;
-    }
-  
-    th,
-    td {
-      max-width: 90px;
-    }
-  }
+  <script src="calculadora_stk_vinilo.js"></script>
+</body>
+</html>
