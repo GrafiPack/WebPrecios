@@ -257,6 +257,90 @@ table td input {
   max-width: 1000px;
 }
 
+/* =======================
+   Contenedor principal
+   ======================= */
+.vertical-sections {
+  padding-top: 80px; /* deja espacio para el header fijo */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.left-panel {
+  width: 95%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+
+.form-grid {
+  /* display: flex;
+  /* flex-direction: column;       /* Apila verticalmente los grupos */
+  /* align-items: center;          /* Centra horizontalmente cada grupo */
+  /* justify-content: center;      /* Opcional: centra verticalmente si hay espacio */
+   margin: 30px;
+}
+
+//* =======================
+   Formulario en columna
+   ======================= */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 500px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 500;
+  font-size: 1rem;
+  margin-top: 10px;
+  margin-bottom: 5px;;
+}
+
+.form-group input,
+.form-group select {
+  width: 400px;
+  padding: 3px 6px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* =======================
+   Totales
+   ======================= */
+/* Hace que solo el valor del total aparezca en negrita */
+#precio-total{ 
+  font-weight: bold;
+}
+
+.totales-container {
+  width: 100%;
+  max-width: 1000px;
+  /* text-align: right; */
+  margin: 1rem auto;
+  font-size: 1.1rem;
+  color: #222;
+}
+
+.nota-pliego {
+  font-size: 0.85rem;
+  font-weight: normal;
+  color: #555;
+  margin-left: 6px;
+}
+
+
+
+
+
+
+
   /* =======================
      Responsive (Móviles)
      ======================= */
