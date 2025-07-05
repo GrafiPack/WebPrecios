@@ -22,11 +22,12 @@
     </div>
   </header>
 
-  <main class="vertical-sections">
-    <div class="left-panel">
-      <div class="table-container">
-        <div class="category-title">Vinilo Impreso y Troquelado</div>
+<main class="vertical-sections">
+  <div class="left-panel">
+    <div class="table-container">
+      <div class="category-title">Vinilo Impreso y Troquelado</div>
 
+      <div class="form-grid">
         <div class="form-group">
           <label>¿Tenés el archivo listo para imprimir y troquelar?</label>
           <select id="select-diseno"></select>
@@ -44,28 +45,35 @@
 
         <div class="form-group">
           <label>Ancho en cm</label>
-          <input type="number" id="input-ancho" min="1" value="8.5">
+          <input type="number" id="input-ancho" min="0.1" value="8.5" step="0.1">
         </div>
 
         <div class="form-group">
           <label>Alto en cm</label>
-          <input type="number" id="input-alto" min="1" value="4.5">
+          <input type="number" id="input-alto" min="0.1" value="4.5" step="0.1">
         </div>
 
         <div class="form-group">
-          <label>Cantidad de pliegos</label>
+          <label>
+            Cantidad de pliegos
+            <span class="nota-pliego"> (medida del pliego: 51 x 98 cm)</span>
+          </label>
           <input type="number" id="input-pliegos" min="1" value="1">
         </div>
 
-        <div class="totales-container">
-          <p>Stickers por pliego: <strong id="stickers-por-pliego">0</strong></p>
-          <p>Total de stickers: <strong id="total-stickers">0</strong></p>
-          <p>Unitario: <span id="precio-unitario">$ 0</span> + IVA <span id="precio-unitario-iva">$ 0</span></p>
-          <p>Total: <span id="precio-total">$ 0</span> + IVA <span id="precio-total-iva">$ 0</span></p>
-        </div>
+      <div class="totales-container">
+        <p>Stickers por pliego: <strong id="stickers-por-pliego">0</strong></p>
+        <p>Total de stickers: <strong id="total-stickers">0</strong></p>
+        <p>Unitario: <span id="precio-unitario">$ 0</span> + IVA <span id="precio-unitario-iva">$ 0</span></p>
+        <p>Total: <span id="precio-total">$ 0</span> + IVA <span id="precio-total-iva">$ 0</span></p>
       </div>
+
+            </div>
+
+     
     </div>
-  </main>
+  </div>
+</main>
 
   <script src="calculadora_stk_vinilo.js"></script>
 </body>
