@@ -1,0 +1,15 @@
+{
+  "name": "webprecios",
+  "version": "1.0.0",
+  "main": "calculadora_stk_vinilo.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github-gmail:GrafiPack/WebPrecios.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
