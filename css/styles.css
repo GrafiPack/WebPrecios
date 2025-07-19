@@ -10,13 +10,13 @@
     height: 100%; /* Ajusta al 100% de la altura de la ventana */
     overflow: hidden; /* Evita el scroll global */
   }
-  
+
   /* =======================
      Encabezado fijo
      ======================= */
   header {
     background-color: #D9D9D9;
-    background-image: url('bg.png');
+    background-image: url('../images/bg.png');
     background-repeat: repeat-x;
     background-position: center top;
     width: 100%;
@@ -28,7 +28,7 @@
     height: 40px; /* Define una altura fija para el header */
     padding: 18px 0; /* Ajusta si es necesario para asegurarse de que el contenido no se tape */
   }
-  
+
   .header-inner {
     max-width: 1000px;
     margin: 0 auto;
@@ -36,36 +36,36 @@
     align-items: center;
     justify-content: space-between;
   }
-  
+
   .header-left .logo {
     height: 40px;
     max-width: 100%;
     object-fit: contain;
   }
-  
+
   .header-center h2 {
     margin: 0;
     font-size: 1.5rem;
     color: white;
     text-align: center;
   }
-  
+
   .header-right {
     text-align: center;
     font-size: 0.75rem;
     color: white;
     line-height: 1.2;
   }
-  
+
   .update-label {
     display: block;
     font-weight: bold;
   }
-  
+
   .update-date {
     display: block;
   }
-  
+
   /* =======================
      Diseño de la categoría
      ======================= */
@@ -83,7 +83,7 @@
     font-weight: bold;
     font-size: 1.5rem;
   }
-  
+
   .category-title .category-obs {
     font-size: 0.85rem;
     color: #000;
@@ -91,7 +91,7 @@
     font-weight: normal;
     margin-left: 10px;
   }
-  
+
   /* =======================
      Subcategoría
      ======================= */
@@ -101,7 +101,7 @@
     color: #222;
     margin: 1.5rem 0.5rem 0.5rem;
   }
-  
+
   /* =======================
      Contenedor de tabla
      ======================= */
@@ -111,7 +111,7 @@
     margin: 0 auto 2rem;
     overflow-x: visible;
   }
-  
+
   /* =======================
      Tabla de productos
      ======================= */
@@ -125,7 +125,7 @@
     border-radius: 12px;
     overflow: hidden;
   }
-  
+
   /* =======================
      Celdas
      ======================= */
@@ -139,7 +139,7 @@
     border-bottom: 1px solid #fff;
     text-align: center;
   }
-  
+
   td {
     padding: 4px 12px;
     color: #333;
@@ -147,16 +147,16 @@
     white-space: nowrap;
     text-align: center;
   }
-  
+
   th:first-child,
   td:first-child {
     text-align: left !important;
   }
-  
+
   th:first-child {
     font-weight: bold;
   }
-  
+
   th.align-left,
   td.align-left {
     text-align: left !important;
@@ -164,7 +164,7 @@
     color: #444;
   }
 
-  
+
   /* =======================
      Hover
      ======================= */
@@ -172,7 +172,7 @@
     background-color: #f5F5F5 !important;
     transition: background-color 0.2s ease-in-out;
   }
-  
+
   /* =======================
      Bordes redondeados
      ======================= */
@@ -207,7 +207,7 @@
     max-width: 1000px; /* Limita el ancho máximo */
     margin: 0 auto; /* Centra el panel horizontalmente */
   }
-  
+
   .right-panel {
     height: 50%; /* Ocupa el 40% del espacio disponible */
     overflow-x: auto; /* Scroll horizontal activado */
@@ -251,7 +251,7 @@ table td input {
 }
 
 .totales-container {
-  width: 80%;  
+  width: 80%;
   text-align: right;
   margin: 1rem auto;
   max-width: 1000px;
@@ -315,7 +315,7 @@ table td input {
    Totales
    ======================= */
 /* Hace que solo el valor del total aparezca en negrita */
-#precio-total{ 
+#precio-total{
   font-weight: bold;
 }
 
@@ -345,18 +345,18 @@ table td input {
       padding: 6px 8px;
       white-space: normal;
     }
-  
+
     .category-title,
     .subcategory-title {
       margin-left: 0.5rem;
       margin-right: 0.5rem;
       font-size: 1.1rem;
     }
-  
+
     table {
       table-layout: auto;
     }
-  
+
     th,
     td {
       max-width: 90px;
