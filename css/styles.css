@@ -16,7 +16,7 @@
      ======================= */
   header {
     background-color: #D9D9D9;
-    background-image: url('/images/bg.png');
+    background-image: url('../images/bg.png');
     background-repeat: repeat-x;
     background-position: center top;
     width: 100%;
