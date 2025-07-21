@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grafi Pack - Stickers Troquelados</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <div id="navbar-container"></div>
+
+  <!-- Descripción -->
+  <section class="container py-4">
+    <p class="text-center">Nuestros stickers semitroquelados se imprimen en vinilo de alta calidad, con tintas resistentes al agua y a la intemperie. Ideales para promocionar tu marca o darle personalidad a tus productos.</p>
+  </section>
+
+  <!-- Calculadora -->
+<section class="container my-5 calculadora-stickers" style="width: 80%; margin: auto;">
+  <h2 class="mb-4">Calculá tu precio</h2>
+  <div class="row">
+    <!-- Columna del canvas -->
+    <div class="col-md-8 mb-3">
+      <canvas id="previewCanvas" width="600" height="300"></canvas>
+      <div id="infoPlanchas" class="mt-2"></div>
+    </div>
+
+    <!-- Columna de controles -->
+    <div class="col-md-4">
+
+
+      <div class="mb-3">
+        <label for="ancho" class="form-label">Ancho en mm.</label>
+        <input type="number" id="ancho" class="form-control" value="50" min="20" max="580">
+        <div id="errorAncho" class="invalid-feedback d-none">
+          El mínimo es 20 mm y el máximo es <span id="maxAncho">580</span> mm.
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="alto" class="form-label">Alto en mm.</label>
+        <input type="number" id="alto" class="form-control" value="50" min="20" max="980">
+        <div id="errorAlto" class="invalid-feedback d-none">
+          El mínimo es 20 mm y el máximo es <span id="maxAlto">980</span> mm.
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="cantidad" class="form-label">Cantidad de planchas</label>
+        <input type="number" id="cantidad" class="form-control" value="1" min="1" step="1">
+      </div>
+
+      <h4>Precio estimado:</h4>
+      <div id="resultadoPrecio" class="fs-3 fw-bold text-success">$ 0</div>
+    </div>
+  </div>
+</section>
+
+
+<script src="js/calculadora_stickers_plancha.js"></script>
+<script src="js/config_precios.js"></script>
+
+<div id="footer-container"></div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script src="js/includePartials.js"></script>
+
+</body>
+</html>
