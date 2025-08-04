@@ -98,14 +98,21 @@ function iniciarCalculo(config) {
       if (cantidad < 10) {
         // Mostrar mensaje: cantidad mínima es 10
         errorMinimo.classList.remove('d-none');
+        cantidadInput.classList.add('is-invalid');
         return resetPrecio();
       }
       if (cantidad % 10 !== 0) {
         // Mostrar mensaje: debe ser múltiplo de 10
         errorMultiplo.classList.remove('d-none');
+        cantidadInput.classList.add('is-invalid');
         return resetPrecio();
       }
+        // Si es válido, ocultar errores y quitar is-invalid
+        errorMinimo.classList.add('d-none');
+        errorMultiplo.classList.add('d-none');
+      cantidadInput.classList.remove('is-invalid');
       // Deseleccionar radios si se ingresó cantidad personalizada
+      //***************************** */
       document.querySelectorAll('input[name="cantidad"]').forEach(r => r.checked = false);
     } else {
       cantidad = parseInt(
@@ -150,6 +157,9 @@ function iniciarCalculo(config) {
     document.querySelectorAll('input[name="cantidad"]').forEach(r =>
       r.addEventListener('change', () => {
         cantidadInput.value = '';
+        cantidadInput.classList.remove('is-invalid'); // Quita borde rojo
+      errorMinimo.classList.add('d-none');          // Oculta error mínimo
+      errorMultiplo.classList.add('d-none');        // Oculta error múltiplo
         calcularPrecio();
       })
     );
@@ -159,6 +169,7 @@ function iniciarCalculo(config) {
   anchoInput.addEventListener('input', calcularPrecio);
   altoInput.addEventListener('input', calcularPrecio);
   cantidadInput.addEventListener('input', calcularPrecio);
+  cantidadInput.addEventListener('change', calcularPrecio);
 
   calcularPrecio(); // cálculo inicial
 
@@ -183,7 +194,7 @@ function iniciarCalculo(config) {
 
   window.registrarEventosRadiosCantidad = registrarEventosRadiosCantidad;
 }
-
+/* 
 // Carga inicial
 document.addEventListener('DOMContentLoaded', async () => {
   PRECIOS_GENERALES = await cargarPreciosGenerales();
@@ -192,3 +203,4 @@ document.addEventListener('DOMContentLoaded', async () => {
   iniciarCalculo(cfg);
   registrarEventosRadiosCantidad();
 });
+ */

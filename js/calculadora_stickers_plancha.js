@@ -1,21 +1,11 @@
-// js/calculadora_stickers_plancha.js
-
-// Constantes máximas para dimensiones
-const MAX_ANCHO = 510;
-const MAX_ALTO  = 980;
-
-// Dimensiones de la plancha en mm
-const PLANCHA_ANCHO = 980;
-const PLANCHA_ALTO  = 510;
-
 document.addEventListener('DOMContentLoaded', async () => {
   // 0) Aseguramos que PRECIOS_GENERALES esté cargado
   if (typeof PRECIOS_GENERALES === 'undefined' || !PRECIOS_GENERALES) {
     console.log('Cargando PRECIOS_GENERALES...');
     PRECIOS_GENERALES = await cargarPreciosGenerales();
   }
-  const config = PRECIOS_GENERALES.planchas;
-  if (!config) {
+  const configGlobal = PRECIOS_GENERALES.planchas;
+  if (!configGlobal) {
     return console.error('No existe configuración para "planchas" en PRECIOS_GENERALES');
   }
 
@@ -29,18 +19,52 @@ document.addEventListener('DOMContentLoaded', async () => {
   const errorAlto        = document.getElementById('errorAlto');
   const maxAnchoSpan     = document.getElementById('maxAncho');
   const maxAltoSpan      = document.getElementById('maxAlto');
+
+  // Nuevos: para rangos dinámicos de errores
+  const minAnchoText     = document.getElementById('minAnchoText');
+  const maxAnchoText     = document.getElementById('maxAnchoText');
+  const minAltoText      = document.getElementById('minAltoText');
+  const maxAltoText      = document.getElementById('maxAltoText');
+
   const canvas           = document.getElementById('previewCanvas');
 
-  // 2) Mostrar valores máximos
-  maxAnchoSpan.textContent = MAX_ANCHO;
-  maxAltoSpan.textContent  = MAX_ALTO;
+  // 2) Mostrar valores máximos y mínimos
 
-  // 3) Debug canvas
-  console.log('Canvas encontrado:', canvas, 'size:', canvas?.width, '×', canvas?.height);
+  minAnchoText.textContent = configGlobal.anchoMinimo;
+  maxAnchoText.textContent = configGlobal.anchoMaximo;
+  minAltoText.textContent  = configGlobal.altoMinimo;
+  maxAltoText.textContent  = configGlobal.altoMaximo;
+
+  // Setear límites de los inputs
+  anchoInput.min = configGlobal.anchoMinimo;
+  anchoInput.max = configGlobal.anchoMaximo;
+  altoInput.min  = configGlobal.altoMinimo;
+  altoInput.max  = configGlobal.altoMaximo;
+  anchoInput.value = configGlobal.anchoMinimo;
+  altoInput.value  = configGlobal.altoMinimo;
+
+  const anchoPlancha = configGlobal.anchoMaximo;
+  const altoPlancha  = configGlobal.altoMaximo;
+
+// Fijar el ancho del canvas
+const canvasWidth = 600;
+canvas.width = canvasWidth;
+
+// Calcular la escala y el alto proporcional
+const escala = canvasWidth / anchoPlancha;
+const canvasHeight = Math.round(altoPlancha * escala);
+canvas.height = canvasHeight;
+
+
+// 3) Mostrar el título del pliego
+const tituloPliego = document.getElementById('tituloPliego');
+if (tituloPliego) {
+  tituloPliego.textContent = `Medida del la plancha: ${anchoPlancha} mm × ${altoPlancha} mm`;
+}
 
   // 4) Validación de dimensión
-  function validarDimension(valor, maximo) {
-    return !(isNaN(valor) || valor < 20 || valor > maximo);
+  function validarDimension(valor, minimo, maximo) {
+    return !(isNaN(valor) || valor < minimo || valor > maximo);
   }
 
   // 5) Limpiar canvas
@@ -54,8 +78,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // 6) Cálculo de cuántos stickers caben
   function cantidadStickers(w, h) {
-    const cols = Math.floor(PLANCHA_ANCHO / w);
-    const rows = Math.floor(PLANCHA_ALTO / h);
+    const cols = Math.floor(anchoPlancha / w);
+    const rows = Math.floor(altoPlancha / h);
     return { total: cols * rows, columnas: cols, filas: rows };
   }
 
@@ -65,19 +89,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    const espacio = 10; // mm entre stickers
-    const margin = 10;  // mm de margen
+    const espacio = 10;
+    const margin = 10;
     const bloqueW = columnas * w + (columnas - 1) * espacio + 2 * margin;
     const bloqueH = filas    * h + (filas - 1)    * espacio + 2 * margin;
     const escala = Math.min(canvas.width / bloqueW, canvas.height / bloqueH);
-    console.log('bloqueW,H, escala:', bloqueW, bloqueH, escala);
-
     const totalW = columnas * w + (columnas - 1) * espacio;
     const totalH = filas    * h + (filas - 1)    * espacio;
     const offsetX = (canvas.width  - totalW * escala) / 2;
     const offsetY = (canvas.height - totalH * escala) / 2;
 
-    // fondo
     ctx.fillStyle = '#f8f8f8';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -112,22 +133,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     const alto  = parseFloat(altoInput.value);
     const qty   = parseInt(cantidadInput.value, 10);
 
-    // Validar
-    if (!validarDimension(ancho, MAX_ANCHO)) {
+    if (!validarDimension(ancho, configGlobal.anchoMinimo, configGlobal.anchoMaximo)) {
       anchoInput.classList.add('is-invalid'); errorAncho.classList.remove('d-none');
       resultadoPrecio.textContent = '$ 0'; infoPlanchas.textContent=''; clearCanvas(); return;
     }
     anchoInput.classList.remove('is-invalid'); errorAncho.classList.add('d-none');
-    if (!validarDimension(alto, MAX_ALTO)) {
+
+    if (!validarDimension(alto, configGlobal.altoMinimo, configGlobal.altoMaximo)) {
       altoInput.classList.add('is-invalid'); errorAlto.classList.remove('d-none');
       resultadoPrecio.textContent = '$ 0'; infoPlanchas.textContent=''; clearCanvas(); return;
     }
     altoInput.classList.remove('is-invalid'); errorAlto.classList.add('d-none');
+
     if (isNaN(qty) || qty <= 0) {
       resultadoPrecio.textContent = '$ 0'; infoPlanchas.textContent=''; clearCanvas(); return;
     }
 
-    // Agregar margen al sticker
     const sw = ancho + 10;
     const sh = alto  + 10;
     const normal = cantidadStickers(sw, sh);
@@ -140,29 +161,32 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     const planchas = Math.ceil(qty / mejor.total);
-    const factor  = config.factoresCantidad
+    const factor  = configGlobal.factoresCantidad
       .filter(f=>qty>=f.min)
       .sort((a,b)=>b.min-a.min)[0]?.factor || 1;
 
-    const areaM2 = (PLANCHA_ANCHO/1000)*(PLANCHA_ALTO/1000);
-    const costoPlancha = mejor.total*config.precioFijoUnidad + areaM2*config.precioPorM2;
-    const total     = config.precioFijo + costoPlancha * planchas * factor;
+    const areaM2 = (anchoPlancha/1000)*(altoPlancha/1000);
+    const costoPlancha = mejor.total*configGlobal.precioFijoUnidad + areaM2*configGlobal.precioPorM2;
+    const total     = configGlobal.precioFijo + costoPlancha * planchas * factor;
 
-    // Mostrar
     resultadoPrecio.textContent = '$ ' + Math.round(total).toLocaleString('es-AR');
+    const precioUnitario = document.getElementById('precioUnitario');
+    if (precioUnitario && qty > 0) {
+      const unitario = total / mejor.total;
+      precioUnitario.textContent = `($${unitario.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} c/u)`;
+    }
     infoPlanchas.innerHTML = `
       Stickers x plancha: <b>${mejor.total}</b> (filas ${mejor.filas} × columnas ${mejor.columnas})<br>
-      
     `;
     dibujarPreview(mejor.filas, mejor.columnas, 
-      mejor===normal?sw:sh, mejor===normal?sh:sw);
+      mejor === normal ? sw : sh, mejor === normal ? sh : sw);
   }
 
   // 9) Eventos
   anchoInput.addEventListener('input', calcularPrecio);
   altoInput.addEventListener('input', calcularPrecio);
   cantidadInput.addEventListener('input', calcularPrecio);
-  document.querySelectorAll('input[name="troquel"]').forEach(i=>
+  document.querySelectorAll('input[name="troquel"]').forEach(i =>
     i.addEventListener('change', calcularPrecio)
   );
 

@@ -130,7 +130,7 @@
       </div>
       <div class="col-md-3">
         <img src="imagenes/stickers_vinilo/Screen_Shot_2023-03-28_at_6.webp" class="img-fluid rounded mb-3" alt="Sticker 4">
-        <img src="imagenes/stickers_vinilo/tickers_troquelados_muestra_03.jpg" class="img-fluid rounded" alt="Sticker 5">
+        <img src="imagenes/stickers_vinilo/stickers_troquelados_muestra_03.jpg" class="img-fluid rounded" alt="Sticker 5">
       </div>
     </div>
   </section>
@@ -144,7 +144,18 @@
   <script src="js/includePartials.js"></script>
   <!-- Nota: carrito.js ya se carga dinámicamente en includePartials, no se incluye estáticamente aquí -->
   <script src="js/config_precios.js"></script>
-  <script src="js/calculadora_stickers_semitroquelados.js"></script>
+  
+<!-- ...otros scripts... -->
+<script src="js/calculadora_stickers_semitroquelados.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', async () => {
+    PRECIOS_GENERALES = await cargarPreciosGenerales();
+    const cfg = PRECIOS_GENERALES?.semiTroquelados;
+    if (!cfg) return alert("Error cargando configuración de precios.");
+    iniciarCalculo(cfg);
+    registrarEventosRadiosCantidad();
+  });
+</script>
 
 </body>
 </html>

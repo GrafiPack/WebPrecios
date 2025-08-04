@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Grafi Pack - Stickers Troquelados</title>
+  <title>Grafi Pack - Stickers Troquelados Rectangulares</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -15,7 +15,7 @@
   <!-- Sección de calculadora; data-producto define el nombre que aparecerá en el carrito -->
   <section class="container my-5 calculadora-stickers" style="width: 80%; margin: auto;" data-producto="Stickers troquelados">
     <div class="mb-4 text-left">
-      <h2 class="display-5 fw-bold mb-2">Stickers troquelados</h2>
+      <h2 class="display-5 fw-bold mb-2">Stickers Rectangulares</h2>
       <p style="max-width: 80%">
         Los stickers troquelados personalizados son una forma rápida y fácil de promocionar tu empresa, marca o evento.
         Son perfectos para portátiles, botellas de agua, y más. El vinilo grueso y duradero protege tus stickers de rayones, del agua y del sol.
@@ -24,7 +24,7 @@
 
     <div class="row">
       <div class="col-md-8">
-        <img src="imagenes/cover.webp" class="img-fluid" alt="Stickers troquelados">
+        <img src="imagenes/stickers_vinilo/stickers_rectangulares_cover.png" class="img-fluid" alt="Stickers troquelados">
       </div>
 
       <div class="col-md-4">
@@ -143,11 +143,11 @@
   <script src="js/config_precios.js"></script>
 
   <!-- ...otros scripts... -->
-<script src="js/calculadora_stickers_Troquelados.js"></script>
+<script src="js/calculadora_stickers_basicos.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', async () => {
     PRECIOS_GENERALES = await cargarPreciosGenerales();
-    const cfg = PRECIOS_GENERALES?.troquelados;
+    const cfg = PRECIOS_GENERALES?.rectangulares;
     if (!cfg) return alert("Error cargando configuración de precios.");
     iniciarCalculo(cfg);
     registrarEventosRadiosCantidad();

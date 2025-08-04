@@ -1,6 +1,12 @@
-// js/calculadora_stickers_semitroquelados.js
+// Archivo: js/calculadora_stickers_hoja.js
 
 let configGlobal = null;
+
+window.MEDIDAS_HOJA = {
+  A6: { ancho: 110, alto: 148 },
+  A5: { ancho: 148, alto: 210 }
+  
+};
 
 /**
  * Valida si una dimensión está dentro del rango permitido.
@@ -31,7 +37,7 @@ function iniciarCalculo(config) {
   const section = document.querySelector('section[data-producto]');
   const nombreProducto = section?.dataset.producto?.trim() || "Producto";
   configGlobal = { ...config, nombreProducto };
-
+  
   // Sacamos cantidades de la config
   const cantidadesDisponibles = config.factoresCantidad.map(f => f.min).sort((a, b) => a - b);
   const cantidadMinima = cantidadesDisponibles[0] || 10;
@@ -56,8 +62,12 @@ function iniciarCalculo(config) {
   anchoInput.max = config.anchoMaximo;
   altoInput.min  = config.altoMinimo;
   altoInput.max  = config.altoMaximo;
-  anchoInput.value = config.anchoMinimo;
-  altoInput.value  = config.altoMinimo;
+  // No asignar value aquí, solo placeholder en el HTML
+
+  anchoInput.addEventListener('input', calcularPrecio);
+  anchoInput.addEventListener('change', calcularPrecio);  
+  altoInput.addEventListener('input', calcularPrecio);
+  altoInput.addEventListener('change', calcularPrecio);
 
   // Mostrar rangos en mensajes de error
   document.getElementById('minAnchoText').textContent = config.anchoMinimo;
@@ -69,25 +79,47 @@ function iniciarCalculo(config) {
    * Calcula y actualiza el precio.
    */
   function calcularPrecio() {
-    const ancho = parseFloat(anchoInput.value);
-    const alto  = parseFloat(altoInput.value);
+let ancho = parseFloat(anchoInput.value);
+let alto  = parseFloat(altoInput.value);
 
-    // Validar dimensiones
-    if (!validarDimension(ancho, config.anchoMinimo, config.anchoMaximo)) {
-      anchoInput.classList.add('is-invalid');
-      errorAncho.classList.remove('d-none');
-      return resetPrecio();
-    }
-    anchoInput.classList.remove('is-invalid');
-    errorAncho.classList.add('d-none');
+// Si hay alguna medida personalizada ingresada, deseleccionar radios
+if (anchoInput.value || altoInput.value) {
+  document.querySelectorAll('input[name="medidaHoja"]').forEach(r => r.checked = false);
+  document.querySelectorAll('input[name="medidaHoja"]').forEach(r => {
+    const label = document.querySelector(`label[for="${r.id}"]`);
+    if (label) label.classList.remove('active');
+  });
+}
 
-    if (!validarDimension(alto, config.altoMinimo, config.altoMaximo)) {
-      altoInput.classList.add('is-invalid');
-      errorAlto.classList.remove('d-none');
-      return resetPrecio();
-    }
-    altoInput.classList.remove('is-invalid');
-    errorAlto.classList.add('d-none');
+// Si no se ingresó ninguna medida, usar medidaHoja
+if (!anchoInput.value && !altoInput.value) {
+  const seleccionada = document.querySelector('input[name="medidaHoja"]:checked')?.value;
+  if (MEDIDAS_HOJA[seleccionada]) {
+    ancho = MEDIDAS_HOJA[seleccionada].ancho;
+    alto = MEDIDAS_HOJA[seleccionada].alto;
+  }
+}
+
+// Validar ancho (si fue ingresado manualmente)
+if (anchoInput.value && !validarDimension(ancho, config.anchoMinimo, config.anchoMaximo)) {
+  anchoInput.classList.add('is-invalid');
+  errorAncho.classList.remove('d-none');
+  return resetPrecio();
+} else {
+  anchoInput.classList.remove('is-invalid');
+  errorAncho.classList.add('d-none');
+}
+
+// Validar alto (si fue ingresado manualmente)
+if (altoInput.value && !validarDimension(alto, config.altoMinimo, config.altoMaximo)) {
+  altoInput.classList.add('is-invalid');
+  errorAlto.classList.remove('d-none');
+  return resetPrecio();
+} else {
+  altoInput.classList.remove('is-invalid');
+  errorAlto.classList.add('d-none');
+}
+
 
     // Validar cantidad
     let cantidad;
@@ -107,14 +139,16 @@ function iniciarCalculo(config) {
         cantidadInput.classList.add('is-invalid');
         return resetPrecio();
       }
-
-              // Si es válido, ocultar errores y quitar is-invalid
-        errorMinimo.classList.add('d-none');
-        errorMultiplo.classList.add('d-none');
+      // Si es válido, ocultar errores y quitar is-invalid
+      errorMinimo.classList.add('d-none');
+      errorMultiplo.classList.add('d-none');
       cantidadInput.classList.remove('is-invalid');
-      
       // Deseleccionar radios si se ingresó cantidad personalizada
       document.querySelectorAll('input[name="cantidad"]').forEach(r => r.checked = false);
+      document.querySelectorAll('input[name="cantidad"]').forEach(r => {
+        const label = document.querySelector(`label[for="${r.id}"]`);
+        if (label) label.classList.remove('active');
+      });
     } else {
       cantidad = parseInt(
         document.querySelector('input[name="cantidad"]:checked')?.value || configGlobal.cantidadMinima,
@@ -123,11 +157,15 @@ function iniciarCalculo(config) {
     }
 
     // Calcular área (mm → m): sumando margen 10mm
+    if (isNaN(ancho) || isNaN(alto)) {
+      return resetPrecio();  // ⛔ No calcular si alguno no está definido
+    }
+
     const areaSticker = ((ancho + 10) / 1000) * ((alto + 10) / 1000);
 
     // Calcular factor (desde 50 aplica factor, menores = 1)
     let factor = 1;
-    if (cantidad >= 50) {
+    if (cantidad >= configGlobal.cantidadMinima) {
       factor = config.factoresCantidad
         .filter(f => cantidad >= f.min)
         .sort((a, b) => b.min - a.min)[0]?.factor || 1;
@@ -139,7 +177,7 @@ function iniciarCalculo(config) {
       + config.precioFijoUnidad * cantidad) * factor;
 
     resultadoPrecio.textContent = "$ " + Math.round(precioTotal).toLocaleString("es-AR");
-    precioUnitario.textContent  = "$ " + (precioTotal / cantidad).toLocaleString("es-AR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " (c/u)";
+    precioUnitario.textContent  = "$ " + Math.round(precioTotal / cantidad).toLocaleString("es-AR") + " (c/u)";
 
     resultadoPrecio.dataset.precioTotal    = precioTotal;
     resultadoPrecio.dataset.precioUnitario = precioTotal / cantidad;
@@ -159,17 +197,31 @@ function iniciarCalculo(config) {
       r.addEventListener('change', () => {
         cantidadInput.value = '';
         cantidadInput.classList.remove('is-invalid'); // Quita borde rojo
-      errorMinimo.classList.add('d-none');          // Oculta error mínimo
-      errorMultiplo.classList.add('d-none');        // Oculta error múltiplo
+        errorMinimo.classList.add('d-none');          // Oculta error mínimo
+        errorMultiplo.classList.add('d-none');        // Oculta error múltiplo
         calcularPrecio();
       })
     );
   }
 
-  // Eventos
+  // Eventos para medidas personalizadas y radios de hoja
   anchoInput.addEventListener('input', calcularPrecio);
   altoInput.addEventListener('input', calcularPrecio);
   cantidadInput.addEventListener('input', calcularPrecio);
+  cantidadInput.addEventListener('change', calcularPrecio);
+
+  // Evento para radios de hoja
+document.querySelectorAll('input[name="medidaHoja"]').forEach(radio => {
+  radio.addEventListener('change', () => {
+    anchoInput.value = '';
+    altoInput.value = '';
+    anchoInput.classList.remove('is-invalid');
+    altoInput.classList.remove('is-invalid');
+    errorAncho.classList.add('d-none');
+    errorAlto.classList.add('d-none');
+    calcularPrecio();
+  });
+});
 
   calcularPrecio(); // cálculo inicial
 
@@ -194,13 +246,3 @@ function iniciarCalculo(config) {
 
   window.registrarEventosRadiosCantidad = registrarEventosRadiosCantidad;
 }
-
-/* // Carga inicial
-document.addEventListener('DOMContentLoaded', async () => {
-  PRECIOS_GENERALES = await cargarPreciosGenerales();
-  const cfg = PRECIOS_GENERALES?.troquelados;
-  if (!cfg) return alert("Error cargando configuración de precios.");
-  iniciarCalculo(cfg);
-  registrarEventosRadiosCantidad();
-});
- */

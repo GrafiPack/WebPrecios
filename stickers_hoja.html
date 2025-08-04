@@ -8,44 +8,51 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
+  
   <!-- Navbar se carga dinámicamente -->
   <div id="navbar-container"></div>
 
   <!-- Sección de calculadora; data-producto define el nombre que aparecerá en el carrito -->
-  <section class="container my-5 calculadora-stickers" style="width: 80%; margin: auto;" data-producto="Stickers troquelados">
+  <section class="container my-5 calculadora-stickers" style="width: 80%; margin: auto;" data-producto="Stickers semitroquelados">
     <div class="mb-4 text-left">
-      <h2 class="display-5 fw-bold mb-2">Stickers troquelados</h2>
+      <h2 class="display-5 fw-bold mb-2">Hojas de Stickers</h2>
       <p style="max-width: 80%">
-        Los stickers troquelados personalizados son una forma rápida y fácil de promocionar tu empresa, marca o evento.
-        Son perfectos para portátiles, botellas de agua, y más. El vinilo grueso y duradero protege tus stickers de rayones, del agua y del sol.
+        Las hojas de stickers personalizados te permiten colocar varios diseños de stickers en una hoja. Personalizá toda la página y colocá stickers donde quieras.
       </p>
     </div>
 
     <div class="row">
       <div class="col-md-8">
-        <img src="imagenes/cover.webp" class="img-fluid" alt="Stickers troquelados">
+        <img src="imagenes/kiss_cut.webp" class="img-fluid" alt="Stickers semitroquelados">
       </div>
 
       <div class="col-md-4">
+        <div class="mb-3">
+          <label class="form-label">Elegí el tamaño de hoja</label>
+        <div id="contenedorRadiosMedidasHoja" class="d-flex flex-wrap gap-2"></div>
+
+        </div>
+
         <div class="row mb-3">
+          <label class="form-label">Tamaño personalizado:</label>
           <div class="col">
             <label for="ancho" class="form-label">Ancho (mm)</label>
-            <input type="number" id="ancho" class="form-control">
+            <input type="number" id="ancho" class="form-control" placeholder="Ej: 200">
             <div id="errorAncho" class="invalid-feedback d-none">
               Debe estar entre <span id="minAnchoText"></span> y <span id="maxAnchoText"></span> mm.
             </div>
           </div>
+        
           <div class="col">
             <label for="alto" class="form-label">Alto (mm)</label>
-            <input type="number" id="alto" class="form-control">
+            <input type="number" id="alto" class="form-control" placeholder="Ej: 150">
             <div id="errorAlto" class="invalid-feedback d-none">
               Debe estar entre <span id="minAltoText"></span> y <span id="maxAltoText"></span> mm.
             </div>
           </div>
         </div>
 
-        <div class="mb-3">
+        <div class="mb-3 pt-3 mt-3 ">
           <label class="form-label">Seleccionar cantidad</label>
           <div id="contenedorRadiosCantidad" class="d-flex flex-wrap gap-2"></div>
         </div>
@@ -141,19 +148,41 @@
   <script src="js/includePartials.js"></script>
   <!-- Nota: carrito.js ya se carga dinámicamente en includePartials, no se incluye estáticamente aquí -->
   <script src="js/config_precios.js"></script>
+  
 
-  <!-- ...otros scripts... -->
-<script src="js/calculadora_stickers_Troquelados.js"></script>
+<!-- Usa la calculadora de Semi. con los parametro de hoja -->
+
+<script src="js/calculadora_stickers_hoja.js"></script>
+
 <script>
   document.addEventListener('DOMContentLoaded', async () => {
+    // Generar radios dinámicamente
+    const contenedor = document.getElementById('contenedorRadiosMedidasHoja');
+    
+    Object.entries(MEDIDAS_HOJA).forEach(([key, medida], idx) => {
+      const input = document.createElement('input');
+      input.type = 'radio';
+      input.className = 'btn-check';
+      input.name = 'medidaHoja';
+      input.id = `hoja${key}`;
+      input.value = key;
+      if (idx === 0) input.checked = true;
+      const label = document.createElement('label');
+      label.className = 'btn btn-outline-secondary';
+      label.htmlFor = input.id;
+      label.textContent = `${key} (${medida.ancho}×${medida.alto} mm)`;
+      contenedor.appendChild(input);
+      contenedor.appendChild(label);
+    });
+
+    // Inicialización de la calculadora
     PRECIOS_GENERALES = await cargarPreciosGenerales();
-    const cfg = PRECIOS_GENERALES?.troquelados;
+    const cfg = PRECIOS_GENERALES?.hoja;
     if (!cfg) return alert("Error cargando configuración de precios.");
     iniciarCalculo(cfg);
     registrarEventosRadiosCantidad();
   });
 </script>
-  
 
 </body>
 </html>
