@@ -215,9 +215,7 @@ footer {
   border: 1px solid #cccccc;          /* borde gris oscuro */
   box-shadow: 2px 2px 8px rgba(0,0,0,0.3); /* sombra sutil */
   border-radius: 4px;              /* esquinas levemente redondeadas */
-  display: block;
-  
-}
+  display: block;}
 
 .img-hover-shadow {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
