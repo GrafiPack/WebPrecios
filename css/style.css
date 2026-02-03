@@ -269,3 +269,45 @@ footer {
       display: none;
     }
   
+
+/* Estilos específicos para la página de medida_carteleria.html */
+
+.catalogo {
+  font-family: Arial, sans-serif;
+  max-width: 90%;
+  margin: 10 auto;
+
+  display: flex;
+  flex-wrap: wrap;        /* permite que bajen de línea */
+  gap: 20px;             /* espacio entre tarjetas */
+  justify-content: center; /* CENTRA LAS TARJETAS */
+}
+
+.card {
+  background: #ffffff;          /* fondo blanco */
+  border: 1px solid #cccccc;   /* borde fino gris */
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  width: 160px;
+}
+
+/* Código chico */
+.card-header {
+  background: #777777;
+  color: white;
+  padding: 6px 5px;
+  font-weight: bold;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+/* Medida grande */
+.card-body {
+  padding: 5px;
+  color: black;
+  font-size: 16px;
+  text-align: center;
+}
+
